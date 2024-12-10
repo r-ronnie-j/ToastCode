@@ -1,0 +1,83 @@
+{
+  "name": "ToastCode",
+  "displayName": "ToastCode",
+  "description": "Toast Code is a vs code extension for Toast API Testing library",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension/extension.js",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "ToastEditor",
+      "properties": {
+        "toasteditor.username": {
+          "type": "string",
+          "default": "",
+          "description": "Enter your unique Github username."
+        },
+        "toasteditor.saveResponseByDefault": {
+          "type": "boolean",
+          "default": true,
+          "description": "The responses will be saved by default else you need to save it manually"
+        }
+      }
+    },
+    "customEditors": [
+      {
+        "viewType": "toast.toastRenderer",
+        "displayName": "Toast Renderer",
+        "selector": [
+          {
+            "filenamePattern": "*.toos"
+          }
+        ],
+        "priority": "default"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@types/vscode": "^1.95.0",
+    "@typescript-eslint/eslint-plugin": "^8.17.0",
+    "@typescript-eslint/parser": "^8.17.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.16.0",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.7.2",
+    "webpack": "^5.95.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "fork-ts-checker-webpack-plugin": "^9.0.2",
+    "monaco-editor": "^0.52.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.4.0"
+  }
+}

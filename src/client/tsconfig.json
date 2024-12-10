@@ -1,0 +1,23 @@
+{
+    "extends": "../tsconfig-base.json",
+    "compilerOptions": {
+      "noEmit": true,
+      "rootDir": ".",
+      "jsx": "react",
+      "module": "ESNext",
+      "moduleResolution": "Bundler",
+      "lib": [
+        "ES2019",
+        "dom"
+      ],
+      "types": [
+        "webpack-env",
+        "@types/node"
+      ]
+    },
+    "references": [
+      {
+        "path": "../common"
+      }
+    ]
+  }
