@@ -2,7 +2,6 @@ import { EnvironmentInfo, VariableInfo } from "../../common/interfaces/variables
 import { resolvePath } from "../utilities/fileUtility/resolvePath";
 import * as fs from "fs/promises";
 
-
 export async function env(path: string, envPath: string) {
     let errorMessage: string[] = [];
     let absEnvPath = await resolvePath(path, envPath);
@@ -61,6 +60,7 @@ export async function env(path: string, envPath: string) {
 const EnvironmentCache = {
     vars: {} as Record<string, any>,
     paths: [] as EnvironmentInfo[],
+
 
     initialize(a: EnvironmentInfo[], path: string) {
         this.paths = a;

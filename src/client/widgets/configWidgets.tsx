@@ -4,6 +4,7 @@ import { getThemeColors } from "../themes/getThemeColors"
 import { FiChevronDown, FiChevronUp } from "react-icons/fi"
 import SecondaryTopBar from "../component/Topbar/SecondaryTopBar"
 import VariableWidget from "./configurations/variableWidget"
+import FunctionWidget from "./configurations/functonWidget"
 
 export default function ConfigWidget() {
     let config = useContext(ConfigurationContext)
@@ -87,6 +88,7 @@ export default function ConfigWidget() {
                     onSelect={setConf}
                 />
                 {conf === 0 && <VariableWidget />}
+                {conf === 2 && <FunctionWidget />}
             </React.Fragment>
         }
     </div>

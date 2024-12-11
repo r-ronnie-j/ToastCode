@@ -3,6 +3,7 @@ import * as path from "path";
 import { MessageData } from '../../common/interfaces/messages';
 import MessageType from '../../common/constants/enums/MessageEnums';
 import initializeHandler from '../handler/initializeHandler';
+import filePickerHandler from '../handler/filePickerHandler';
 
 
 export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
@@ -44,6 +45,7 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
                     initializeHandler(document, webviewPanel);
                     return;
                 case MessageType.FilePicker:
+                    filePickerHandler({ webview: webviewPanel, document });
                     return;
             }
         });

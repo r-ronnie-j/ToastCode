@@ -2,7 +2,7 @@ import path from "path";
 import * as vscode from "vscode";
 import MessageType from "../../common/constants/enums/MessageEnums";
 
-let filePicker = async ({ webview, document }: {
+let filePickerHandler = async ({ webview, document }: {
     webview: vscode.WebviewPanel,
     document: vscode.TextDocument,
 }) => {
@@ -17,3 +17,5 @@ let filePicker = async ({ webview, document }: {
         data: relativePath
     });
 };
+
+export default filePickerHandler;
