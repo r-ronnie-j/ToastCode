@@ -2,12 +2,14 @@ import * as vscode from "vscode";
 import MessageType from "../../common/constants/enums/MessageEnums";
 import EnvironmentCache from "../cache/environmentCache";
 
-export default async function getEnvironmentHandler({ webviewPanel, document }: {
+export default async function getEnvironmentHandler({ webviewPanel }: {
     webviewPanel: vscode.WebviewPanel,
-    document: vscode.TextDocument
 }) {
     webviewPanel.webview.postMessage({
         type: MessageType.GetEnvironment,
-        data: EnvironmentCache.paths
+        data: {
+            paths: EnvironmentCache.paths,
+            envs: EnvironmentCache.vars,
+        }
     });
 }

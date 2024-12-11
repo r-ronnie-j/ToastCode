@@ -1,11 +1,29 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ConfigurationContext } from "../../context/configurationProvider";
 import { getThemeColors } from "../../themes/getThemeColors";
 import TestCodeComponent from "../../component/CodeComponent/TestCodeComponent";
+import getRawFunctionHandler from "../../handler/eventHandler/getRawFunctionHandler";
+import saveFunctions from "../../handler/eventHandler/saveFunctions";
 
 export default function FunctionWidget() {
     let config = useContext(ConfigurationContext)
     let theme = getThemeColors(config.theme)
+
+    let [init, setInit] = useState(false)
+    let [value, setValue] = useState("")
+
+    useEffect(() => {
+        getRawFunctionHandler().then((a) => {
+            setValue(a)
+            setInit(true)
+        })
+    }, [])
+
+    useEffect(() => {
+        if (init) {
+            saveFunctions(value);
+        }
+    }, [value])
 
     return (
         <div style={{
@@ -30,7 +48,7 @@ export default function FunctionWidget() {
                 }}>Functions</div>
             </div>
             <div style={{ marginTop: '10px' }}>
-                <TestCodeComponent />
+                <TestCodeComponent value={value} setValue={setValue} />
             </div>
         </div>
     );

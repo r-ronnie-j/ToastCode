@@ -6,7 +6,7 @@ import { loader } from "@monaco-editor/react";
 import { helperLib } from "../../monaco/helperLib";
 import { getVsCodeTheme } from "../../themes/vsCodeThemes";
 
-const TestCodeComponent = () => {
+const TestCodeComponent = ({ value, setValue }: { value: string, setValue: (a: string) => void }) => {
     const config = useContext(ConfigurationContext)
     const theme = getThemeColors(config.theme)
     const editorRef = useRef<any>(null);
@@ -18,23 +18,25 @@ const TestCodeComponent = () => {
             monaco.editor.defineTheme('myTransparentTheme', getVsCodeTheme(config.theme));
             let x = document.getElementById('editor-container')!
             const m = monaco.editor.create(x, {
-                value: `let responseContainsPropert = TestFunction((req, res) => {
+                value: value.trim() === "" ? `TestFunction((req, res) => {
   //Perform any  check on the request and response
   return {
     error: true | false,
     message: ""
   }
 }, {
-  global: false
+  name: "CheckForProperty",
+  description: "Checks if the request or response contains a specific property",
 })
 
-let generateRandomRole = GeneratorFunction(() => {
+
+GeneratorFunction(() => {
   const roles = ["admin", "owner", "manager", "user"];
   const randomIndex = Math.floor(Math.random() * roles.length);
   return roles[randomIndex];
 }, {
-  global: true,
-});`,
+  name: "GenerateRole",
+});` : value,
                 language: 'javascript',
                 automaticLayout: true,
                 lineHeight: 20,
@@ -62,7 +64,9 @@ let generateRandomRole = GeneratorFunction(() => {
 
             editorRef.current = m;
 
-            m.onDidChangeModelContent(() => {
+            m.onDidChangeModelContent((e) => {
+                const newValue = m.getValue();
+                setValue(newValue);
                 updateEditorHeight(m);
             });
 

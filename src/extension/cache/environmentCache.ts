@@ -1,4 +1,5 @@
 import { EnvironmentInfo, VariableInfo } from "../../common/interfaces/variables";
+import getEnvironmentHandler from "../handler/getEnvironmentHandler";
 import { resolvePath } from "../utilities/fileUtility/resolvePath";
 import * as fs from "fs/promises";
 
@@ -62,19 +63,22 @@ const EnvironmentCache = {
     paths: [] as EnvironmentInfo[],
 
 
-    initialize(a: EnvironmentInfo[], path: string) {
+    async initialize(a: EnvironmentInfo[], path: string) {
         this.paths = a;
-        a.map(async (l) => {
+        await Promise.all(this.paths.map(async (l) => {
             if (l.enabled) {
                 let a = await env(l.path, path);
                 if (a.data) {
+                    l.status = true;
                     this.vars = {
                         ...this.vars,
                         ...a.data,
                     };
+                } else {
+                    l.status = false;
                 }
             }
-        });
+        }));
     },
 };
 

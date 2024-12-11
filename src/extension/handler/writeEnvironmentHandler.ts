@@ -4,6 +4,8 @@ import VariableCache from "../cache/variableCache";
 import { inspect } from "util-ex";
 import EnvironmentCache from "../cache/environmentCache";
 import FunctionCache from "../cache/functionCache";
+import getEnvironmentHandler from "./getEnvironmentHandler";
+import { ToastRendererProvider } from "../renderer/toastRenderer";
 
 export default async function writeEnvironmentHandler({
     webviewPanel, document, data
@@ -12,13 +14,14 @@ export default async function writeEnvironmentHandler({
     document: vscode.TextDocument,
     data: EnvironmentInfo[]
 }) {
-    EnvironmentCache.initialize(data, document.uri.fsPath);
+    let a = EnvironmentCache.initialize(data, document.uri.fsPath);
 
     let text = `vars = ${inspect(VariableCache.vars)}
 
 envs = ${inspect(data)}
 
-funs = [${FunctionCache.functionText}]`;
+${ToastRendererProvider.documentSeperator}
+funs = {${FunctionCache.extractFuns(document.getText()) ?? ""}}`;
 
     const edit = new vscode.WorkspaceEdit();
     edit.replace(
@@ -28,4 +31,5 @@ funs = [${FunctionCache.functionText}]`;
     );
     vscode.workspace.applyEdit(edit);
     document.save();
+    a.then((y) => getEnvironmentHandler({ webviewPanel }));
 }

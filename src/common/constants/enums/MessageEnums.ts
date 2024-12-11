@@ -7,6 +7,7 @@ enum MessageType {
     GetVariable,
     GetEnvironment,
     GetFunction,
+    GetRawFunction,
 }
 
 export default MessageType;

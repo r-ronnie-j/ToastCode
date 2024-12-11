@@ -1,4 +1,5 @@
-import { FunctionInfo, FunctionProps, TestFunction } from "../../common/interfaces/variables";
+import { TestFunction } from "../../common/interfaces/variables";
+import { ToastRendererProvider } from "../renderer/toastRenderer";
 
 const FunctionCache = {
     functionText: "",
@@ -21,15 +22,25 @@ const FunctionCache = {
     },
 
     extractFuns(text: string) {
-        const regex = /funs\s*=\s*\[(.*?)\]/s;
-        const match = text.match(regex);
+        const lastSegment = text.split(ToastRendererProvider.documentSeperator).at(-1)?.trim();
 
-        if (match && match[1]) {
-            this.functionText = match[1].trim();
-            return this.functionText;  
-        } else {
-            return null;  // Return null if no match is found
+        if (!lastSegment) {
+            console.warn("No valid segment found in the provided text.");
+            return null;
         }
+
+        let processedSegment = lastSegment
+            .replace("funs", "")
+            .replace("=", "")
+            .trim();
+
+        if (processedSegment.startsWith("{") && processedSegment.endsWith("}")) {
+            processedSegment = processedSegment.slice(1, -1).trim();
+        } else {
+            console.warn("The processed segment does not start and end with curly braces.");
+        }
+
+        return processedSegment;
     }
 
 

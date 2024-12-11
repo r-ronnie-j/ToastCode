@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import VariableCache from "../cache/variableCache";
 import { inspect } from "util-ex";
 import EnvironmentCache from "../cache/environmentCache";
+import { ToastRendererProvider } from "../renderer/toastRenderer";
 
 export default async function writeFunctionHandler({
     webviewPanel, document, data
@@ -15,7 +16,8 @@ export default async function writeFunctionHandler({
 
 envs = ${inspect(EnvironmentCache.paths)}
 
-funs = [${data}]`;
+${ToastRendererProvider.documentSeperator}
+funs = {${data}}`;
 
     const edit = new vscode.WorkspaceEdit();
     edit.replace(

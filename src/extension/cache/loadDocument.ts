@@ -33,7 +33,6 @@ export default function loadDocument(docs: vscode.TextDocument) {
         let vars;
         let envs;
         let funs;
-        FunctionCache.reset();
         eval(text);
         if (Array.isArray(vars)) {
             VariableCache.initialize(vars);

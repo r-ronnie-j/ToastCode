@@ -9,6 +9,9 @@ import writeFunctionHandler from '../handler/writeFunctionHandler';
 import writeEnvironmentHandler from '../handler/writeEnvironmentHandler';
 import loadDocument from '../cache/loadDocument';
 import getVariableHandler from '../handler/getVariableHandler';
+import getEnvironmentHandler from '../handler/getEnvironmentHandler';
+import getRawFunctionHandler from '../handler/getRawFunctionHandler';
+import getFunctionHandler from '../handler/getFunctionHandler';
 
 
 export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
@@ -53,7 +56,6 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
                     filePickerHandler({ webview: webviewPanel, document });
                     return;
                 case MessageType.WriteVariable:
-                    console.log("this has been triggered");
                     writeVariableHandler({ data: e.data, document, webviewPanel });
                     return;
                 case MessageType.WriteEnvironment:
@@ -66,13 +68,17 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
                     getVariableHandler({ webviewPanel, document });
                     return;
                 case MessageType.GetEnvironment:
+                    getEnvironmentHandler({ webviewPanel });
                     return;
                 case MessageType.GetFunction:
+                    getFunctionHandler({ webviewPanel, document });
+                    return;
+                case MessageType.GetRawFunction:
+                    getRawFunctionHandler({ webviewPanel, document });
                     return;
             }
         });
 
-        loadDocument(document);
     }
 
     private getHtmlForWebview(webview: vscode.Webview): string {

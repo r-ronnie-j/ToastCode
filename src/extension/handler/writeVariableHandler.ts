@@ -4,6 +4,7 @@ import VariableCache from "../cache/variableCache";
 import { inspect } from "util-ex";
 import EnvironmentCache from "../cache/environmentCache";
 import FunctionCache from "../cache/functionCache";
+import { ToastRendererProvider } from "../renderer/toastRenderer";
 
 export default async function writeVariableHandler({
     webviewPanel, document, data
@@ -12,14 +13,16 @@ export default async function writeVariableHandler({
     document: vscode.TextDocument,
     data: VariableInfo[]
 }) {
-    console.log("We ar writing variable");
     VariableCache.initialize(data);
+
 
     let text = `vars = ${inspect(data)}
 
 envs = ${inspect(EnvironmentCache.paths)}
 
-funs = [${FunctionCache.functionText}]`;
+${ToastRendererProvider.documentSeperator}
+funs = { ${FunctionCache.extractFuns(document.getText()) ?? ""} }`;
+
     try {
         const edit = new vscode.WorkspaceEdit();
         edit.replace(
