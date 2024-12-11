@@ -14,6 +14,7 @@ export default function FunctionWidget() {
 
     useEffect(() => {
         getRawFunctionHandler().then((a) => {
+            console.log("What are we getting")
             setValue(a)
             setInit(true)
         })
@@ -48,7 +49,7 @@ export default function FunctionWidget() {
                 }}>Functions</div>
             </div>
             <div style={{ marginTop: '10px' }}>
-                <TestCodeComponent value={value} setValue={setValue} />
+                {init && <TestCodeComponent value={value} setValue={setValue} />}
             </div>
         </div>
     );

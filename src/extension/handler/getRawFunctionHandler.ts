@@ -8,6 +8,6 @@ export default async function getRawFunctionHandler({ webviewPanel, document }: 
 }) {
     webviewPanel.webview.postMessage({
         type: MessageType.GetRawFunction,
-        data: FunctionCache.functionText
+        data: FunctionCache.extractFuns(document.getText())
     });
 }
