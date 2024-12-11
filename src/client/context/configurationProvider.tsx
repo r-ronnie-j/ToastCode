@@ -4,6 +4,8 @@ import MessageType from "../../common/constants/enums/MessageEnums";
 import initializeMessage from "../handler/messageHandler/initializeMessage";
 import initializeHandler from "../handler/eventHandler/initializeHandler";
 import ConfigWidget from "../widgets/configWidgets";
+import EnvironmentProvider from "./environmentContext";
+import VariableProvider from "./variableContext";
 
 let defaultConfiguration: Configuration = {
     theme: 0,
@@ -17,7 +19,6 @@ export default function ConfigProvider() {
     const [loading, setLoading] = useState(true)
     const [config, setConfig] = useState<Configuration>(defaultConfiguration)
     useEffect(() => {
-        console.log("We are adding some handler");
         initializeHandler().then((x) => {
             setLoading(false);
             setConfig(x)
@@ -25,12 +26,18 @@ export default function ConfigProvider() {
         return initializeMessage(setConfig)
     }, [])
     return <ConfigurationContext.Provider value={config}>
+        <EnvironmentProvider>
+            <VariableProvider>
+                <>
+                    {loading ? "Loading..."
+                        : config.isConfig ? <ConfigWidget />
+                            : <div>
+                                We will show requests editors here
+                            </div>
+                    }
+                </>
+            </VariableProvider>
+        </EnvironmentProvider>
 
-        {loading ? "Loading..."
-            : config.isConfig ? <ConfigWidget />
-                : <div>
-                    We will show requests editors here
-                </div>
-        }
     </ConfigurationContext.Provider>
 }

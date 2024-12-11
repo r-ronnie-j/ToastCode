@@ -5,6 +5,7 @@ import { inspect } from "util-ex";
 import EnvironmentCache from "../cache/environmentCache";
 import FunctionCache from "../cache/functionCache";
 import { ToastRendererProvider } from "../renderer/toastRenderer";
+import loadDocument from "../cache/loadDocument";
 
 export default async function writeVariableHandler({
     webviewPanel, document, data
@@ -13,8 +14,8 @@ export default async function writeVariableHandler({
     document: vscode.TextDocument,
     data: VariableInfo[]
 }) {
-    VariableCache.initialize(data);
 
+    VariableCache.initialize(data);
 
     let text = `vars = ${inspect(data)}
 

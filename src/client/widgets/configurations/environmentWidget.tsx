@@ -5,34 +5,16 @@ import { getThemeColors } from "../../themes/getThemeColors";
 import getEnvironmentHandler from "../../handler/eventHandler/getEnvironmentHandler";
 import { EnvironmentInfo } from "../../../common/interfaces/variables";
 import CustomCheckbox from "../../component/Input/CheckBox";
-import SimpleSelectBox from "../../component/Select/SimpleSelect";
 import fileHandler from "../../handler/eventHandler/fileHandler";
 import saveEnvironmentHandler from "../../handler/eventHandler/saveEnvironmentHandler";
 import getEnvironmentMessage from "../../handler/messageHandler/getEnvironmentMessage";
+import { EnvironmentContext } from "../../context/environmentContext";
 
 export default function EnvironmentWidget() {
+    let [enable, setEnable] = useState(true)
     const config = useContext(ConfigurationContext);
     const theme = getThemeColors(config.theme);
-    const [enable, setEnable] = useState(true)
-    const [init, setInit] = useState(false)
-
-    const [paths, setPaths] = useState<EnvironmentInfo[]>([])
-
-    useEffect(() => {
-        getEnvironmentHandler().then((data) => {
-            setPaths(data.paths)
-            setInit(true)
-        })
-        return getEnvironmentMessage((a) => {
-            setPaths(a.paths);
-        })
-    }, [])
-
-    useEffect(() => {
-        if (init) {
-            saveEnvironmentHandler(paths)
-        }
-    }, [paths])
+    const env = useContext(EnvironmentContext)
 
     return (
         <div style={{
@@ -49,25 +31,26 @@ export default function EnvironmentWidget() {
             }}>
                 Environment Variables
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', }}>
+            <div style={{ display: 'flex', flexDirection: 'column', padding: "5px 0" }}>
                 <div style={{ display: 'flex', background: theme.tertiaryContainer, flexDirection: 'row', borderBottom: `2px solid ${theme.simpleBorder}` }}>
                     <div style={{ width: "30px", textAlign: 'center' }}>
                         <FaCheck style={{ verticalAlign: 'middle', marginLeft: '5px' }} color={theme.primaryContainer} />
                     </div>
-                    <div style={{ width: '10px', flexGrow: 3, textAlign: 'center' }}>Environment File</div>
-                    <div style={{ width: "10px", flexGrow: 1, textAlign: 'center' }}>Status</div>
-                    <div style={{ width: "30px", textAlign: 'center' }}></div>
+                    <div style={{ width: '10px', flexGrow: 3, textAlign: 'center', fontWeight: "bold" }}>Environment File</div>
+                    <div style={{ width: "10px", flexGrow: 1, fontWeight: "bold" }}>Status</div>
+                    <div style={{ width: "30px", fontWeight: "bold" }}></div>
                 </div>
-                {paths.map((file, index) => (
+                {env.paths.map((file, index) => (
                     <div key={index} style={{
                         display: 'flex',
                         flexDirection: 'row',
                         alignItems: 'center',
+                        padding: "5px 0",
                         borderBottom: `1px solid ${theme.simpleBorder}`
                     }}>
                         <CustomCheckbox checked={file.enabled} onChange={(e) => {
-                            paths[index].enabled = e;
-                            setPaths([...paths]);
+                            env.paths[index].enabled = e;
+                            env.setPaths([...env.paths]);
                         }} />
                         <div style={{ width: '10px', flexGrow: 3, paddingLeft: '10px' }}>{file.path}</div>
                         <div style={{ width: "10px", flexGrow: 1, color: file.status ? theme.successText : theme.errorText }}>
@@ -76,8 +59,8 @@ export default function EnvironmentWidget() {
                                 : file.status ? "Success" : "Error"}
                         </div>
                         <button onClick={() => {
-                            paths.splice(index, 1);
-                            setPaths([...paths]);
+                            env.paths.splice(index, 1);
+                            env.setPaths([...env.paths]);
                         }} style={{
                             backgroundColor: 'transparent',
                             border: 'none',
@@ -95,7 +78,7 @@ export default function EnvironmentWidget() {
                         flexDirection: 'row',
                         alignItems: 'center',
                         paddingTop: '5px',
-                        borderBottom: paths.length !== 0 ? `1px solid ${theme.simpleBorder}` : 'none',
+                        borderBottom: env.paths.length !== 0 ? `1px solid ${theme.simpleBorder}` : 'none',
                         height: '25px',
                     }}
                 >
@@ -115,12 +98,12 @@ export default function EnvironmentWidget() {
                         onClick={async () => {
                             let f = await fileHandler();
                             if (f) {
-                                paths.push({
+                                env.paths.push({
                                     path: f,
                                     enabled: enable,
                                     status: false
                                 });
-                                setPaths([...paths]);
+                                env.setPaths([...env.paths]);
                             }
                         }}
                     >

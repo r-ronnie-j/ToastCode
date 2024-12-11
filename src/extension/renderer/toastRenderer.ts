@@ -79,6 +79,8 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
             }
         });
 
+        loadDocument(document);
+
     }
 
     private getHtmlForWebview(webview: vscode.Webview): string {

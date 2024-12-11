@@ -3,6 +3,7 @@ import VariableCache from "./variableCache";
 import EnvironmentCache from "./environmentCache";
 import FunctionCache from "./functionCache";
 import { FunctionProps, TestFunction as TF } from "../../common/interfaces/variables";
+import { ToastRendererProvider } from "../renderer/toastRenderer";
 
 function TestFunction(fn: TF, props: FunctionProps) {
     FunctionCache.tests[props.name] = {
@@ -22,7 +23,7 @@ function GeneratorFunction(fn: Function, props: FunctionProps) {
     };
 }
 
-export function loadEnvs(text:string){}
+export function loadEnvs(text: string) { }
 
 
 export default function loadDocument(docs: vscode.TextDocument) {
@@ -33,7 +34,7 @@ export default function loadDocument(docs: vscode.TextDocument) {
         let vars;
         let envs;
         let funs;
-        eval(text);
+        eval(text.split(ToastRendererProvider.documentSeperator)[0]);
         if (Array.isArray(vars)) {
             VariableCache.initialize(vars);
         }

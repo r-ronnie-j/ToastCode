@@ -5,47 +5,18 @@ import SimpleInputSuggestions from "../../component/Input/SimpleInputSuggestion"
 import DraggableList from "../../component/Draggable/DraggableList";
 import { ConfigurationContext } from "../../context/configurationProvider";
 import { VariableInfo } from "../../../common/interfaces/variables"
-import getVariableHandler from "../../handler/eventHandler/getVariablHandler";
-import saveVariableHandler from "../../handler/eventHandler/saveVariableHandler";
 import { FaCode, FaDesktop } from "react-icons/fa6";
 import VariableCodeComponent from "../../component/CodeComponent/variableCodeComponent";
 import { VariableDataType } from "../../../common/constants/enums/variableEnums";
 import SimpleSelectBox from "../../component/Select/SimpleSelect";
+import { VariableContext } from "../../context/variableContext";
 
 
 export default function VariableWidget() {
 
-    let [init, setInit] = useState(false);
-
     let [isCode, setIsCode] = useState(false)
 
-    useEffect(() => {
-        getVariableHandler().then((x) => {
-            let lastVar = x.at(-1)
-            if (lastVar && lastVar.key.trim() === "" && lastVar.value.trim() === "") {
-                setVars(x)
-            } else {
-                setVars([...x, {
-                    key: "",
-                    value: "",
-                    enabled: true,
-                    type: VariableDataType.string
-                }]);
-            }
-            setInit(true);
-        })
-    }, [])
-
-    const [vars, setVars] = useState<VariableInfo[]>([
-        { enabled: true, key: '', value: '', type: VariableDataType.string }
-    ]);
-
-    useEffect(() => {
-        if (init) {
-            console.log("We are working fine at the use effect");
-            saveVariableHandler(vars.slice(0, -1))
-        }
-    }, [vars])
+    let varC = useContext(VariableContext)
 
     let config = useContext(ConfigurationContext)
 
@@ -73,7 +44,7 @@ export default function VariableWidget() {
                     fontSize: '1.25em',
                     fontWeight: 'bold',
                 }}>Variables</div>
-                {init && <div style={{
+                {varC.init && <div style={{
                     cursor: "pointer"
                 }}>
                     {isCode
@@ -87,9 +58,9 @@ export default function VariableWidget() {
                     }
                 </div>}
             </div>
-            {init && (isCode
-                ? <VariableCodeComponent vars={vars} setVars={setVars} />
-                : <VariableGui vars={vars} setVars={setVars} theme={theme} />
+            {varC.init && (isCode
+                ? <VariableCodeComponent vars={varC.vars} setVars={varC.setVars} />
+                : <VariableGui vars={varC.vars} setVars={varC.setVars} theme={theme} />
             )}
         </div>
     );
