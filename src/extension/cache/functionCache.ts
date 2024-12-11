@@ -1,6 +1,7 @@
 import { FunctionInfo, FunctionProps, TestFunction } from "../../common/interfaces/variables";
 
 const FunctionCache = {
+    functionText: "",
     tests: {} as Record<string, {
         example?: string;
         description?: string;
@@ -14,36 +15,23 @@ const FunctionCache = {
         fn: Function;
     }>,
 
-    TestFunction(fn: TestFunction, props: FunctionProps) {
-        this.tests[props.name] = {
-            example: props.example,
-            description: props.description,
-            params: props.params,
-            fn: fn,
-        };
-    },
-
-    GeneratorFunction(fn: Function, props: FunctionProps) {
-        this.generators[fn.name] = {
-            example: props.example,
-            description: props.description,
-            params: props.params,
-            fn: fn,
-        };
-    },
-
     reset() {
         this.tests = {};
         this.generators = {};
     },
 
-    evaluateFromString(rawTest: string) {
-        try {
-            eval(rawTest);
-        } catch (err) {
-            console.error("Error evaluating test function:", err);
+    extractFuns(text: string) {
+        const regex = /funs\s*=\s*\[(.*?)\]/s;
+        const match = text.match(regex);
+
+        if (match && match[1]) {
+            this.functionText = match[1].trim();
+            return this.functionText;  
+        } else {
+            return null;  // Return null if no match is found
         }
-    },
+    }
+
 
 };
 

@@ -4,6 +4,11 @@ import { MessageData } from '../../common/interfaces/messages';
 import MessageType from '../../common/constants/enums/MessageEnums';
 import initializeHandler from '../handler/initializeHandler';
 import filePickerHandler from '../handler/filePickerHandler';
+import writeVariableHandler from '../handler/writeVariableHandler';
+import writeFunctionHandler from '../handler/writeFunctionHandler';
+import writeEnvironmentHandler from '../handler/writeEnvironmentHandler';
+import loadDocument from '../cache/loadDocument';
+import getVariableHandler from '../handler/getVariableHandler';
 
 
 export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
@@ -47,9 +52,27 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
                 case MessageType.FilePicker:
                     filePickerHandler({ webview: webviewPanel, document });
                     return;
+                case MessageType.WriteVariable:
+                    console.log("this has been triggered");
+                    writeVariableHandler({ data: e.data, document, webviewPanel });
+                    return;
+                case MessageType.WriteEnvironment:
+                    writeEnvironmentHandler({ data: e.data, document, webviewPanel });
+                    return;
+                case MessageType.WriteFunction:
+                    writeFunctionHandler({ data: e.data, document, webviewPanel });
+                    return;
+                case MessageType.GetVariable:
+                    getVariableHandler({ webviewPanel, document });
+                    return;
+                case MessageType.GetEnvironment:
+                    return;
+                case MessageType.GetFunction:
+                    return;
             }
         });
 
+        loadDocument(document);
     }
 
     private getHtmlForWebview(webview: vscode.Webview): string {

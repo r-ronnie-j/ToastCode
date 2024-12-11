@@ -4,18 +4,42 @@ import CustomCheckbox from "../../component/Input/CheckBox";
 import SimpleInputSuggestions from "../../component/Input/SimpleInputSuggestion";
 import DraggableList from "../../component/Draggable/DraggableList";
 import { ConfigurationContext } from "../../context/configurationProvider";
+import { VariableInfo } from "../../../common/interfaces/variables"
+import getVariableHandler from "../../handler/eventHandler/getVariablHandler";
+import saveVariableHandler from "../../handler/eventHandler/saveVariableHandler";
 
-type VarType = {
-    enabled: boolean;
-    key: string;
-    value: string;
-}
 
 export default function VariableWidget() {
-    const [vars, setVars] = useState<VarType[]>([
-        { enabled: true, key: '', value: '' },
+
+    let [init, setInit] = useState(false);
+
+    useEffect(() => {
+        getVariableHandler().then((x) => {
+            let lastVar = x.at(-1)
+            if (lastVar && lastVar.key.trim() === "" && lastVar.value.trim() === "") {
+                setVars(x)
+            } else {
+                setVars([...x, {
+                    key: "",
+                    value: "",
+                    enabled: true
+                }]);
+            }
+            setInit(true);
+        })
+    }, [])
+
+    const [vars, setVars] = useState<VariableInfo[]>([
         { enabled: true, key: '', value: '' }
     ]);
+
+    useEffect(() => {
+        if (init) {
+            console.log("We are working fine at the use effect");
+            saveVariableHandler(vars.slice(0, -1))
+        }
+    }, [vars])
+
     let config = useContext(ConfigurationContext)
 
     useEffect(() => {
@@ -49,7 +73,7 @@ export default function VariableWidget() {
     );
 }
 
-function VariableGui({ vars, setVars, theme }: { vars: VarType[], setVars: React.Dispatch<VarType[]>, theme: ThemeColors }) {
+function VariableGui({ vars, setVars, theme }: { vars: VariableInfo[], setVars: React.Dispatch<VariableInfo[]>, theme: ThemeColors }) {
     return (
         <div style={{
             borderRadius: "4px",
@@ -101,7 +125,7 @@ function VariableGui({ vars, setVars, theme }: { vars: VarType[], setVars: React
     );
 }
 
-function VarIndividual({ index, vars, setVars }: { index: number, vars: VarType[], setVars: React.Dispatch<VarType[]> }) {
+function VarIndividual({ index, vars, setVars }: { index: number, vars: VariableInfo[], setVars: React.Dispatch<VariableInfo[]> }) {
     const handleChangeKey = (value: string) => {
         const updatedVars = [...vars];
         updatedVars[index].key = value;

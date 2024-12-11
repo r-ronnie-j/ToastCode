@@ -7,11 +7,6 @@ let initializeHandler = (
     webviewPanel: vscode.WebviewPanel,
 ) => {
     let fontSize = vscode.workspace.getConfiguration().get("editor.fontSize");
-    console.log("what is here", {
-        theme: vscode.window.activeColorTheme.kind,
-        fontSize,
-        isConfig: "config" === path.parse(document.uri.path).name,
-    });
     webviewPanel.webview.postMessage({
         type: MessageType.Initialize,
         data: {
