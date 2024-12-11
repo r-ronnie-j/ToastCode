@@ -1,7 +1,11 @@
+import { VariableDataType } from "../constants/enums/variableEnums";
+
+
 export interface VariableInfo {
     key: string;
     value: string;
     enabled: boolean;
+    type: VariableDataType
 }
 
 export interface EnvironmentInfo {

@@ -7,11 +7,17 @@ import { ConfigurationContext } from "../../context/configurationProvider";
 import { VariableInfo } from "../../../common/interfaces/variables"
 import getVariableHandler from "../../handler/eventHandler/getVariablHandler";
 import saveVariableHandler from "../../handler/eventHandler/saveVariableHandler";
+import { FaCode, FaDesktop } from "react-icons/fa6";
+import VariableCodeComponent from "../../component/CodeComponent/variableCodeComponent";
+import { VariableDataType } from "../../../common/constants/enums/variableEnums";
+import SimpleSelectBox from "../../component/Select/SimpleSelect";
 
 
 export default function VariableWidget() {
 
     let [init, setInit] = useState(false);
+
+    let [isCode, setIsCode] = useState(false)
 
     useEffect(() => {
         getVariableHandler().then((x) => {
@@ -22,7 +28,8 @@ export default function VariableWidget() {
                 setVars([...x, {
                     key: "",
                     value: "",
-                    enabled: true
+                    enabled: true,
+                    type: VariableDataType.string
                 }]);
             }
             setInit(true);
@@ -30,7 +37,7 @@ export default function VariableWidget() {
     }, [])
 
     const [vars, setVars] = useState<VariableInfo[]>([
-        { enabled: true, key: '', value: '' }
+        { enabled: true, key: '', value: '', type: VariableDataType.string }
     ]);
 
     useEffect(() => {
@@ -54,11 +61,10 @@ export default function VariableWidget() {
             border: `1px solid ${theme.simpleBorder}`,
             borderRadius: '4px',
             padding: "5px 10px",
-            backgroundColor: theme.generalContainer
         }}>
             <div style={{
                 display: 'flex',
-                justifyContent: 'start',
+                justifyContent: 'space-between',
                 gap: "10px",
                 alignItems: 'center',
             }}>
@@ -67,8 +73,25 @@ export default function VariableWidget() {
                     fontSize: '1.25em',
                     fontWeight: 'bold',
                 }}>Variables</div>
+                <div style={{
+                    cursor: "pointer"
+                }}>
+                    {isCode
+                        ?
+                        <FaCode style={{ marginRight: 8 }} color={theme.primaryContainer} size={16} onClick={(e) => {
+                            setIsCode(false)
+                        }} />
+                        : <FaDesktop style={{ marginRight: 8 }} color={theme.primaryContainer} size={16} onClick={(e) => {
+                            setIsCode(true)
+                        }} />
+                    }
+                </div>
             </div>
-            <VariableGui vars={vars} setVars={setVars} theme={theme} />
+            {isCode
+                ? <VariableCodeComponent vars={vars} setVars={setVars} />
+                : <VariableGui vars={vars} setVars={setVars} theme={theme} />
+
+            }
         </div>
     );
 }
@@ -81,7 +104,19 @@ function VariableGui({ vars, setVars, theme }: { vars: VariableInfo[], setVars: 
         }}>
             <DraggableList
                 onDragEnd={(x) => {
-                    // Handle drag end logic if necessary
+                    let fromIndex = x.active?.data?.current?.sortable?.index;
+                    let toIndex = x.over?.data?.current?.sortable?.index;
+                    if (
+                        fromIndex === null ||
+                        toIndex === null ||
+                        fromIndex === undefined ||
+                        toIndex === undefined ||
+                        fromIndex === vars.length - 1
+                    ) return;
+                    if (toIndex === vars.length - 1) toIndex--;
+                    const [element] = vars.splice(fromIndex, 1);
+                    vars.splice(toIndex, 0, element);
+                    setVars([...vars]);
                 }}
                 header={<div style={{
                     display: 'flex',
@@ -114,6 +149,7 @@ function VariableGui({ vars, setVars, theme }: { vars: VariableInfo[], setVars: 
                     </label>
                     <div style={{ flexGrow: 1, textAlign: "center", fontWeight: 'bold' }}>Key</div>
                     <div style={{ flexGrow: 3, textAlign: "center", fontWeight: 'bold' }}>Value</div>
+                    <div style={{ flexGrow: 1 }}>Type</div>
                     <div style={{ marginLeft: '10px', opacity: '0' }}>🗑️</div>
                 </div>}
             >
@@ -131,7 +167,7 @@ function VarIndividual({ index, vars, setVars }: { index: number, vars: Variable
         updatedVars[index].key = value;
 
         if (index === updatedVars.length - 1) {
-            updatedVars.push({ enabled: true, key: '', value: '' });
+            updatedVars.push({ enabled: true, key: '', value: '', type: VariableDataType.string });
         }
 
         setVars(updatedVars);
@@ -142,7 +178,7 @@ function VarIndividual({ index, vars, setVars }: { index: number, vars: Variable
         updatedVars[index].value = value;
 
         if (index === updatedVars.length - 1) {
-            updatedVars.push({ enabled: true, key: '', value: '' });
+            updatedVars.push({ enabled: true, key: '', value: '', type: VariableDataType.string });
         }
 
         setVars(updatedVars);
@@ -176,6 +212,27 @@ function VarIndividual({ index, vars, setVars }: { index: number, vars: Variable
                 flex={3}
                 inputValue={vars[index].value}
                 setInputValue={handleChangeValue}
+            />
+            <SimpleSelectBox
+                flex={1}
+                options={[
+                    {
+                        label: "string",
+                        value: VariableDataType.string
+                    }, {
+                        label: "number",
+                        value: VariableDataType.number
+                    }, {
+                        label: "boolean",
+                        value: VariableDataType.boolean
+                    }
+                ]}
+                selectedValue={vars[index].type}
+                setSelectedValue={(a) => {
+                    const updatedVars = [...vars];
+                    updatedVars[index].type = a;
+                    setVars(updatedVars);
+                }}
             />
             <div style={{ marginLeft: '10px', cursor: 'pointer' }} onClick={() => {
                 if (index !== vars.length - 1) {
