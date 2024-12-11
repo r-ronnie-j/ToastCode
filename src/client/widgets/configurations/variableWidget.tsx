@@ -73,7 +73,7 @@ export default function VariableWidget() {
                     fontSize: '1.25em',
                     fontWeight: 'bold',
                 }}>Variables</div>
-                <div style={{
+                {init && <div style={{
                     cursor: "pointer"
                 }}>
                     {isCode
@@ -85,13 +85,12 @@ export default function VariableWidget() {
                             setIsCode(true)
                         }} />
                     }
-                </div>
+                </div>}
             </div>
-            {isCode
+            {init && (isCode
                 ? <VariableCodeComponent vars={vars} setVars={setVars} />
                 : <VariableGui vars={vars} setVars={setVars} theme={theme} />
-
-            }
+            )}
         </div>
     );
 }
