@@ -4,7 +4,7 @@ import EnvironmentCache from "./environmentCache";
 import FunctionCache from "./functionCache";
 import { FunctionProps, TestFunction as TF } from "../../common/interfaces/variables";
 import { ToastRendererProvider } from "../renderer/toastRenderer";
-import { findConfigTos } from "../utilities/fileUtility/findConfig";
+import { findConfigTos, isConfigFile } from "../utilities/fileUtility/findConfig";
 import { RequestCache } from "./requestCache";
 
 function TestFunction(fn: TF, props: FunctionProps) {
@@ -30,6 +30,7 @@ export function loadEnvs(text: string) { }
 
 export default async function loadDocument(docs: vscode.TextDocument) {
     let configFile = await findConfigTos(docs.uri.fsPath);
+    console.log("we are checking config gile", configFile);
     if (configFile) {
         let docs = await vscode.workspace.openTextDocument(configFile);
         let text = docs.getText();
@@ -48,8 +49,9 @@ export default async function loadDocument(docs: vscode.TextDocument) {
         } catch (e) {
             console.log("Error encountered while loading document", e);
         }
-    } else {
+    }
+    if (!isConfigFile(docs.uri.path)) {
         const text = docs.getText().trim();
-        RequestCache.apis = text.split(ToastRendererProvider.documentSeperator).map((x) => x.trim());
+        RequestCache.initialize(text.split(ToastRendererProvider.documentSeperator).map((x) => x.trim()));
     }
 }

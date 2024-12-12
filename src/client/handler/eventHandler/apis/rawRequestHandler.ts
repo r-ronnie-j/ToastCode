@@ -11,7 +11,7 @@ export default function getRawRequestsHandler(): Promise<string[]> {
             });
         }, 1000);
         const listener = (e: MessageEvent<MessageData>) => {
-            if (e.data && e.data.type === MessageType.GetVariable) {
+            if (e.data && e.data.type === MessageType.GetRawRequests) {
                 window.removeEventListener('message', listener);
                 clearTimeout(initTimer);
                 resolve(e.data.data);

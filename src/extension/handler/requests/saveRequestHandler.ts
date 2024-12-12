@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
 import { ToastRendererProvider } from "../../renderer/toastRenderer";
-import { ApiData } from "../../../common/interfaces/apiRequests"
+import { ApiData } from "../../../common/interfaces/apiRequests";
 import { RequestCache } from "../../cache/requestCache";
 
 export default async function saveRequest(
@@ -13,7 +13,6 @@ export default async function saveRequest(
         index: number,
     }
 ) {
-    data.index = data.index + 3;
     const documentPath = document.uri.fsPath;
 
     const dirPath = path.dirname(documentPath);

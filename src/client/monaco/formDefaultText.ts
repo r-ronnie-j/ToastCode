@@ -29,7 +29,7 @@ export default function formDefaultText(x: ApiData): string {
             .filter(Boolean)
             .join('\n');
     } catch (err) {
-        return "error:true"
+        return "error:true";
         console.log("err", err);
     }
 }
