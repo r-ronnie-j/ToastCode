@@ -141,16 +141,6 @@ export default function RequestProvider({ children, raw, index }: {
         apiData.binary,
     ])
 
-    useEffect(() => {
-
-    }, [apiData.json,
-    apiData.xml,
-    apiData.js,
-    apiData.html,
-    apiData.text,
-    apiData.formData,
-    apiData.urlEncoded,
-    apiData.binary,])
 
     useEffect(() => {
         if (init) {

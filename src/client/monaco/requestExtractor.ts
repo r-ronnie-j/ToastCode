@@ -1,21 +1,22 @@
 import { HttpMethod, Https } from "../../common/constants/enums/methodsEnums";
-import { FormDataItem, TimeOutType } from "../../common/constants/enums/variableEnums";
+import { FormDataItem, RequestDataType, TimeOutType } from "../../common/constants/enums/variableEnums";
 import { FormDataType, KeyValueCheckRecord } from "../../common/interfaces/variables";
 
 export default function requestExtractor(a: string) {
     try {
         const func = new Function(`
             with (this) {
-            let name,method,url,form,local,project,https,headers,params,path,timeout,timeoutType,js,html,text,formData,binary,urlEncoded,json,xml,requestCookies,nonce
+            let name,method,url,form,local,project,requestDataType,https,headers,params,path,timeout,timeoutType,js,html,text,formData,binary,urlEncoded,json,xml,requestCookies,nonce
                 ${a}
-                return {name,method,nonce,url,form,binary,local,project,https,headers,params,path,timeout,timeoutType,js,html,text,formData,urlEncoded,json,xml,requestCookies};
+                return {name,method,nonce,url,form,binary,local,project,requestDataType,https,headers,params,path,timeout,timeoutType,js,html,text,formData,urlEncoded,json,xml,requestCookies};
             }
         `);
 
         let exData = func.call({
             HttpMethod,
             TimeOutType,
-            Https
+            Https,
+            RequestDataType,
         });
         if (exData.headers) {
             exData.headers = parseHeaderParamsEncoded(exData.headers);

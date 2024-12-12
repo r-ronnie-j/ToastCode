@@ -29,6 +29,7 @@ export default async function populateInputFormData(
                 ...(extractedData.requestCookies !== undefined && { requestCookies: extractedData.requestCookies }),
                 ...(extractedData.timeout !== undefined && { timeout: extractedData.timeout }),
                 ...(extractedData.timeoutType !== undefined && { timeoutType: extractedData.timeoutType }),
+                ...(extractedData.requestDataType !== undefined && { requestDataType: extractedData.requestDataType }),
                 nonce: extractedData.nonce ?? data.nonce
             });
         }

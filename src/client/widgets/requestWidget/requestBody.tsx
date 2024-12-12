@@ -10,9 +10,23 @@ import HorizontalRadioGroup from "../../component/Select/HorizontalSelect"
 import SimpleSelectBox from "../../component/Select/SimpleSelect"
 
 export default function RequestBody() {
-    let [bodyType, setBodyType] = useState(1)
-    let [raw, setRaw] = useState(0)
     let requestData = useContext(RequestContext)
+    let [bodyType, setBodyType] = useState(() => {
+        console.log("what is request data", requestData.data.requestDataType);
+        if (requestData.data.requestDataType === RequestDataType.none) return 0
+        else if (requestData.data.requestDataType === RequestDataType.formData) return 1
+        else if (requestData.data.requestDataType === RequestDataType.urlEncoded) return 2
+        else if (requestData.data.requestDataType === RequestDataType.binary) return 3
+        else return 4
+    })
+    let [raw, setRaw] = useState(() => {
+        if (requestData.data.requestDataType === RequestDataType.rawJson) return 0
+        else if (requestData.data.requestDataType === RequestDataType.rawXml) return 1
+        else if (requestData.data.requestDataType === RequestDataType.rawText) return 2
+        else if (requestData.data.requestDataType === RequestDataType.rawHtml) return 3
+        else if (requestData.data.requestDataType === RequestDataType.rawJs) return 4
+        else return 0
+    })
 
     useEffect(() => {
         let requestType = RequestDataType.none

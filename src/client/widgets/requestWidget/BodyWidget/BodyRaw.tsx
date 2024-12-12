@@ -28,7 +28,7 @@ export default function BodyRaw({ raw }: { raw: number }) {
                 type="xml"
                 flex={1}
                 setValue={(v) => {
-                    request.data.json = v
+                    request.data.xml= v
                     request.setData({ ...request.data })
                 }}
                 id="k"
@@ -41,7 +41,7 @@ export default function BodyRaw({ raw }: { raw: number }) {
                 type="text"
                 flex={1}
                 setValue={(v) => {
-                    request.data.json = v
+                    request.data.text = v
                     request.setData({ ...request.data })
                 }}
                 id="l"
@@ -54,7 +54,7 @@ export default function BodyRaw({ raw }: { raw: number }) {
                 type="html"
                 flex={1}
                 setValue={(v) => {
-                    request.data.json = v
+                    request.data.html = v
                     request.setData({ ...request.data })
                 }}
                 id="m"
@@ -67,7 +67,7 @@ export default function BodyRaw({ raw }: { raw: number }) {
                 type="javascript"
                 flex={1}
                 setValue={(v) => {
-                    request.data.json = v
+                    request.data.js = v
                     request.setData({ ...request.data })
                 }}
                 id="n"

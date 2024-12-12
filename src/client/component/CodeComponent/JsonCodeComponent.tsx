@@ -15,7 +15,6 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
     const config = useContext(ConfigurationContext)
     const theme = getThemeColors(config.theme)
     const editorRef = useRef<any>(null);
-    const [editorValue, setEditorValue] = useState(value);
     const [lines, setLines] = useState(8);
 
     useEffect(() => {
@@ -23,7 +22,7 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
             monaco.editor.defineTheme('myTransparentTheme', getVsCodeTheme(config.theme));
             let x = document.getElementById(`editor-container-${id}`)!
             const m = monaco.editor.create(x, {
-                value: editorValue,
+                value: value,
                 language: type,
                 automaticLayout: true,
                 lineHeight: 20,
@@ -39,7 +38,8 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
 
             m.onDidChangeModelContent(() => {
                 const newValue = m.getValue();
-                setEditorValue(newValue);
+                console.log(typeof newValue, "Checking type of new value")
+                setValue(newValue);
                 updateEditorHeight(m);
             });
 

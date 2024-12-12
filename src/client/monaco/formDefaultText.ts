@@ -1,7 +1,7 @@
 import { inspect } from 'util-ex';
 import { ApiData } from '../../common/interfaces/apiRequests';
 import { HttpMethod, Https } from '../../common/constants/enums/methodsEnums';
-import { FormDataItem, TimeOutType } from '../../common/constants/enums/variableEnums';
+import { FormDataItem, RequestDataType, TimeOutType } from '../../common/constants/enums/variableEnums';
 import { FormDataType, KeyValueCheckRecord } from '../../common/interfaces/variables';
 
 export default function formDefaultText(x: ApiData): string {
@@ -16,14 +16,15 @@ export default function formDefaultText(x: ApiData): string {
             Object.keys(x.path ?? {}).length !== 0 ? `path = ${inspect(x.path)}` : '',
             `timeout = ${x.timeout}`,
             `timeoutType = TimeOutType.${TimeOutType[x.timeoutType]}`,
-            x.js ? `js = ${x.js}` : '',
-            x.html ? `html = ${x.html}` : '',
-            x.text ? `text = ${x.text}` : '',
+            `requestDataType = RequestDataType.${RequestDataType[x.requestDataType]}`,
+            x.js ? `js = \`${x.js.replace("`", "\`")}\`` : '',
+            x.html ? `html = \`${x.html}\`` : '',
+            x.text ? `text = "${x.text}"` : '',
             x.formData.length > 0 ? `formData = ${formFormData(x.formData)}` : '',
             x.binary ? `binary = ${x.binary}` : '',
             x.urlEncoded ? `urlEncoded = ${formHeaderParamsEncoded(x.urlEncoded)}` : '',
-            x.json ? `json = ${x.json}` : '',
-            x.xml ? `xml = ${x.xml}` : '',
+            x.json ? `json = \`${x.json}\`` : '',
+            x.xml ? `xml = \`${x.xml}\`` : '',
             x.requestCookies.length > 0 ? `requestCookies = ${inspect(x.requestCookies)}` : '',
         ]
             .filter(Boolean)
@@ -79,3 +80,6 @@ export function formFormData(x: FormDataType[]) {
     }
     return inspect(fData);
 }
+
+
+
