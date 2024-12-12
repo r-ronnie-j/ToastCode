@@ -7,6 +7,7 @@ import FunctionCache from "../cache/functionCache";
 import getEnvironmentHandler from "./getEnvironmentHandler";
 import { ToastRendererProvider } from "../renderer/toastRenderer";
 import loadDocument from "../cache/loadDocument";
+import { isConfigFile } from "../utilities/fileUtility/findConfig";
 
 export default async function writeEnvironmentHandler({
     webviewPanel, document, data
@@ -15,23 +16,25 @@ export default async function writeEnvironmentHandler({
     document: vscode.TextDocument,
     data: EnvironmentInfo[]
 }) {
-    let a = EnvironmentCache.initialize(data, document.uri.fsPath);
-    let text = `vars = ${inspect(VariableCache.vars)}
+    if (isConfigFile(document.uri.fsPath)) {
+        let a = EnvironmentCache.initialize(data, document.uri.fsPath);
+        let text = `vars = ${inspect(VariableCache.vars)}
 
 envs = ${inspect(data)}
 
 ${ToastRendererProvider.documentSeperator}
 funs = {${FunctionCache.extractFuns(document.getText()) ?? ""}}`;
 
-    const edit = new vscode.WorkspaceEdit();
-    edit.replace(
-        document.uri,
-        new vscode.Range(0, 0, document.lineCount, 0),
-        text
-    );
-    vscode.workspace.applyEdit(edit);
-    document.save();
-    a.then((y) => {
-        getEnvironmentHandler({ webviewPanel });
-    });
+        const edit = new vscode.WorkspaceEdit();
+        edit.replace(
+            document.uri,
+            new vscode.Range(0, 0, document.lineCount, 0),
+            text
+        );
+        vscode.workspace.applyEdit(edit);
+        document.save();
+        a.then((y) => {
+            getEnvironmentHandler({ webviewPanel });
+        });
+    }
 }

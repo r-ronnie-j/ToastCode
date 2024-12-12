@@ -6,6 +6,7 @@ import initializeHandler from "../handler/eventHandler/initializeHandler";
 import ConfigWidget from "../widgets/configWidgets";
 import EnvironmentProvider from "./environmentContext";
 import VariableProvider from "./variableContext";
+import FunctionCodeProvider from "./functionContext";
 
 let defaultConfiguration: Configuration = {
     theme: 0,
@@ -28,14 +29,16 @@ export default function ConfigProvider() {
     return <ConfigurationContext.Provider value={config}>
         <EnvironmentProvider>
             <VariableProvider>
-                <>
-                    {loading ? "Loading..."
-                        : config.isConfig ? <ConfigWidget />
-                            : <div>
-                                We will show requests editors here
-                            </div>
-                    }
-                </>
+                <FunctionCodeProvider>
+                    <>
+                        {loading ? "Loading..."
+                            : config.isConfig ? <ConfigWidget />
+                                : <div>
+                                    We will show requests editors here
+                                </div>
+                        }
+                    </>
+                </FunctionCodeProvider>
             </VariableProvider>
         </EnvironmentProvider>
 

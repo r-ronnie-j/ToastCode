@@ -12,20 +12,7 @@ export default function FunctionWidget() {
     let [init, setInit] = useState(false)
     let [value, setValue] = useState("")
 
-    useEffect(() => {
-        getRawFunctionHandler().then((a) => {
-            console.log("What are we getting")
-            setValue(a)
-            setInit(true)
-        })
-    }, [])
-
-    useEffect(() => {
-        if (init) {
-            saveFunctions(value);
-        }
-    }, [value])
-
+    
     return (
         <div style={{
             margin: "10px 5px",

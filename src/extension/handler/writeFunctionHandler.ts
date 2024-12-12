@@ -4,6 +4,7 @@ import { inspect } from "util-ex";
 import EnvironmentCache from "../cache/environmentCache";
 import { ToastRendererProvider } from "../renderer/toastRenderer";
 import loadDocument from "../cache/loadDocument";
+import { isConfigFile } from "../utilities/fileUtility/findConfig";
 
 export default async function writeFunctionHandler({
     webviewPanel, document, data
@@ -12,19 +13,21 @@ export default async function writeFunctionHandler({
     document: vscode.TextDocument,
     data: string
 }) {
-    let text = `vars = ${inspect(VariableCache.vars)}
+    if (isConfigFile(document.uri.path)) {
+        let text = `vars = ${inspect(VariableCache.vars)}
 
 envs = ${inspect(EnvironmentCache.paths)}
 
 ${ToastRendererProvider.documentSeperator}
 funs = {${data}}`;
 
-    const edit = new vscode.WorkspaceEdit();
-    edit.replace(
-        document.uri,
-        new vscode.Range(0, 0, document.lineCount, 0),
-        text
-    );
-    vscode.workspace.applyEdit(edit);
-    document.save();
+        const edit = new vscode.WorkspaceEdit();
+        edit.replace(
+            document.uri,
+            new vscode.Range(0, 0, document.lineCount, 0),
+            text
+        );
+        vscode.workspace.applyEdit(edit);
+        document.save();
+    }
 }

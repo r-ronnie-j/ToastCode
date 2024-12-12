@@ -26,6 +26,7 @@ export default function VariableProvider({ children }: {
 
     useEffect(() => {
         getVariableHandler().then((x) => {
+            console.log("Do we get variables in non config file", x);
             let lastVar = x.at(-1)
             if (lastVar && lastVar.key.trim() === "" && lastVar.value.trim() === "") {
                 setVars(x)
