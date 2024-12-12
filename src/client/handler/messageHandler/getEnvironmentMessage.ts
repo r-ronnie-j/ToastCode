@@ -8,9 +8,7 @@ export default function getEnvironmentMessage(handlerFunction: (x: {
 }) => void) {
     let listener = (e: MessageEvent<MessageData>) => {
         if (e.data && e.data.type === MessageType.GetEnvironment) {
-            if (e.data.data.configuration) {
-                handlerFunction(e.data.data);
-            }
+            handlerFunction(e.data.data);
         }
     };
     window.addEventListener('message', listener);

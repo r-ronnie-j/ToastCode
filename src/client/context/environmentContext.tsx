@@ -1,40 +1,51 @@
-import React, { createContext, ReactElement, useEffect, useState } from "react"
+import React, { createContext, ReactElement, useEffect, useState } from "react";
 import { EnvironmentInfo } from "../../common/interfaces/variables";
 import getEnvironmentHandler from "../handler/eventHandler/getEnvironmentHandler";
 import saveEnvironmentHandler from "../handler/eventHandler/saveEnvironmentHandler";
 import getEnvironmentMessage from "../handler/messageHandler/getEnvironmentMessage";
 
-
 export const EnvironmentContext = createContext<{
-    paths: EnvironmentInfo[],
-    setPaths: React.Dispatch<EnvironmentInfo[]>
+    paths: EnvironmentInfo[];
+    setPaths: (i: EnvironmentInfo[]) => void;
 }>({
     paths: [],
-    setPaths: (x) => { }
+    setPaths: () => { },
 });
 
-export default function EnvironmentProvider({ children }: {
-    children: ReactElement
+export default function EnvironmentProvider({
+    children,
+}: {
+    children: ReactElement;
 }) {
-    const [init, setInit] = useState(false)
-
-    const [paths, setPaths] = useState<EnvironmentInfo[]>([])
+    const [paths, setPaths] = useState<EnvironmentInfo[]>([]);
+    const [shouldSave, setShouldSave] = useState(false); // Explicit flag for saving changes
 
     useEffect(() => {
         getEnvironmentHandler().then((data) => {
-            setPaths(data.paths)
-            setInit(true)
-        })
-    }, [])
+            setPaths(data.paths);
+        });
+
+        // Handle incoming environment messages
+        getEnvironmentMessage((message) => {
+            setPaths(message.paths);
+        });
+    }, []);
 
     useEffect(() => {
-        if (init) {
-            saveEnvironmentHandler(paths)
+        if (shouldSave) {
+            saveEnvironmentHandler(paths);
+            setShouldSave(false); // Reset save flag
         }
-    }, [paths])
-    return <EnvironmentContext.Provider value={{
-        paths, setPaths
-    }}>
-        {children}
-    </EnvironmentContext.Provider>
+    }, [paths, shouldSave]);
+
+    const updatePaths = (newPaths: EnvironmentInfo[]) => {
+        setPaths(newPaths);
+        setShouldSave(true); // Mark changes as needing to be saved
+    };
+
+    return (
+        <EnvironmentContext.Provider value={{ paths, setPaths: updatePaths }}>
+            {children}
+        </EnvironmentContext.Provider>
+    );
 }

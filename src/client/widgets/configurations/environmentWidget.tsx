@@ -97,7 +97,7 @@ export default function EnvironmentWidget() {
                         }}
                         onClick={async () => {
                             let f = await fileHandler();
-                            if (f) {
+                            if (f && env.paths.findIndex((x) => x.path === f) === -1) {
                                 env.paths.push({
                                     path: f,
                                     enabled: enable,
