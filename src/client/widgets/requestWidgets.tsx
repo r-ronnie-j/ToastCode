@@ -15,6 +15,7 @@ import RequestPath from "./requestWidget/requestPath";
 import RequestParams from "./requestWidget/requestParams";
 import RequestBody from "./requestWidget/requestBody";
 import RequestCookies from "./requestWidget/requestCookies";
+import { generatorFuncDescriptions } from "../../common/generators/generatorDocumentation"
 
 export default function RequestComponent({ isCodeView, index }: { isCodeView: boolean, index: number }) {
     let config = useContext(ConfigurationContext);
@@ -148,7 +149,7 @@ export default function RequestComponent({ isCodeView, index }: { isCodeView: bo
                     color: theme.primaryContainer
                 }}>URL : </div>
                 <div style={{ flexGrow: 1 }}><DocumentedInput
-                    suggestions={[]}
+                    suggestions={generatorFuncDescriptions}
                     placeholder={" Enter URL"}
                     inputValue={requestData.data.url}
                     setInputValue={(x) => {

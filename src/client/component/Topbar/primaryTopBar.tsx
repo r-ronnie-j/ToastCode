@@ -3,7 +3,8 @@ import { ConfigurationContext } from "../../context/configurationProvider";
 import { getThemeColors } from "../../themes/getThemeColors";
 import BarInputSuggestions from "../Input/BarInputSuggestions";
 import { RequestContext } from "../../context/requestContext";
-import { FaCode, FaPaintBrush } from "react-icons/fa";
+import { FaCode } from "react-icons/fa";
+import { FaDesktop } from "react-icons/fa6";
 
 export default function PrimaryTopBar({
     isVerticalView, setIsVerticalView, isCodeView, setIsCodeView
@@ -115,7 +116,7 @@ export default function PrimaryTopBar({
                 >
                     {isCodeView
                         ? <FaCode />
-                        : <FaPaintBrush />
+                        : <FaDesktop />
                     }
                 </button>
             </div>

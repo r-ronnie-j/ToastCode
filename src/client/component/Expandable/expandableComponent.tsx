@@ -48,7 +48,6 @@ function ExpandableWidget({ title,
                 </div>
                 <div
                     style={{
-                        marginLeft: '20px',
                         width: "24px",
                         height: "24px",
                         border: `solid 1px ${theme.primaryContainer}`,
