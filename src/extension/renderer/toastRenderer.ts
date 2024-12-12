@@ -4,14 +4,14 @@ import { MessageData } from '../../common/interfaces/messages';
 import MessageType from '../../common/constants/enums/MessageEnums';
 import initializeHandler from '../handler/initializeHandler';
 import filePickerHandler from '../handler/filePickerHandler';
-import writeVariableHandler from '../handler/writeVariableHandler';
-import writeFunctionHandler from '../handler/writeFunctionHandler';
-import writeEnvironmentHandler from '../handler/writeEnvironmentHandler';
+import writeEnvironmentHandler from '../handler/variables/writeEnvironmentHandler';
 import loadDocument from '../cache/loadDocument';
-import getVariableHandler from '../handler/getVariableHandler';
-import getEnvironmentHandler from '../handler/getEnvironmentHandler';
-import getRawFunctionHandler from '../handler/getRawFunctionHandler';
-import getFunctionHandler from '../handler/getFunctionHandler';
+import writeVariableHandler from '../handler/variables/writeVariableHandler';
+import writeFunctionHandler from '../handler/variables/writeFunctionHandler';
+import getVariableHandler from '../handler/variables/getVariableHandler';
+import getEnvironmentHandler from '../handler/variables/getEnvironmentHandler';
+import getFunctionHandler from '../handler/variables/getFunctionHandler';
+import getRawFunctionHandler from '../handler/variables/getRawFunctionHandler';
 
 
 export class ToastRendererProvider implements vscode.CustomTextEditorProvider {

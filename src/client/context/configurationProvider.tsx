@@ -7,6 +7,7 @@ import ConfigWidget from "../widgets/configWidgets";
 import EnvironmentProvider from "./environmentContext";
 import VariableProvider from "./variableContext";
 import FunctionCodeProvider from "./functionContext";
+import ApiWidget from "../widgets/apiWidget";
 
 let defaultConfiguration: Configuration = {
     theme: 0,
@@ -31,11 +32,9 @@ export default function ConfigProvider() {
             <VariableProvider>
                 <FunctionCodeProvider>
                     <>
-                        {loading ? "Loading..."
+                        {loading ? ""
                             : config.isConfig ? <ConfigWidget />
-                                : <div>
-                                    We will show requests editors here
-                                </div>
+                                : <ApiWidget />
                         }
                     </>
                 </FunctionCodeProvider>

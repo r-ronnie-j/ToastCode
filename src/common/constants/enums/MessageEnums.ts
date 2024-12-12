@@ -8,6 +8,8 @@ enum MessageType {
     GetEnvironment,
     GetFunction,
     GetRawFunction,
+
+    GetRawRequests,
 }
 
 export default MessageType;

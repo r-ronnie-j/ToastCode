@@ -1,13 +1,13 @@
 import * as vscode from "vscode";
-import { EnvironmentInfo, VariableInfo } from "../../common/interfaces/variables";
-import VariableCache from "../cache/variableCache";
+import { EnvironmentInfo, VariableInfo } from "../../../common/interfaces/variables";
+import VariableCache from "../../cache/variableCache";
 import { inspect } from "util-ex";
-import EnvironmentCache from "../cache/environmentCache";
-import FunctionCache from "../cache/functionCache";
+import EnvironmentCache from "../../cache/environmentCache";
+import FunctionCache from "../../cache/functionCache";
 import getEnvironmentHandler from "./getEnvironmentHandler";
-import { ToastRendererProvider } from "../renderer/toastRenderer";
-import loadDocument from "../cache/loadDocument";
-import { isConfigFile } from "../utilities/fileUtility/findConfig";
+import { ToastRendererProvider } from "../../renderer/toastRenderer";
+import loadDocument from "../../cache/loadDocument";
+import { isConfigFile } from "../../utilities/fileUtility/findConfig";
 
 export default async function writeEnvironmentHandler({
     webviewPanel, document, data

@@ -5,6 +5,7 @@ import FunctionCache from "./functionCache";
 import { FunctionProps, TestFunction as TF } from "../../common/interfaces/variables";
 import { ToastRendererProvider } from "../renderer/toastRenderer";
 import { findConfigTos } from "../utilities/fileUtility/findConfig";
+import { RequestCache } from "./requestCache";
 
 function TestFunction(fn: TF, props: FunctionProps) {
     FunctionCache.tests[props.name] = {
@@ -47,5 +48,8 @@ export default async function loadDocument(docs: vscode.TextDocument) {
         } catch (e) {
             console.log("Error encountered while loading document", e);
         }
+    } else {
+        const text = docs.getText().trim();
+        RequestCache.apis = text.split(ToastRendererProvider.documentSeperator).map((x) => x.trim());
     }
 }

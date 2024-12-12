@@ -1,4 +1,4 @@
-import { VariableDataType } from "../constants/enums/variableEnums";
+import { FormDataItem, VariableDataType } from "../constants/enums/variableEnums";
 
 
 export interface VariableInfo {
@@ -25,4 +25,17 @@ export interface FunctionProps {
 
 export interface FunctionInfo extends FunctionProps {
     fn: Function
+}
+
+export interface KeyValueCheckRecord {
+    key: string,
+    value: string,
+    enabled: boolean,
+}
+
+export interface FormDataType {
+    key: string,
+    value: string,
+    enabled: boolean,
+    type: FormDataItem
 }
