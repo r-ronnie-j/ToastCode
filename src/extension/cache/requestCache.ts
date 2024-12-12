@@ -1,7 +1,11 @@
 export const RequestCache = {
-    apis: [] as string[],
+    apis: [""] as string[],
 
     initialize(data: string[]) {
-        this.apis = data;
+        if (data.length === 0) {
+            this.apis = [""];
+        } else {
+            this.apis = data;
+        }
     }
 };

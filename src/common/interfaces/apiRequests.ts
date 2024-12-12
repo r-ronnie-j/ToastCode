@@ -37,7 +37,7 @@ export interface ApiData {
     tests: {
         name: string,
         function: string
-    }
+    }[],
     json: string | undefined,
     xml: string | undefined,
     js: string | undefined,
@@ -65,11 +65,9 @@ export interface ApiResponse {
     errorMessage: string[],
     warningMessage: string[],
     varUsed: Record<string, string>;
-    tests: [
-        {
-            name: string,
-            status: boolean,
-            message: string
-        }
-    ]
+    tests: {
+        name: string,
+        status: boolean,
+        message: string
+    }[]
 }

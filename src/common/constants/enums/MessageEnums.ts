@@ -10,6 +10,8 @@ enum MessageType {
     GetRawFunction,
 
     GetRawRequests,
+    SaveRequest,
+    GetResponse,
 }
 
 export default MessageType;

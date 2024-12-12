@@ -1,5 +1,4 @@
 import { EnvironmentInfo, VariableInfo } from "../../common/interfaces/variables";
-import getEnvironmentHandler from "../handler/getEnvironmentHandler";
 import { resolvePath } from "../utilities/fileUtility/resolvePath";
 import * as fs from "fs/promises";
 

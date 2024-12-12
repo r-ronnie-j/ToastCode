@@ -1,38 +1,38 @@
-// import React from "react";
-// import { ApiData } from "../../common/interface";
-// import requestExtractor from "../extractorEngine/requestExtractor";
+import React from "react";
+import { ApiData } from "../../common/interfaces/apiRequests";
+import requestExtractor from "./requestExtractor";
 
-// export default async function populateInputFormData(
-//     data: ApiData,
-//     setData: React.Dispatch<ApiData & { name: string }>
-// ) {
-//     try {
-//         let extractedData = requestExtractor(data.rawCode);
-//         if (extractedData) {
-//             setData({
-//                 ...data,
-//                 ...(extractedData.name !== undefined && { name: extractedData.name }),
-//                 ...(extractedData.method !== undefined && { method: extractedData.method }),
-//                 ...(extractedData.url !== undefined && { url: extractedData.url }),
-//                 ...(extractedData.https !== undefined && { https: extractedData.https }),
-//                 ...(extractedData.params !== undefined && { params: extractedData.params }),
-//                 ...(extractedData.headers !== undefined && { headers: extractedData.headers }),
-//                 ...(extractedData.path !== undefined && { path: extractedData.path }),
-//                 ...(extractedData.binary !== undefined && { binary: extractedData.binary }),
-//                 ...(extractedData.formData !== undefined && { formData: extractedData.formData }),
-//                 ...(extractedData.xml !== undefined && { xml: extractedData.xml }),
-//                 ...(extractedData.urlEncoded !== undefined && { urlEncoded: extractedData.urlEncoded }),
-//                 ...(extractedData.json !== undefined && { json: extractedData.json }),
-//                 ...(extractedData.js !== undefined && { js: extractedData.js }),
-//                 ...(extractedData.html !== undefined && { html: extractedData.html }),
-//                 ...(extractedData.text !== undefined && { text: extractedData.text }),
-//                 ...(extractedData.requestCookies !== undefined && { requestCookies: extractedData.requestCookies }),
-//                 ...(extractedData.timeout !== undefined && { timeout: extractedData.timeout }),
-//                 ...(extractedData.timeoutType !== undefined && { timeoutType: extractedData.timeoutType }),
-//                 nonce: extractedData.nonce ?? data.nonce
-//             });
-//         }
-//     } catch (err) {
+export default async function populateInputFormData(
+    data: ApiData,
+    setData: React.Dispatch<ApiData & { name: string }>
+) {
+    try {
+        let extractedData = requestExtractor(data.rawCode);
+        if (extractedData) {
+            setData({
+                ...data,
+                ...(extractedData.name !== undefined && { name: extractedData.name }),
+                ...(extractedData.method !== undefined && { method: extractedData.method }),
+                ...(extractedData.url !== undefined && { url: extractedData.url }),
+                ...(extractedData.https !== undefined && { https: extractedData.https }),
+                ...(extractedData.params !== undefined && { params: extractedData.params }),
+                ...(extractedData.headers !== undefined && { headers: extractedData.headers }),
+                ...(extractedData.path !== undefined && { path: extractedData.path }),
+                ...(extractedData.binary !== undefined && { binary: extractedData.binary }),
+                ...(extractedData.formData !== undefined && { formData: extractedData.formData }),
+                ...(extractedData.xml !== undefined && { xml: extractedData.xml }),
+                ...(extractedData.urlEncoded !== undefined && { urlEncoded: extractedData.urlEncoded }),
+                ...(extractedData.json !== undefined && { json: extractedData.json }),
+                ...(extractedData.js !== undefined && { js: extractedData.js }),
+                ...(extractedData.html !== undefined && { html: extractedData.html }),
+                ...(extractedData.text !== undefined && { text: extractedData.text }),
+                ...(extractedData.requestCookies !== undefined && { requestCookies: extractedData.requestCookies }),
+                ...(extractedData.timeout !== undefined && { timeout: extractedData.timeout }),
+                ...(extractedData.timeoutType !== undefined && { timeoutType: extractedData.timeoutType }),
+                nonce: extractedData.nonce ?? data.nonce
+            });
+        }
+    } catch (err) {
 
-//     }
-// }
+    }
+}

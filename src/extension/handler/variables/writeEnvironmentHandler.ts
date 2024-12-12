@@ -6,7 +6,6 @@ import EnvironmentCache from "../../cache/environmentCache";
 import FunctionCache from "../../cache/functionCache";
 import getEnvironmentHandler from "./getEnvironmentHandler";
 import { ToastRendererProvider } from "../../renderer/toastRenderer";
-import loadDocument from "../../cache/loadDocument";
 import { isConfigFile } from "../../utilities/fileUtility/findConfig";
 
 export default async function writeEnvironmentHandler({

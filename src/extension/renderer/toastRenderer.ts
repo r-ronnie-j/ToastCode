@@ -12,6 +12,8 @@ import getVariableHandler from '../handler/variables/getVariableHandler';
 import getEnvironmentHandler from '../handler/variables/getEnvironmentHandler';
 import getFunctionHandler from '../handler/variables/getFunctionHandler';
 import getRawFunctionHandler from '../handler/variables/getRawFunctionHandler';
+import getRawRequestsHandler from '../handler/requests/getRawRequestsHandler';
+import saveRequest from '../handler/requests/saveRequestHandler';
 
 
 export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
@@ -75,6 +77,14 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
                     return;
                 case MessageType.GetRawFunction:
                     getRawFunctionHandler({ webviewPanel, document });
+                    return;
+                case MessageType.GetRawRequests:
+                    getRawRequestsHandler({ webviewPanel });
+                    return;
+                case MessageType.SaveRequest:
+                    saveRequest(webviewPanel, document, e.data);
+                    return;
+                case MessageType.GetResponse:
                     return;
             }
         });

@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
-import MessageType from "../../common/constants/enums/MessageEnums";
-import FunctionCache from "../cache/functionCache";
+import MessageType from "../../../common/constants/enums/MessageEnums";
+import FunctionCache from "../../cache/functionCache";
+
 
 export default async function getRawFunctionHandler({ webviewPanel, document }: {
     webviewPanel: vscode.WebviewPanel,
