@@ -18,14 +18,13 @@ export default function EnvironmentProvider({
     children: ReactElement;
 }) {
     const [paths, setPaths] = useState<EnvironmentInfo[]>([]);
-    const [shouldSave, setShouldSave] = useState(false); // Explicit flag for saving changes
+    const [shouldSave, setShouldSave] = useState(false);
 
     useEffect(() => {
         getEnvironmentHandler().then((data) => {
             setPaths(data.paths);
         });
-
-        // Handle incoming environment messages
+      
         getEnvironmentMessage((message) => {
             setPaths(message.paths);
         });
@@ -40,7 +39,7 @@ export default function EnvironmentProvider({
 
     const updatePaths = (newPaths: EnvironmentInfo[]) => {
         setPaths(newPaths);
-        setShouldSave(true); // Mark changes as needing to be saved
+        setShouldSave(true); 
     };
 
     return (

@@ -32,7 +32,7 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
     constructor(
         private readonly context: vscode.ExtensionContext
     ) { }
-
+    
     public async resolveCustomTextEditor(
         document: vscode.TextDocument,
         webviewPanel: vscode.WebviewPanel,

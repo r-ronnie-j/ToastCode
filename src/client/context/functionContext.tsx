@@ -22,6 +22,7 @@ export default function FunctionCodeProvider({ children }: {
 
     useEffect(() => {
         getRawFunctionHandler().then((x) => {
+            console.log("After function called", x)
             setFuns(x)
             setInit(true);
         })

@@ -2,17 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { ConfigurationContext } from "../../context/configurationProvider";
 import { getThemeColors } from "../../themes/getThemeColors";
 import TestCodeComponent from "../../component/CodeComponent/TestCodeComponent";
-import getRawFunctionHandler from "../../handler/eventHandler/getRawFunctionHandler";
-import saveFunctions from "../../handler/eventHandler/saveFunctions";
+import { FunctionCodeContext } from "../../context/functionContext";
 
 export default function FunctionWidget() {
     let config = useContext(ConfigurationContext)
     let theme = getThemeColors(config.theme)
 
-    let [init, setInit] = useState(false)
-    let [value, setValue] = useState("")
+    let functionContext = useContext(FunctionCodeContext)
 
-    
     return (
         <div style={{
             margin: "10px 5px",
@@ -36,7 +33,7 @@ export default function FunctionWidget() {
                 }}>Functions</div>
             </div>
             <div style={{ marginTop: '10px' }}>
-                {init && <TestCodeComponent value={value} setValue={setValue} />}
+                {functionContext.init && <TestCodeComponent value={functionContext.textCode} setValue={functionContext.setTextCode} />}
             </div>
         </div>
     );
