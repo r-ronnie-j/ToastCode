@@ -6,6 +6,7 @@ import DeleteButton from "../component/Button/DeleteConfirmButton";
 import PrimaryTopBar from "../component/Topbar/primaryTopBar";
 import ExpandableWidget from "../component/Expandable/expandableComponent";
 import RequestComponent from "./requestWidgets";
+import ResponseComponent from "./responseWidget";
 
 export default function MainWidget({ raw, index, onDelete }: {
     raw: string, index: number, onDelete: (a: number) => void
@@ -81,8 +82,7 @@ export default function MainWidget({ raw, index, onDelete }: {
                                 }}
                             ></div>
                             <div style={{ flex: 1, padding: "5px" }}>
-                                This is response component
-                                {/* <ResponseComponent requestIndex={index} /> */}
+                                <ResponseComponent requestIndex={index} />
                             </div>
                         </div>
                     </div>

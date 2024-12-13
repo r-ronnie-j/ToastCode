@@ -1,11 +1,12 @@
 import React, { createContext, ReactElement, useContext, useEffect, useState } from "react";
-import { ApiData } from "../../common/interfaces/apiRequests"
+import { ApiData, ApiResponse } from "../../common/interfaces/apiRequests"
 import { FormDataItem, RequestDataType, TimeOutType } from "../../common/constants/enums/variableEnums";
 import getNonce from "../../common/utilities/getNonce"
 import { HttpMethod, Https } from "../../common/constants/enums/methodsEnums";
 import populateInputFormData from "../monaco/populateInputFromText";
 import formDefaultText from "../monaco/formDefaultText";
 import saveRequestHandler from "../handler/eventHandler/apis/saveRequestHandler";
+import generateResponseHandler from "../handler/eventHandler/apis/generateResponseHandler";
 
 
 function getDefaultReqValue(rawCode: string): ApiData {
@@ -54,12 +55,16 @@ function getDefaultReqValue(rawCode: string): ApiData {
 
 export const RequestContext = createContext<{
     data: ApiData,
+    response: ApiResponse | null,
     setData: React.Dispatch<ApiData>,
-    init: boolean
+    init: boolean,
+    invoke: () => void,
 }>({
     data: getDefaultReqValue(""),
     setData: () => { },
-    init: false
+    init: false,
+    response: null,
+    invoke: () => { },
 })
 
 export default function RequestProvider({ children, raw, index }: {
@@ -70,7 +75,14 @@ export default function RequestProvider({ children, raw, index }: {
     let [init, setInit] = useState(false);
 
     let [apiData, setApiData] = useState<ApiData>(getDefaultReqValue(raw))
+    let [response, setResponse] = useState<ApiResponse | null>(null)
 
+    async function invoke() {
+        generateResponseHandler({ data: apiData }).then((a) => {
+            console.log("Do we get a response", a)
+            setResponse(a)
+        })
+    }
 
     useEffect(() => {
         if (apiData.rawCode.length != 0) {
@@ -152,7 +164,9 @@ export default function RequestProvider({ children, raw, index }: {
     return <RequestContext.Provider value={{
         data: apiData,
         setData: setApiData,
-        init
+        init,
+        response,
+        invoke
     }}>
         {children}
     </RequestContext.Provider>

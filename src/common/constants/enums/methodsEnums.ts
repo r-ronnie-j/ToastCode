@@ -135,4 +135,14 @@ const Methods = {
     }
 };
 
+export enum ResponseType {
+    json = "json",
+    text = "text",
+    blob = "blob",
+    arrayBuffer = "arrayBuffer",
+    formdata = "formdata",
+    document = "document",
+    stream = "stream",
+}
+
 export { Https, HttpMethod, Methods };

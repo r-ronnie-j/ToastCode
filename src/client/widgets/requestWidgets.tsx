@@ -124,13 +124,7 @@ export default function RequestComponent({ isCodeView, index }: { isCodeView: bo
                     <AwesomeButton
                         type="primary"
                         onClick={() => {
-                            // requestSender({
-                            //     data: requestData.data,
-                            //     response: responseData.response,
-                            //     setResponse: responseData.setResponse,
-                            //     index,
-                            //     exampleIndex: 0,
-                            // })
+                            requestData.invoke()
                         }}
                     >
                         Send
