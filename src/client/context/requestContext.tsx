@@ -60,12 +60,14 @@ export const RequestContext = createContext<{
     setData: React.Dispatch<ApiData>,
     init: boolean,
     invoke: () => void,
+    processing: boolean,
 }>({
     data: getDefaultReqValue(""),
     setData: () => { },
     init: false,
     response: null,
     invoke: () => { },
+    processing: false,
 })
 
 export default function RequestProvider({ children, raw, index }: {
@@ -75,13 +77,15 @@ export default function RequestProvider({ children, raw, index }: {
 }) {
     let [init, setInit] = useState(false);
 
+    let [processing, setProcessing] = useState(false);
     let [apiData, setApiData] = useState<ApiData>(getDefaultReqValue(raw))
     let [response, setResponse] = useState<ApiResponse | null>(null)
 
     async function invoke() {
+        setProcessing(true)
         generateResponseHandler({ data: apiData }).then((a) => {
-            console.log("Do we get a response", a)
             setResponse(a)
+            setProcessing(false)
         })
     }
 
@@ -173,7 +177,8 @@ export default function RequestProvider({ children, raw, index }: {
         setData: setApiData,
         init,
         response,
-        invoke
+        invoke,
+        processing,
     }}>
         {children}
     </RequestContext.Provider>

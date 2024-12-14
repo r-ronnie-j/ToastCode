@@ -8,6 +8,7 @@ import EnvironmentProvider from "./environmentContext";
 import VariableProvider from "./variableContext";
 import FunctionCodeProvider from "./functionContext";
 import ApiWidget from "../widgets/apiWidget";
+import getRawRequestsHandler from "../handler/eventHandler/apis/rawRequestHandler";
 
 let defaultConfiguration: Configuration = {
     theme: 0,
@@ -20,6 +21,7 @@ export const ConfigurationContext = createContext<Configuration>(defaultConfigur
 export default function ConfigProvider() {
     const [loading, setLoading] = useState(true)
     const [config, setConfig] = useState<Configuration>(defaultConfiguration)
+
     useEffect(() => {
         initializeHandler().then((x) => {
             setLoading(false);
