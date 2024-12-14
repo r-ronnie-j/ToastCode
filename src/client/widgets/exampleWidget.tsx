@@ -1,0 +1,219 @@
+import React, { useContext, useEffect, useState } from "react";
+import { ConfigurationContext } from "../context/configurationProvider";
+import { getThemeColors } from "../themes/getThemeColors";
+import { RequestContext } from "../context/requestContext";
+import CustomSelect from "../component/Select/CustomSelect";
+import SecondaryTopBar from "../component/Topbar/SecondaryTopBar";
+import KeyValueRenderer from "./responseWidget/keyValueRenderer";
+import CookieRenderer from "./responseWidget/cookieRenderer";
+import ResponseViewer from "./responseWidget/responseViewer";
+import { ApiData, ApiResponse } from "../../common/interfaces/apiRequests";
+import loadExampleHandler from "../handler/eventHandler/examples/loadExampleHandler";
+import BodyViewer from "./exampleWidget/bodyViewer";
+import { getRequestTypeString } from "../../common/constants/enums/methodsEnums";
+
+function arrayToObject(arr: { key: string; value: string }[]): Record<string, string> {
+    let accumulator: any = {}
+    for (let x of arr) {
+        if (!(x.key.trim().length === 0 && x.value.trim().length === 0)) {
+            accumulator[x.key] = x.value
+        }
+    }
+    return accumulator;
+}
+
+export default function ExampleComponent() {
+    const config = useContext(ConfigurationContext);
+    const theme = getThemeColors(config.theme);
+
+    const [exampleIndex, setExampleIndex] = useState(0)
+
+    const api = useContext(RequestContext)
+
+
+    useEffect(() => {
+        if (exampleIndex < api.data.examples.length) {
+            loadExampleHandler(api.data.examples[exampleIndex].path).then((x) => {
+                console.log("what we get here as example is", x)
+                if (x !== null) {
+                    setName(x.name)
+                    setReq(x.req)
+                    setRes(x.res)
+                }
+            })
+        }
+    }, [
+        exampleIndex,
+        api.data.examples
+    ])
+
+    let [name, setName] = useState("");
+    let [req, setReq] = useState<ApiData | null>(null);
+    let [res, setRes] = useState<ApiResponse | null>(null);
+
+    let [reqIndex, setReqIndex] = useState(0)
+    let [resIndex, setResIndex] = useState(0)
+
+    const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 1200);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsWideScreen(window.innerWidth >= 1200);
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
+    if (api.data.examples.length === 0 || req === null || res === null) {
+        return <div
+            style={{
+                textAlign: "center",
+                width: "100%",
+                padding: "20px",
+                marginTop: "50px",
+                fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+                color: theme.generalText,
+                borderRadius: "10px",
+                maxWidth: "400px",
+                margin: "auto",
+            }}
+        >
+            <p style={{ fontSize: "18px", fontWeight: "600", marginBottom: "10px" }}>
+                No Saved Examples
+            </p>
+            <p style={{ fontSize: "14px", color: "#888" }}>
+                You haven’t saved any examples yet. Start adding some to see them here!
+            </p>
+        </div>
+    } else {
+        return (
+            <div style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "5px",
+            }}>
+                <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "10px",
+                    marginRight: "30px"
+                }}>
+                    <CustomSelect
+                        options={api.data.examples.map((x, i) => ({
+                            label: x.name,
+                            value: i
+                        })) ?? []}
+                        theme={theme}
+                        onChange={(x) => {
+                            setExampleIndex(x);
+                        }}
+                        value={exampleIndex}
+                    />
+                </div>
+                <div style={{
+                    display: isWideScreen ? "flex" : "block",
+                    flexDirection: isWideScreen ? "row" : "column",
+                    gap: isWideScreen ? "10px" : "5px",
+                }}>
+                    <div style={{ flex: 1 }}>
+                        <h2 style={{
+                            color: theme.accentColor
+                        }}>Request</h2>
+                        <SecondaryTopBar
+                            items={[
+                                {
+                                    name: "Headers",
+                                    msg: Object.values(req.headers).length,
+                                },
+                                {
+                                    name: "Path",
+                                    msg: Object.values(req.path ?? {}).length,
+                                },
+                                {
+                                    name: "Params",
+                                    msg: Object.keys(req.params ?? {}).length,
+                                },
+                                {
+                                    name: "Body",
+                                    msg: 0
+                                },
+                                {
+                                    name: "Cookie",
+                                    msg: Object.keys(req.requestCookies ?? {}).length
+                                }
+                            ]}
+                            selectedIndex={reqIndex}
+                            onSelect={setReqIndex}
+                        />
+                        {reqIndex === 0 && <KeyValueRenderer data={arrayToObject(req?.headers ?? [])} title={["Key", "Value"]} />}
+                        {reqIndex === 1 && <KeyValueRenderer data={req?.path ?? {}} title={["Key", "Value"]} />}
+                        {reqIndex === 2 && <KeyValueRenderer data={arrayToObject(req?.params ?? [])} title={["Key", "Value"]} />}
+                        {reqIndex === 3 &&
+
+                            res
+                            ? <BodyViewer request={req!} title={getRequestTypeString(req.requestDataType)} />
+                            : "Loading ..."
+                        }
+                        {reqIndex === 4 && <CookieRenderer data={req?.requestCookies ?? []} />}
+                    </div>
+                    <div
+                        style={{
+                            width: isWideScreen ? "2px" : "100%",
+                            minHeight: "2px",
+                            margin: isWideScreen ? "4px 0" : "0 4px",
+                            backgroundColor: theme.primaryBorder,
+                            alignSelf: "stretch",
+                        }}
+                    ></div>
+                    <div style={{ flex: 1 }}>
+                        <div style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            width: "100%",
+                        }}>
+                            <h2 style={{
+                                color: theme.generalText
+                            }}>Response</h2>
+                            <SecondaryTopBar
+                                items={[
+                                    {
+                                        name: "Headers",
+                                        msg: Object.values(res.headers).length,
+                                    },
+                                    {
+                                        name: "Set-Cookie",
+                                        msg: Object.values(res.cookie).length,
+                                    },
+                                    {
+                                        name: "Body",
+                                        msg: 0,
+                                    },
+                                    {
+                                        name: "Cookie",
+                                        msg: Object.values(res.cookie).length
+                                    }
+                                ]}
+                                selectedIndex={resIndex}
+                                onSelect={setResIndex}
+                            />
+                        </div>
+                        {resIndex === 0 && <KeyValueRenderer data={res?.headers ?? {}} title={["Key", "Value"]} />}
+                        {resIndex === 1 && <CookieRenderer data={res?.cookie ?? []} />}
+                        {resIndex === 2 && <ResponseViewer res={res} />}
+                        {resIndex === 3 && <CookieRenderer data={res?.cookie ?? []} />}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+
+
+
+
+
+

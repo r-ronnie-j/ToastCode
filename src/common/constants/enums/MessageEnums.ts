@@ -17,7 +17,6 @@ enum MessageType {
 
     GetResponseFromNonce,
 
-    SaveExample,
     LoadExample,
     DeleteExample,
 }

@@ -1,3 +1,5 @@
+import { RequestDataType } from "./variableEnums";
+
 enum HttpMethod {
     GET = 0,
     POST = 1,
@@ -21,6 +23,31 @@ enum HttpMethod {
     REPORT = 19,
     VIEW = 20
 };
+
+export function getRequestTypeString(a: RequestDataType): string {
+    switch (a) {
+        case RequestDataType.formData:
+            return "Form Data";
+        case RequestDataType.rawJson:
+            return "Raw JSON";
+        case RequestDataType.rawJs:
+            return "Raw JavaScript";
+        case RequestDataType.rawXml:
+            return "Raw XML";
+        case RequestDataType.rawHtml:
+            return "Raw HTML";
+        case RequestDataType.rawText:
+            return "Raw Text";
+        case RequestDataType.urlEncoded:
+            return "URL Encoded";
+        case RequestDataType.none:
+            return "None";
+        case RequestDataType.binary:
+            return "Binary Data";
+        default:
+            return "None";
+    }
+}
 
 enum Https {
     "HTTP/1.1",

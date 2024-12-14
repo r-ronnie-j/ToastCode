@@ -7,6 +7,7 @@ import PrimaryTopBar from "../component/Topbar/primaryTopBar";
 import ExpandableWidget from "../component/Expandable/expandableComponent";
 import RequestComponent from "./requestWidgets";
 import ResponseComponent from "./responseWidget";
+import ExampleComponent from "./exampleWidget";
 
 export default function MainWidget({ raw, index, onDelete }: {
     raw: string, index: number, onDelete: (a: number) => void
@@ -86,6 +87,9 @@ export default function MainWidget({ raw, index, onDelete }: {
                             </div>
                         </div>
                     </div>
+                }
+                {
+                    isExample && <ExampleComponent />
                 }
             </ExpandableWidget>
         </RequestProvider>
