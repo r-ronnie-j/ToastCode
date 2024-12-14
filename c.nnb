@@ -22,9 +22,20 @@
         {
             "language": "typescript",
             "source": [
-                ""
+                "JSON.stringify(\"we\")"
             ],
-            "outputs": []
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "text/plain",
+                            "value": [
+                                "\u001b[32m'\"we\"'\u001b[39m"
+                            ]
+                        }
+                    ]
+                }
+            ]
         },
         {
             "language": "typescript",

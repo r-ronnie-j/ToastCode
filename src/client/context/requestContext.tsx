@@ -7,6 +7,7 @@ import populateInputFormData from "../monaco/populateInputFromText";
 import formDefaultText from "../monaco/formDefaultText";
 import saveRequestHandler from "../handler/eventHandler/apis/saveRequestHandler";
 import generateResponseHandler from "../handler/eventHandler/apis/generateResponseHandler";
+import getResponseFromNonceHandler from "../handler/eventHandler/apis/getResponseFromNonceHandler";
 
 
 function getDefaultReqValue(rawCode: string): ApiData {
@@ -90,6 +91,12 @@ export default function RequestProvider({ children, raw, index }: {
         }
         setInit(true)
     }, [])
+
+    useEffect(() => {
+        getResponseFromNonceHandler(apiData.nonce).then((x) => {
+            setResponse(x);
+        })
+    }, [apiData.nonce])
 
     useEffect(() => {
         if (init) {

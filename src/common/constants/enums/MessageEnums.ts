@@ -1,6 +1,8 @@
 enum MessageType {
     Initialize,
     FilePicker,
+    FileSaver,
+
     WriteVariable,
     WriteEnvironment,
     WriteFunction,
@@ -12,6 +14,8 @@ enum MessageType {
     GetRawRequests,
     SaveRequest,
     GetResponse,
+
+    GetResponseFromNonce,
 }
 
 export default MessageType;

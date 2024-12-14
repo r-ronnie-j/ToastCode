@@ -15,6 +15,7 @@ import getRawFunctionHandler from '../handler/variables/getRawFunctionHandler';
 import getRawRequestsHandler from '../handler/requests/getRawRequestsHandler';
 import saveRequest from '../handler/requests/saveRequestHandler';
 import generateResponse from '../handler/requests/generateResponse';
+import getResponseFromNonceHandler from '../handler/requests/getResponseFromNonce';
 
 
 export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
@@ -89,6 +90,14 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
                     generateResponse({
                         webviewPanel,
                         document,
+                        data: e.data,
+                    });
+                    return;
+                case MessageType.GetResponseFromNonce:
+                    console.log("funck done we are here");
+                    getResponseFromNonceHandler({
+                        document,
+                        webPanel: webviewPanel,
                         data: e.data,
                     });
                     return;

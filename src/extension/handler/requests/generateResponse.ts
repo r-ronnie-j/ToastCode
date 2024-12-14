@@ -1,10 +1,14 @@
 import * as vscode from "vscode";
 import { ApiData, ApiResponse } from "../../../common/interfaces/apiRequests";
-import * as fs from "fs";
 import MessageType from "../../../common/constants/enums/MessageEnums";
 import { axiosPostHandler } from "../../engine/requestHandler/axiosHandler";
 import { fetchHandler } from "../../engine/requestHandler/fetchHandler";
 import { gotHandler } from "../../engine/requestHandler/gotHandler";
+import { fileSaverHandler } from "../fileSaveHandler";
+import { configFile } from "../../cache/loadDocument";
+import path from "path";
+import * as fs from "fs/promises";
+import findTosResponse from "../../utilities/fileUtility/findTosResponse";
 
 export default async function generateResponse({
     webviewPanel, document, data
@@ -24,13 +28,28 @@ export default async function generateResponse({
             try {
                 response = await gotHandler(data, document.uri.fsPath);
             } catch (err) {
-                console.error(err);
+                console.log(err);
             }
         }
     }
+
+    // if (response !== null) {
+    //     fileSaverHandler({
+    //         webview: webviewPanel,
+    //         content: response,
+    //         document
+    //     });
+    // }
 
     webviewPanel.webview.postMessage({
         type: MessageType.GetResponse,
         data: response,
     });
+
+
+    if (response !== null) {
+        let responseDir = await findTosResponse({ document });
+        let responseFile = path.join(responseDir, `${data.nonce}.json`);
+        await fs.writeFile(responseFile, JSON.stringify(response, null, 2));
+    }
 }
