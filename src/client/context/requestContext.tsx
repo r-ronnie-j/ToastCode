@@ -50,7 +50,8 @@ function getDefaultReqValue(rawCode: string): ApiData {
             enabled: true,
         }],
         binary: undefined,
-        tests: []
+        tests: [],
+        examples: []
     }
 }
 

@@ -4,6 +4,7 @@ import * as fs from "fs";
 import { ToastRendererProvider } from "../../renderer/toastRenderer";
 import { ApiData } from "../../../common/interfaces/apiRequests";
 import { RequestCache } from "../../cache/requestCache";
+import { inspect } from "util-ex";
 
 export default async function saveRequest(
     _: vscode.WebviewPanel,
@@ -30,7 +31,7 @@ export default async function saveRequest(
     }
 
     const rawDocument = RequestCache.apis;
-    rawDocument[data.index] = data.data.rawCode + `\nnonce = '${data.data.nonce}'`;
+    rawDocument[data.index] = data.data.rawCode + `\nnonce = '${data.data.nonce}'  \nexamples = ${inspect(data.data.examples)}`;
     const edit = new vscode.WorkspaceEdit();
     let text = rawDocument.join("\n" + ToastRendererProvider.documentSeperator + "\n");
     edit.replace(

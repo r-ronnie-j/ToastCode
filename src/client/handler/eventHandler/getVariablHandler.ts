@@ -5,7 +5,6 @@ import vscode from "../vscode";
 
 export default function getVariableHandler(): Promise<VariableInfo[]> {
     return new Promise((resolve) => {
-        console.log("At extension");
         let initTimer = setTimeout(() => {
             vscode.postMessage({
                 type: MessageType.GetVariable,

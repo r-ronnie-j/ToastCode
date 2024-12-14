@@ -2,13 +2,8 @@ import React, { useEffect, useState } from "react"
 import getRawRequestsHandler from "../handler/eventHandler/apis/rawRequestHandler"
 import MainWidget from "./mainWidget"
 
-export default function ApiWidget() {
-    let [rawData, setRawData] = useState<string[]>([])
-    useEffect(() => {
-        getRawRequestsHandler().then((a) => {
-            setRawData(a)
-        })
-    }, [])
+export default function ApiWidget({ rawData }: { rawData: string[] }) {
+
     return <div>
         {
             rawData.map((item, index) => {

@@ -10,13 +10,35 @@ import CopyableText from "./responseWidget/copyableText"
 import KeyValueRenderer from "./responseWidget/keyValueRenderer"
 import CookieRenderer from "./responseWidget/cookieRenderer"
 import ResponseViewer from "./responseWidget/responseViewer"
+import saveContentHandler from "../handler/eventHandler/saveContentHandler"
+import saveRequestHandler from "../handler/eventHandler/apis/saveRequestHandler"
 
 
 export default function ResponseComponent({ requestIndex }: { requestIndex: number }) {
     let config = useContext(ConfigurationContext)
     let theme = getThemeColors(config.theme)
     let api = useContext(RequestContext)
+    let [name, setName] = useState("")
     let [secondary, setSecondary] = useState(0)
+
+    async function saveExample() {
+        let file = await saveContentHandler({
+            name: name,
+            req: api.data,
+            res: api.response,
+        })
+        if (typeof file === 'string') {
+            if (api.data.examples.findIndex((a) => a.path === file) === -1) {
+                api.data.examples.push({
+                    name: name,
+                    path: file,
+                });
+                saveRequestHandler(api.data, requestIndex);
+                setName("");
+                api.setData({ ...api.data });
+            }
+        }
+    }
 
     const renderInputValue = () => {
         const parts = api.data.url.split(/(\$\{.*?\}|\#\{.*?\})/g);
@@ -92,28 +114,22 @@ export default function ResponseComponent({ requestIndex }: { requestIndex: numb
                     width: "10px",
                 }}>
                     <BarInputSuggestions
-                        value={api.response?.name!}
+                        value={name}
                         onSuggestionSelect={(x) => {
-                            // api.response.name = x
+                            setName(x)
                         }}
                         suggestions={[]}
                         setValue={(x) => {
-
+                            setName(x)
                         }}
                     />
                 </div>
                 {
-                    api.response?.name !== "" &&
+                    name !== "" &&
                     <AwesomeButton
                         type="primary"
                         onClick={() => {
-                            // saveExample({
-                            //     nonce: req.data.nonce,
-                            //     nonceExample: getNonce(),
-                            //     apiData: req.data,
-                            //     name: res.response.name ?? "",
-                            //     response: res.response,
-                            // })
+                            saveExample()
                         }}
                     >
                         Save

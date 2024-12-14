@@ -21,11 +21,14 @@ export const ConfigurationContext = createContext<Configuration>(defaultConfigur
 export default function ConfigProvider() {
     const [loading, setLoading] = useState(true)
     const [config, setConfig] = useState<Configuration>(defaultConfiguration)
-
+    let [rawData, setRawData] = useState<string[]>([])
     useEffect(() => {
         initializeHandler().then((x) => {
             setLoading(false);
             setConfig(x)
+            getRawRequestsHandler().then((a) => {
+                setRawData(a)
+            })
         })
         return initializeMessage(setConfig)
     }, [])
@@ -36,7 +39,7 @@ export default function ConfigProvider() {
                     <>
                         {loading ? ""
                             : config.isConfig ? <ConfigWidget />
-                                : <ApiWidget />
+                                : <ApiWidget rawData={rawData} />
                         }
                     </>
                 </FunctionCodeProvider>

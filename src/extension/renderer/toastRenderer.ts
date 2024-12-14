@@ -16,6 +16,7 @@ import getRawRequestsHandler from '../handler/requests/getRawRequestsHandler';
 import saveRequest from '../handler/requests/saveRequestHandler';
 import generateResponse from '../handler/requests/generateResponse';
 import getResponseFromNonceHandler from '../handler/requests/getResponseFromNonce';
+import { fileSaverHandler } from '../handler/fileSaveHandler';
 
 
 export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
@@ -94,12 +95,24 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
                     });
                     return;
                 case MessageType.GetResponseFromNonce:
-                    console.log("funck done we are here");
                     getResponseFromNonceHandler({
                         document,
                         webPanel: webviewPanel,
                         data: e.data,
                     });
+                    return;
+                case MessageType.FileSaver:
+                    fileSaverHandler({
+                        webview: webviewPanel,
+                        content: e.data,
+                        document: document
+                    });
+                    return;
+                case MessageType.SaveExample:
+                    return;
+                case MessageType.DeleteExample:
+                    return;
+                case MessageType.LoadExample:
                     return;
             }
         });

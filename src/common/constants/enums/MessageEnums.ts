@@ -16,6 +16,10 @@ enum MessageType {
     GetResponse,
 
     GetResponseFromNonce,
+
+    SaveExample,
+    LoadExample,
+    DeleteExample,
 }
 
 export default MessageType;

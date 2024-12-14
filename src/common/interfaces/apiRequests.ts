@@ -46,6 +46,10 @@ export interface ApiData {
     formData: FormDataType[],
     urlEncoded: KeyValueCheckRecord[],
     binary: string | undefined,
+    examples: {
+        name: string,
+        path: string,
+    }[]
 }
 
 export interface ApiResponse {
