@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import MessageType from "../../common/constants/enums/MessageEnums";
+import MessageType from "../../../common/constants/enums/MessageEnums";
 import path from "path";
 
 let fileSaverHandler = async ({ webview, document, content }: {

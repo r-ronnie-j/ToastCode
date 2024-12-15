@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { ConfigurationContext } from "../../../context/configurationProvider";
 import { getThemeColors } from "../../../themes/getThemeColors";
-import fileHandler from "../../../handler/eventHandler/fileHandler";
+import fileHandler from "../../../handler/eventHandler/fileHandler/fileHandler";
 import AwesomeButton from "../../../component/Button/AwesomButton";
 
 

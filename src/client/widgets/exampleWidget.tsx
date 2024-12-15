@@ -10,7 +10,8 @@ import ResponseViewer from "./responseWidget/responseViewer";
 import { ApiData, ApiResponse } from "../../common/interfaces/apiRequests";
 import loadExampleHandler from "../handler/eventHandler/examples/loadExampleHandler";
 import BodyViewer from "./exampleWidget/bodyViewer";
-import { getRequestTypeString } from "../../common/constants/enums/methodsEnums";
+import { getRequestTypeString, HttpMethod, Methods } from "../../common/constants/enums/methodsEnums";
+import CopyableText from "./responseWidget/copyableText";
 
 function arrayToObject(arr: { key: string; value: string }[]): Record<string, string> {
     let accumulator: any = {}
@@ -22,7 +23,7 @@ function arrayToObject(arr: { key: string; value: string }[]): Record<string, st
     return accumulator;
 }
 
-export default function ExampleComponent() {
+export default function ExampleWidget() {
     const config = useContext(ConfigurationContext);
     const theme = getThemeColors(config.theme);
 
@@ -34,7 +35,6 @@ export default function ExampleComponent() {
     useEffect(() => {
         if (exampleIndex < api.data.examples.length) {
             loadExampleHandler(api.data.examples[exampleIndex].path).then((x) => {
-                console.log("what we get here as example is", x)
                 if (x !== null) {
                     setName(x.name)
                     setReq(x.req)
@@ -119,8 +119,47 @@ export default function ExampleComponent() {
                     gap: isWideScreen ? "10px" : "5px",
                 }}>
                     <div style={{ flex: 1 }}>
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            gap: '10px',
+                            alignItems: 'center',
+                            width: "100%",
+                            fontSize: config.fontSize * 1.2,
+                            color: theme.generalText
+                        }}>
+                            <div style={{
+                                color: Methods[HttpMethod[api.data.method] as keyof typeof Methods].colors[config.theme],
+                                fontWeight: "bold"
+                            }}>{Methods[HttpMethod[api.data.method] as keyof typeof Methods].label} : </div>
+                            <div style={{
+                                flexGrow: 1,
+                                color: theme.generalText,
+                                fontSize: config.fontSize,
+                                fontWeight: "bold",
+                            }}>
+                                <CopyableText text={res.parsedUrl ?? ""} >
+                                    {res.parsedUrl}
+                                </CopyableText>
+                            </div>
+                            {api.response?.invoked && (
+                                <div style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "5px",
+                                    color: theme.accentColor,
+                                    fontSize: "14px",
+                                    fontWeight: "500",
+                                }}>
+                                    ⏱️ <span>Time Taken:</span>
+                                    <span style={{ fontWeight: "bold" }}>{api.response.timeTaken} ms</span>
+                                </div>
+                            )}
+
+                        </div>
                         <h2 style={{
-                            color: theme.accentColor
+                            color: theme.generalText
                         }}>Request</h2>
                         <SecondaryTopBar
                             items={[
@@ -151,12 +190,11 @@ export default function ExampleComponent() {
                         {reqIndex === 0 && <KeyValueRenderer data={arrayToObject(req?.headers ?? [])} title={["Key", "Value"]} />}
                         {reqIndex === 1 && <KeyValueRenderer data={req?.path ?? {}} title={["Key", "Value"]} />}
                         {reqIndex === 2 && <KeyValueRenderer data={arrayToObject(req?.params ?? [])} title={["Key", "Value"]} />}
-                        {reqIndex === 3 &&
-
+                        {reqIndex === 3 && (
                             res
-                            ? <BodyViewer request={req!} title={getRequestTypeString(req.requestDataType)} />
-                            : "Loading ..."
-                        }
+                                ? <BodyViewer request={req!} title={getRequestTypeString(req.requestDataType)} />
+                                : "Loading ..."
+                        )}
                         {reqIndex === 4 && <CookieRenderer data={req?.requestCookies ?? []} />}
                     </div>
                     <div
@@ -174,6 +212,30 @@ export default function ExampleComponent() {
                             flexDirection: "column",
                             width: "100%",
                         }}>
+                            <div style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                gap: "10px",
+                                marginTop: "10px",
+                                marginLeft: "10px",
+                                fontSize: config.fontSize,
+                            }}>
+                                <div>Status : <span style={{ color: theme.accentColor }}>
+                                    {res.status}
+                                </span></div>
+                                <div>Status Text : <span style={{ color: theme.accentColor }}>
+                                    {res.statusText}
+                                </span></div>
+                                <div>Size : <span style={{ color: theme.accentColor }}>
+                                    {res.size}
+                                </span></div>
+                                <div>Mime-Type : <span style={{ color: theme.accentColor }}>
+                                    {res.mime?.split(";").at(0)}
+                                </span></div>
+                                <div>Mime-Type : <span style={{ color: theme.accentColor }}>
+                                    {res.mime?.split(";").at(0)}
+                                </span></div>
+                            </div>
                             <h2 style={{
                                 color: theme.generalText
                             }}>Response</h2>

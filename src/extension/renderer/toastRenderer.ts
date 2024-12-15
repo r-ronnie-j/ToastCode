@@ -3,7 +3,7 @@ import * as path from "path";
 import { MessageData } from '../../common/interfaces/messages';
 import MessageType from '../../common/constants/enums/MessageEnums';
 import initializeHandler from '../handler/initializeHandler';
-import filePickerHandler from '../handler/filePickerHandler';
+import filePickerHandler from '../handler/fileHandler/filePickerHandler';
 import writeEnvironmentHandler from '../handler/variables/writeEnvironmentHandler';
 import loadDocument from '../cache/loadDocument';
 import writeVariableHandler from '../handler/variables/writeVariableHandler';
@@ -16,7 +16,7 @@ import getRawRequestsHandler from '../handler/requests/getRawRequestsHandler';
 import saveRequest from '../handler/requests/saveRequestHandler';
 import generateResponse from '../handler/requests/generateResponse';
 import getResponseFromNonceHandler from '../handler/requests/getResponseFromNonce';
-import { fileSaverHandler } from '../handler/fileSaveHandler';
+import { fileSaverHandler } from '../handler/fileHandler/fileSaveHandler';
 import loadExampleHandler from '../handler/example/loadExampleHandler';
 
 

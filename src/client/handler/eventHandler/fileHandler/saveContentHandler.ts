@@ -1,6 +1,6 @@
-import MessageType from "../../../common/constants/enums/MessageEnums";
-import { MessageData } from "../../../common/interfaces/messages";
-import vscode from "../vscode";
+import MessageType from "../../../../common/constants/enums/MessageEnums";
+import { MessageData } from "../../../../common/interfaces/messages";
+import vscode from "../../vscode";
 
 export default async function saveContentHandler(data: Object): Promise<string | null> {
     return new Promise<string | null>((resolve, reject) => {

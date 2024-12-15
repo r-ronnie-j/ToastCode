@@ -1,6 +1,6 @@
 import path from "path";
 import * as vscode from "vscode";
-import MessageType from "../../common/constants/enums/MessageEnums";
+import MessageType from "../../../common/constants/enums/MessageEnums";
 
 let filePickerHandler = async ({ webview, document }: {
     webview: vscode.WebviewPanel,

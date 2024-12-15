@@ -1,5 +1,5 @@
-import MessageType from "../../../common/constants/enums/MessageEnums";
-import vscode from "../vscode";
+import MessageType from "../../../../common/constants/enums/MessageEnums";
+import vscode from "../../vscode";
 
 export default function fileHandler(): Promise<string | null> {
     return new Promise((resolve, reject) => {

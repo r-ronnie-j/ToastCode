@@ -5,7 +5,7 @@ import { getThemeColors } from "../../themes/getThemeColors";
 import getEnvironmentHandler from "../../handler/eventHandler/getEnvironmentHandler";
 import { EnvironmentInfo } from "../../../common/interfaces/variables";
 import CustomCheckbox from "../../component/Input/CheckBox";
-import fileHandler from "../../handler/eventHandler/fileHandler";
+import fileHandler from "../../handler/eventHandler/fileHandler/fileHandler";
 import saveEnvironmentHandler from "../../handler/eventHandler/saveEnvironmentHandler";
 import getEnvironmentMessage from "../../handler/messageHandler/getEnvironmentMessage";
 import { EnvironmentContext } from "../../context/environmentContext";

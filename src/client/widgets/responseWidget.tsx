@@ -10,7 +10,7 @@ import CopyableText from "./responseWidget/copyableText"
 import KeyValueRenderer from "./responseWidget/keyValueRenderer"
 import CookieRenderer from "./responseWidget/cookieRenderer"
 import ResponseViewer from "./responseWidget/responseViewer"
-import saveContentHandler from "../handler/eventHandler/saveContentHandler"
+import saveContentHandler from "../handler/eventHandler/fileHandler/saveContentHandler"
 import saveRequestHandler from "../handler/eventHandler/apis/saveRequestHandler"
 
 
@@ -101,7 +101,17 @@ export default function ResponseComponent({ requestIndex }: { requestIndex: numb
                         {renderInputValue()}
                     </CopyableText>
                 </div>
-                {api.response?.invoked && <div> ⌛ : {api.response.timeTaken}</div>}
+                {api.response?.invoked && <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "5px",
+                    color: theme.accentColor,
+                    fontSize: "14px",
+                    fontWeight: "500",
+                }}>
+                    ⏱️ <span>:</span>
+                    <span style={{ fontWeight: "bold" }}>{api.response.timeTaken} ms</span>
+                </div>}
             </div>
             <div style={{
                 display: "flex",

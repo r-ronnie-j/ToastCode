@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { ConfigurationContext } from '../../context/configurationProvider';
 import { getThemeColors } from '../../themes/getThemeColors';
 import { FaTrashAlt } from 'react-icons/fa';
-import fileHandler from '../../handler/eventHandler/fileHandler';
+import fileHandler from '../../handler/eventHandler/fileHandler/fileHandler';
 
 interface FileInputProps {
     placeholder?: string;

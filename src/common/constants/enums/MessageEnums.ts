@@ -1,7 +1,9 @@
 enum MessageType {
     Initialize,
+
     FilePicker,
     FileSaver,
+    FileDelete,
 
     WriteVariable,
     WriteEnvironment,
