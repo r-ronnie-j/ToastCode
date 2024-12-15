@@ -6,7 +6,6 @@ export default async function readJsonFromFile(filePath: string) {
         const jsonData = JSON.parse(data);
         return jsonData;
     } catch (error: any) {
-        console.error(`Error reading JSON from file: ${error.message}`);
         return null;
     }
 }
