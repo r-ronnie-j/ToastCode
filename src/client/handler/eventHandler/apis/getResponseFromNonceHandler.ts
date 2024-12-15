@@ -4,7 +4,6 @@ import { MessageData } from "../../../../common/interfaces/messages";
 import vscode from "../../vscode";
 
 export default function getResponseFromNonceHandler(nonce: string): Promise<ApiResponse | null> {
-    console.log("Aew we called at response client");
     return new Promise((resolve, reject) => {
         let initTimer = setTimeout(() => {
             vscode.postMessage({
@@ -13,7 +12,6 @@ export default function getResponseFromNonceHandler(nonce: string): Promise<ApiR
             });
         }, 1000);
         const listener = (e: MessageEvent<MessageData>) => {
-            console.log("We are at handler");
             if (e.data && e.data.type === MessageType.GetResponseFromNonce) {
                 console.log("wwww --- www", e.data.type);
                 window.removeEventListener('message', listener);

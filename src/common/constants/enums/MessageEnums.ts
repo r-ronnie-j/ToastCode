@@ -20,7 +20,9 @@ enum MessageType {
     GetResponseFromNonce,
 
     LoadExample,
-    DeleteExample,
+
+    AddRequestAtIndex,
+    DeleteRequestAtIndex,
 }
 
 export default MessageType;

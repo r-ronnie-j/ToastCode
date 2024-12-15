@@ -19,6 +19,8 @@ import getResponseFromNonceHandler from '../handler/requests/getResponseFromNonc
 import { fileSaverHandler } from '../handler/fileHandler/fileSaveHandler';
 import loadExampleHandler from '../handler/example/loadExampleHandler';
 import fileDeleteHandler from '../handler/fileHandler/fileDeleteHandler';
+import addRequestAtIndex from '../handler/requests/addRequestAtIndex';
+import deleteRequestAtIndex from '../handler/requests/deleteRequestAtIndex';
 
 
 export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
@@ -119,6 +121,20 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
                     return;
                 case MessageType.LoadExample:
                     loadExampleHandler({
+                        data: e.data,
+                        document,
+                        webPanel: webviewPanel
+                    });
+                    return;
+                case MessageType.AddRequestAtIndex:
+                    addRequestAtIndex({
+                        data: e.data,
+                        document,
+                        webPanel: webviewPanel
+                    });
+                    return;
+                case MessageType.DeleteRequestAtIndex:
+                    deleteRequestAtIndex({
                         data: e.data,
                         document,
                         webPanel: webviewPanel

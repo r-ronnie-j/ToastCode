@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ConfigurationContext } from "../context/configurationProvider";
 import { getThemeColors } from "../themes/getThemeColors";
-import RequestProvider from "../context/requestContext";
+import RequestProvider, { RequestContext } from "../context/requestContext";
 import DeleteButton from "../component/Button/DeleteConfirmButton";
 import PrimaryTopBar from "../component/Topbar/primaryTopBar";
 import ExpandableWidget from "../component/Expandable/expandableComponent";
@@ -10,7 +10,7 @@ import ResponseComponent from "./responseWidget";
 import ExampleWidget from "./exampleWidget";
 
 export default function MainWidget({ raw, index, onDelete }: {
-    raw: string, index: number, onDelete: (a: number) => void
+    raw: string, index: number, onDelete: (a: number, b: { name: string, path: string }[]) => void
 }) {
 
     const [isVerticalView, setIsVerticalView] = useState(false);
@@ -36,17 +36,7 @@ export default function MainWidget({ raw, index, onDelete }: {
             <ExpandableWidget
                 isExample={isExample}
                 setIsExample={setIsExample}
-                title={
-                    <>
-                        <DeleteButton
-                            onDelete={() => {
-                                onDelete(index)
-                            }}
-                            timeoutSeconds={5}
-                            title="Delete"
-                        />
-                    </>
-                }>
+                title={<DeleteRequest onDelete={onDelete} index={index} />}>
                 {!isExample &&
                     <div
                         style={{
@@ -94,4 +84,19 @@ export default function MainWidget({ raw, index, onDelete }: {
             </ExpandableWidget>
         </RequestProvider>
     );
+}
+
+
+function DeleteRequest({ onDelete, index }: {
+    onDelete: (a: number, b: { name: string, path: string }[]) => void,
+    index: number
+}) {
+    let api = useContext(RequestContext)
+    return <DeleteButton
+        onDelete={() => {
+            onDelete(index, api.data.examples);
+        }}
+        timeoutSeconds={5}
+        title="Delete"
+    />
 }
