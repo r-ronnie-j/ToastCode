@@ -50,7 +50,7 @@ export default async function addRequestAtIndex({
     }
 
     const rawDocument = RequestCache.apis;
-    let newContent = getDefaultContent()
+    let newContent = getDefaultContent();
     rawDocument.splice(data, 0, newContent);
     const edit = new vscode.WorkspaceEdit();
     let text = rawDocument.join("\n\n" + ToastRendererProvider.documentSeperator + "\n\n");
