@@ -12,6 +12,8 @@ import loadExampleHandler from "../handler/eventHandler/examples/loadExampleHand
 import BodyViewer from "./exampleWidget/bodyViewer";
 import { getRequestTypeString, HttpMethod, Methods } from "../../common/constants/enums/methodsEnums";
 import CopyableText from "./responseWidget/copyableText";
+import DeleteButton from "../component/Button/DeleteConfirmButton";
+import fileDeleteHandler from "../handler/eventHandler/fileHandler/deleteFileHandler";
 
 function arrayToObject(arr: { key: string; value: string }[]): Record<string, string> {
     let accumulator: any = {}
@@ -31,6 +33,14 @@ export default function ExampleWidget() {
 
     const api = useContext(RequestContext)
 
+    async function deleteExample() {
+        await fileDeleteHandler(api.data.examples[exampleIndex].path)
+        api.data.examples.splice(exampleIndex, 1);
+        api.setData({ ...api.data });
+        if (exampleIndex !== 0) {
+            setExampleIndex(exampleIndex - 1)
+        }
+    }
 
     useEffect(() => {
         if (exampleIndex < api.data.examples.length) {
@@ -99,7 +109,8 @@ export default function ExampleWidget() {
                     display: "flex",
                     flexDirection: "row",
                     gap: "10px",
-                    marginRight: "30px"
+                    marginRight: "30px",
+                    maxWidth: "130px",
                 }}>
                     <CustomSelect
                         options={api.data.examples.map((x, i) => ({
@@ -114,50 +125,92 @@ export default function ExampleWidget() {
                     />
                 </div>
                 <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    padding: "0 10px"
+                }}>
+                    <div style={{
+                        fontSize: "18px",
+                        fontWeight: "bold",
+                        color: theme.primaryContainer
+                    }}>{name}</div>
+                    <DeleteButton
+                        onDelete={deleteExample}
+                        timeoutSeconds={10}
+                        title="Delete example"
+                    />
+                </div>
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    gap: '10px',
+                    alignItems: 'center',
+                    padding: "0 10px",
+                    fontSize: config.fontSize * 1.2,
+                    color: theme.generalText
+                }}>
+                    <div style={{
+                        color: Methods[HttpMethod[api.data.method] as keyof typeof Methods].colors[config.theme],
+                        fontWeight: "bold"
+                    }}>{Methods[HttpMethod[api.data.method] as keyof typeof Methods].label} : </div>
+                    <div style={{
+                        flexGrow: 1,
+                        color: theme.generalText,
+                        fontSize: config.fontSize,
+                        fontWeight: "bold",
+                    }}>
+                        <CopyableText text={res.parsedUrl ?? ""} >
+                            {res.parsedUrl}
+                        </CopyableText>
+                    </div>
+                    {api.response?.invoked && (
+                        <div style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "5px",
+                            color: theme.accentColor,
+                            fontSize: "14px",
+                            fontWeight: "500",
+                        }}>
+                            ⏱️ <span>Time Taken:</span>
+                            <span style={{ fontWeight: "bold" }}>{api.response.timeTaken} ms</span>
+                        </div>
+                    )}
+
+                </div>
+                <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "10px",
+                    marginTop: "10px",
+                    marginLeft: "10px",
+                    fontSize: config.fontSize,
+                }}>
+                    <div>Status : <span style={{ color: theme.accentColor }}>
+                        {res.status}
+                    </span></div>
+                    <div>Status Text : <span style={{ color: theme.accentColor }}>
+                        {res.statusText}
+                    </span></div>
+                    <div>Size : <span style={{ color: theme.accentColor }}>
+                        {res.size}
+                    </span></div>
+                    <div>Mime-Type : <span style={{ color: theme.accentColor }}>
+                        {res.mime?.split(";").at(0)}
+                    </span></div>
+                    <div>Mime-Type : <span style={{ color: theme.accentColor }}>
+                        {res.mime?.split(";").at(0)}
+                    </span></div>
+                </div>
+                <div style={{
                     display: isWideScreen ? "flex" : "block",
                     flexDirection: isWideScreen ? "row" : "column",
                     gap: isWideScreen ? "10px" : "5px",
                 }}>
                     <div style={{ flex: 1 }}>
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            gap: '10px',
-                            alignItems: 'center',
-                            width: "100%",
-                            fontSize: config.fontSize * 1.2,
-                            color: theme.generalText
-                        }}>
-                            <div style={{
-                                color: Methods[HttpMethod[api.data.method] as keyof typeof Methods].colors[config.theme],
-                                fontWeight: "bold"
-                            }}>{Methods[HttpMethod[api.data.method] as keyof typeof Methods].label} : </div>
-                            <div style={{
-                                flexGrow: 1,
-                                color: theme.generalText,
-                                fontSize: config.fontSize,
-                                fontWeight: "bold",
-                            }}>
-                                <CopyableText text={res.parsedUrl ?? ""} >
-                                    {res.parsedUrl}
-                                </CopyableText>
-                            </div>
-                            {api.response?.invoked && (
-                                <div style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: "5px",
-                                    color: theme.accentColor,
-                                    fontSize: "14px",
-                                    fontWeight: "500",
-                                }}>
-                                    ⏱️ <span>Time Taken:</span>
-                                    <span style={{ fontWeight: "bold" }}>{api.response.timeTaken} ms</span>
-                                </div>
-                            )}
 
-                        </div>
                         <h2 style={{
                             color: theme.generalText
                         }}>Request</h2>
@@ -212,30 +265,6 @@ export default function ExampleWidget() {
                             flexDirection: "column",
                             width: "100%",
                         }}>
-                            <div style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                gap: "10px",
-                                marginTop: "10px",
-                                marginLeft: "10px",
-                                fontSize: config.fontSize,
-                            }}>
-                                <div>Status : <span style={{ color: theme.accentColor }}>
-                                    {res.status}
-                                </span></div>
-                                <div>Status Text : <span style={{ color: theme.accentColor }}>
-                                    {res.statusText}
-                                </span></div>
-                                <div>Size : <span style={{ color: theme.accentColor }}>
-                                    {res.size}
-                                </span></div>
-                                <div>Mime-Type : <span style={{ color: theme.accentColor }}>
-                                    {res.mime?.split(";").at(0)}
-                                </span></div>
-                                <div>Mime-Type : <span style={{ color: theme.accentColor }}>
-                                    {res.mime?.split(";").at(0)}
-                                </span></div>
-                            </div>
                             <h2 style={{
                                 color: theme.generalText
                             }}>Response</h2>

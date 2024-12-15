@@ -18,6 +18,7 @@ import generateResponse from '../handler/requests/generateResponse';
 import getResponseFromNonceHandler from '../handler/requests/getResponseFromNonce';
 import { fileSaverHandler } from '../handler/fileHandler/fileSaveHandler';
 import loadExampleHandler from '../handler/example/loadExampleHandler';
+import fileDeleteHandler from '../handler/fileHandler/fileDeleteHandler';
 
 
 export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
@@ -109,7 +110,12 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
                         document: document
                     });
                     return;
-                case MessageType.DeleteExample:
+                case MessageType.FileDelete:
+                    fileDeleteHandler({
+                        webpanel: webviewPanel,
+                        document,
+                        data: e.data,
+                    });
                     return;
                 case MessageType.LoadExample:
                     loadExampleHandler({
