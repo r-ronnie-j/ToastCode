@@ -13,7 +13,6 @@ export default function getResponseFromNonceHandler(nonce: string): Promise<ApiR
         }, 1000);
         const listener = (e: MessageEvent<MessageData>) => {
             if (e.data && e.data.type === MessageType.GetResponseFromNonce) {
-                console.log("wwww --- www", nonce, e.data.data);
                 if (e.data.data.nonce === nonce) {
                     window.removeEventListener('message', listener);
                     clearTimeout(initTimer);

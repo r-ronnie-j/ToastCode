@@ -12,7 +12,6 @@ export default async function addRequestAtIndex(index: number): Promise<string> 
         let listener = (e: MessageEvent<MessageData>) => {
             if (e.data && e.data.type === MessageType.AddRequestAtIndex) {
                 window.removeEventListener('message', listener);
-                console.log("Data received from the engine is", e.data.data);
                 resolve(e.data.data);
             }
         };

@@ -37,7 +37,6 @@ export default async function getResponseFromNonceHandler({
             return;
         }
     } catch (err) {
-        console.log("What is the error ", err);
         webPanel.webview.postMessage({
             type: MessageType.GetResponseFromNonce,
             data: {
