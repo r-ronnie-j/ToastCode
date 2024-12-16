@@ -3,3 +3,8 @@ dist
 node_modules
 .vscode-test/
 *.vsix
+
+tos.response
+lol.toos
+config.toos
+first_youtube_get.json

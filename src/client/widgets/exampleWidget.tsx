@@ -108,36 +108,32 @@ export default function ExampleWidget() {
                 <div style={{
                     display: "flex",
                     flexDirection: "row",
-                    gap: "10px",
-                    marginRight: "30px",
-                    maxWidth: "130px",
-                }}>
-                    <CustomSelect
-                        options={api.data.examples.map((x, i) => ({
-                            label: x.name,
-                            value: i
-                        })) ?? []}
-                        theme={theme}
-                        onChange={(x) => {
-                            setExampleIndex(x);
-                        }}
-                        value={exampleIndex}
-                    />
-                </div>
-                <div style={{
-                    display: "flex",
-                    flexDirection: "row",
                     justifyContent: "space-between",
-                    padding: "0 10px"
                 }}>
                     <div style={{
-                        fontSize: "18px",
-                        fontWeight: "bold",
-                        color: theme.primaryContainer
-                    }}>{name}</div>
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "10px",
+                        marginRight: "30px",
+                        minWidth: "250px",
+                        maxWidth: "250px",
+                    }}>
+                        <CustomSelect
+                            options={api.data.examples.map((x, i) => ({
+                                label: x.name,
+                                value: i
+                            })) ?? []}
+                            theme={theme}
+                            onChange={(x) => {
+                                setExampleIndex(x);
+                            }}
+                            value={exampleIndex}
+                        />
+
+                    </div>
                     <DeleteButton
                         onDelete={deleteExample}
-                        timeoutSeconds={10}
+                        timeoutSeconds={3}
                         title="Delete example"
                     />
                 </div>
@@ -174,7 +170,7 @@ export default function ExampleWidget() {
                             fontSize: "14px",
                             fontWeight: "500",
                         }}>
-                            ⏱️ <span>Time Taken:</span>
+                            ⏱️ : 
                             <span style={{ fontWeight: "bold" }}>{api.response.timeTaken} ms</span>
                         </div>
                     )}

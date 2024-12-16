@@ -1,71 +1,45 @@
 # ToastCode README
 
-This is the README for your extension "ToastCode". After writing up a brief description, we recommend including the following sections.
+ToastCode is a powerful Visual Studio Code extension that simplifies the creation and management of REST API definitions. Designed for developers who need to share and collaborate on API configurations effortlessly, ToastCode enables you to store API requests in files, version control them with GitHub, and share them efficiently.
 
 ## Features
+- **Create REST APIs**: Define and store REST API requests directly within your project.
+- **File-based Storage**: Save your API configurations in files for version control.
+- **Share Easily**: Seamlessly share your APIs through GitHub or other version control systems.
+- **Organize Requests**: Group, manage, and organize your API requests for better development workflows.
+- **Simplified Collaboration**: Share APIs with team members for collaborative testing and development.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
 
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+*Tip: Save your APIs as JSON or YAML files and integrate them into your version control for clean and efficient sharing.*
 
 ## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+This extension requires no special dependencies. Ensure you have Visual Studio Code installed and optionally Git for version control.
 
 ## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+- `toastCode.enable`: Enable/disable the extension.
+- `toastCode.defaultFormat`: Choose the default format for saving APIs (JSON or YAML).
+- `toastCode.filePath`: Define the default path for storing your API files.
 
 ## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- API validation for certain edge cases may require improvements.
+- File path configuration might need to be manually adjusted in some workspaces.
 
 ## Release Notes
-
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
+- Initial release of ToastCode.
+- Create, save, and share REST API requests effortlessly.
+- Supports JSON and YAML file formats.
 
-Initial release of ...
+## Extension Guidelines
+Ensure that you've read through the extension guidelines and follow the best practices for creating your extension.
 
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
+### Working with Markdown
 You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+- Split the editor (Cmd+\ on macOS or Ctrl+\ on Windows and Linux).
+- Toggle preview (Shift+Cmd+V on macOS or Shift+Ctrl+V on Windows and Linux).
+- Press Ctrl+Space (Windows, Linux, macOS) to see a list of Markdown snippets.
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+For more information:
+- [Visual Studio Code's Markdown Support](https://code.visualstudio.com/docs/editor/markdown)
+- [Markdown Syntax Reference](https://www.markdownguide.org/basic-syntax/)
