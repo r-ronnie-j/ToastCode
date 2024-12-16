@@ -65,11 +65,39 @@ export default function ResponseComponent({ requestIndex }: { requestIndex: numb
 
     if (api.response === null) {
         if (api.processing) {
-            return <div>Processing click to cancel...</div>
+            return (
+                <div style={{
+                    padding: '20px',
+                    backgroundColor: 'transparent',
+                    borderRadius: '8px',
+                    textAlign: 'center'
+                }}>
+                    <h3 style={{
+                        color: theme.accentColor,
+                        marginTop: '10px'
+                    }}>Processing...</h3>
+                    <p style={{
+                        fontSize: '16px',
+                        color: theme.generalText
+                    }}>Your request is being processed. Click to cancel.</p>
+                </div>
+            );
         } else {
-            return <div>
-                Not invoked
-            </div>
+            return (
+                <div style={{ padding: '20px', borderRadius: '8px', textAlign: 'center' }}>
+                    <h3 style={{ color: theme.primaryContainer }}>Not Invoked Yet</h3>
+                    <p style={{ fontSize: '16px', color: theme.generalText }}>It seems like the API request has not been triggered yet.</p>
+                    <button style={{
+                        padding: '10px 20px',
+                        backgroundColor: theme.primaryContainer,
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontWeight: 'bold'
+                    }} onClick={() => { /* Trigger the API call here */ }}>Invoke Request</button>
+                </div>
+            );
         }
     } else {
         return <div style={{

@@ -15,7 +15,6 @@ export default async function getResponseFromNonceHandler({
     let responseDir = await findTosResponse({ document });
     let responseFile = path.join(responseDir, `${data}.json`);
     try {
-        console.log("nonce checking", data);
         if ((await fs.stat(responseFile)).isFile()) {
             let res = await readJsonFromFile(responseFile);
             webPanel.webview.postMessage({
