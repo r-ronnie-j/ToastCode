@@ -4,6 +4,7 @@ import MessageType from "../../../common/constants/enums/MessageEnums";
 export default function initializeMessage(handlerFunction: (a: Configuration) => void) {
     let listener = (e: MessageEvent<MessageData>) => {
         if (e.data && e.data.type === MessageType.Initialize) {
+            console.log("Are we here ", e.data);
             handlerFunction(e.data.data as Configuration);
         }
     };

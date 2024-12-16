@@ -52,7 +52,7 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
 
         vscode.workspace.onDidChangeConfiguration((event) => {
             if (event.affectsConfiguration("workbench.colorTheme") || event.affectsConfiguration("editor.fontSize")) {
-
+                initializeHandler(document, webviewPanel);
             }
         });
 
