@@ -7,9 +7,9 @@ import { FormDataType, KeyValueCheckRecord } from '../../common/interfaces/varia
 export default function formDefaultText(x: ApiData): string {
     try {
         return [
-            x.name.trim() !== "" ? `name='${x.name}'` : '',
+            x.name.trim() !== "" ? `name='${x.name.trim()}'` : '',
             `method = HttpMethod.${HttpMethod[x.method]}`,
-            `url = "${x.url}"`,
+            `url = "${x.url.trim()}"`,
             `https = Https['${Https[x.https]}']`,
             `headers = ${formHeaderParamsEncoded(x.headers)}`,
             `params = ${formHeaderParamsEncoded(x.params)}`,

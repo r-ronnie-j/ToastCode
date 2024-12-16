@@ -132,6 +132,7 @@ export default function ResponseComponent({ requestIndex }: { requestIndex: numb
                         setValue={(x) => {
                             setName(x)
                         }}
+                        placeholder="Save as Example ...."
                     />
                 </div>
                 {

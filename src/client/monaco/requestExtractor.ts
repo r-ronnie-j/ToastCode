@@ -6,9 +6,12 @@ export default function requestExtractor(a: string) {
     try {
         const func = new Function(`
             with (this) {
-            let name,method,url,form,local,project,requestDataType,https,headers,params,path,timeout,timeoutType,js,html,text,formData,binary,urlEncoded,json,xml,requestCookies,nonce,examples
+                let name, method, url, form, local, project, requestDataType, https, headers, params, path, timeout, 
+                timeoutType, js, html, text, formData, binary, urlEncoded, json, xml, requestCookies, nonce, examples;
+        
                 ${a}
-                return {name,method,nonce,url,form,binary,local,project,requestDataType,https,headers,params,path,timeout,timeoutType,js,html,text,formData,urlEncoded,json,xml,requestCookies,examples};
+                return {name, method, nonce, url, form, binary, local, project, requestDataType, https, headers, params, 
+                path, timeout, timeoutType, js, html, text, formData, urlEncoded, json, xml, requestCookies, examples};
             }
         `);
 

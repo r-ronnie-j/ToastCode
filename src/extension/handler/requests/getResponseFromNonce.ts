@@ -15,24 +15,35 @@ export default async function getResponseFromNonceHandler({
     let responseDir = await findTosResponse({ document });
     let responseFile = path.join(responseDir, `${data}.json`);
     try {
+        console.log("nonce checking", data);
         if ((await fs.stat(responseFile)).isFile()) {
             let res = await readJsonFromFile(responseFile);
             webPanel.webview.postMessage({
                 type: MessageType.GetResponseFromNonce,
-                data: res,
+                data: {
+                    nonce: data,
+                    res
+                },
             });
             return;
         } else {
             webPanel.webview.postMessage({
                 type: MessageType.GetResponseFromNonce,
-                data: null,
+                data: {
+                    nonce: data,
+                    res: null,
+                },
             });
             return;
         }
     } catch (err) {
+        console.log("What is the error ", err);
         webPanel.webview.postMessage({
             type: MessageType.GetResponseFromNonce,
-            data: null,
+            data: {
+                nonce: data,
+                res: null
+            },
         });
         return;
     }

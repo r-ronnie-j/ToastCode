@@ -13,7 +13,7 @@ import getResponseFromNonceHandler from "../handler/eventHandler/apis/getRespons
 function getDefaultReqValue(rawCode: string): ApiData {
     return {
         url: "",
-        nonce: getNonce(),
+        nonce: "",
         name: '',
         method: HttpMethod.GET,
         https: Https["HTTP/1.1"],
@@ -94,13 +94,16 @@ export default function RequestProvider({ children, raw, index }: {
         if (apiData.rawCode.length != 0) {
             populateInputFormData(apiData, setApiData)
         }
-        setInit(true)
     }, [])
 
     useEffect(() => {
-        getResponseFromNonceHandler(apiData.nonce).then((x) => {
-            setResponse(x);
-        })
+        if (apiData.nonce.trim() !== "") {
+            console.log("Arew we here", apiData.nonce);
+            getResponseFromNonceHandler(apiData.nonce).then((x) => {
+                setResponse(x);
+                setInit(true);
+            })
+        }
     }, [apiData.nonce])
 
     useEffect(() => {
