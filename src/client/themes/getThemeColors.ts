@@ -41,8 +41,8 @@ export const themes: Record<number, ThemeColors> = {
         secondaryText: "#FFFFFF",
         tertiaryContainer: "#F8F9FA",
         tertiaryText: "#495057",
-        errorContainer: "#FFEBEE",
-        errorText: "#C62828",
+        errorText: "#FFCDD2",
+        errorContainer: "#C62828",
         warningContainer: "#FFF3CD",
         warningText: "#856404",
         highlightContainer: "#A5D6A7",
@@ -126,34 +126,34 @@ export const themes: Record<number, ThemeColors> = {
 
     // High Contrast Light Theme (remains unchanged)
     4: {
-        generalContainer: '#FFFFFF',
-        generalText: '#2E7D32',
-        alternativeContainer: '#F0F0F0',
-        alternativeText: '#2E7D32',
-        primaryContainer: '#8BC34A',
-        primaryText: '#1B5E20',
-        secondaryContainer: '#C8E6C9',
-        secondaryText: '#33691E',
-        tertiaryContainer: '#DCEDC8',
-        tertiaryText: '#558B2F',
-        errorContainer: '#F44336',   // Bright red background for errors  
-        errorText: '#FFFFFF',        // White text on bright red  
-        warningContainer: '#FFEE58',
-        warningText: '#33691E',
-        highlightContainer: '#C5E1A5',
-        highlightText: '#1B5E20',
-        hoverContainer: '#E0F7FA',
-        hoverText: '#00695C',
-        primaryBorder: '#81C784',
-        secondaryBorder: '#66BB6A',
-        simpleBorder: '#BDBDBD',
-        accentColor: '#4CAF50',
-        infoColor: '#64B5F6',
-        infoContainer: '#E3F2FD',
-        disabledColor: '#9E9E9E',
-        disabledContainer: '#F0F4C3',
-        successContainer: ' #C8E6C9',   // Softer light green background   
-        successText: ' #2E7D32'        // Dark green text on light green background   
+        generalContainer: '#F7F7F7', // Lighter background for overall container
+        generalText: '#333333', // Dark text for better readability
+        alternativeContainer: '#E1F5FE', // Soft blue background for alternative elements
+        alternativeText: '#0277BD', // Strong blue text for contrast on light background
+        primaryContainer: '#388E3C', // Strong green for primary container
+        primaryText: '#FFFFFF', // White text for strong contrast on dark background
+        secondaryContainer: '#A5D6A7', // Softer green background for secondary containers
+        secondaryText: '#1B5E20', // Dark green for contrast on secondary background
+        tertiaryContainer: '#F1F8E9', // Pale yellow-green background for tertiary containers
+        tertiaryText: '#8BC34A', // Green text for visibility on light background
+        errorContainer: '#D32F2F', // Strong red background for errors
+        errorText: '#FFFFFF', // White text for contrast on red
+        warningContainer: '#FFEB3B', // Bright yellow for warnings
+        warningText: '#F57F17', // Dark yellow-orange for contrast on bright yellow
+        highlightContainer: '#FFEE58', // Light yellow for highlight
+        highlightText: '#1B5E20', // Dark green text for high contrast
+        hoverContainer: '#B2EBF2', // Soft cyan for hover background
+        hoverText: '#00796B', // Deep cyan text for hover state
+        primaryBorder: '#66BB6A', // Softer green border for primary elements
+        secondaryBorder: '#4CAF50', // Stronger green border for secondary elements
+        simpleBorder: '#BDBDBD', // Neutral gray border for simple borders
+        accentColor: '#FF7043', // Warm accent color (coral-orange) for standout elements
+        infoColor: '#0288D1', // Strong blue for informational elements
+        infoContainer: '#BBDEFB', // Soft blue background for informational containers
+        disabledColor: '#BDBDBD', // Neutral gray for disabled elements
+        disabledContainer: '#F5F5F5', // Light gray background for disabled elements
+        successContainer: '#A5D6A7', // Softer light green for success background
+        successText: '#388E3C' // Dark green text for high contrast on success elements
     }
 };
 

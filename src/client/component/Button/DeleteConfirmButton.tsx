@@ -65,6 +65,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ onDelete, timeoutSeconds, t
                         background: 'none',
                         border: 'none',
                         cursor: 'pointer',
+                        font: theme.errorText,
                         color: theme.errorContainer, // Optional: Change the color to match the 'danger' theme
                         fontSize: '1rem' // Optional: Adjust size as needed
                     }}
@@ -80,7 +81,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ onDelete, timeoutSeconds, t
                     alignItems: 'center',
                     background: 'transparent',
                     borderRadius: '4px',
-                    border: `1px solid ${theme.errorContainer}`, 
+                    border: `1px solid ${theme.errorContainer}`,
                 }}>
                     <input
                         style={{
@@ -88,7 +89,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ onDelete, timeoutSeconds, t
                             height: '24px',
                             outline: 'none',
                             border: 'none',
-                            color: theme.primaryText, 
+                            color: theme.generalText,
                             background: 'transparent',
                             paddingLeft: '8px',
                             flex: '1'
