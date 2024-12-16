@@ -24,6 +24,7 @@ const SimpleInputSuggestions: React.FC<SimpleInputProps> = ({
     const [filteredSuggestions, setFilteredSuggestions] = useState<Suggestion[]>([]);
     const [selectedIndex, setSelectedIndex] = useState<number>(-1);
     const [isFocused, setIsFocused] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
     const suggestionListRef = useRef<HTMLDivElement | null>(null);
     const suggestionItemsRef = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -104,18 +105,21 @@ const SimpleInputSuggestions: React.FC<SimpleInputProps> = ({
                 onChange={handleInputChange}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
-                onKeyDown={handleKeyDown} // Add keyboard event listener
+                onKeyDown={handleKeyDown}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
                 placeholder={placeholder}
                 style={{
                     flexGrow: 1,
                     width: '100%',
                     padding: '6px 8px',
-                    border: `2px solid ${isFocused ? theme.primaryBorder : 'transparent'}`,
+                    border: `2px solid ${isFocused ? theme.primaryBorder : isHovered ? theme.secondaryBorder : 'transparent'}`,
                     borderRadius: '4px',
                     backgroundColor: isFocused ? theme.generalContainer : 'transparent',
                     outline: 'none',
                     color: theme.generalText,
                     fontSize: '14px',
+                    transition: 'border 0.2s ease-in-out', // Smooth border transition
                 }}
             />
             {filteredSuggestions.length > 0 && (

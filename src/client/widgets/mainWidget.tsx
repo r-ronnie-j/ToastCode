@@ -67,7 +67,7 @@ export default function MainWidget({ raw, index, onDelete }: {
                                 style={{
                                     width: isVerticalView ? "100%" : "2px",
                                     minHeight: "2px",
-                                    margin: isVerticalView ? "4px 0" : "0 4px",
+                                    margin: isVerticalView ? "10px 0" : "0 4px",
                                     backgroundColor: theme.primaryBorder,
                                     alignSelf: "stretch",
                                 }}

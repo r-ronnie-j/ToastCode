@@ -19,9 +19,9 @@ export default function BodyNone() {
             textAlign: 'center',
             backgroundColor: 'transparent',
             borderRadius: '8px',
-            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+            boxShadow: `0px 4px 8px ${theme.alternativeContainer}`,
             padding: '20px',
-            maxWidth: '300px',
+            width: "100%",
             margin: 'auto'
         }}>
             <MdInbox size={48} style={{ marginBottom: '10px', color: theme.generalText }} />

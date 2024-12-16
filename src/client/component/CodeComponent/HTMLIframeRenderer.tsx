@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { ConfigurationContext } from "../../context/configurationProvider";
 import { getThemeColors } from "../../themes/getThemeColors";
 import JsonXmlRenderer from "./JsonXmlRenderer";
+import getNonce from "../../../common/utilities/getNonce";
 
 export default function HTMLIframeRenderer({ htmlContent }: { htmlContent: string }) {
     const [viewMode, setViewMode] = useState<'raw' | 'preview'>('preview');
@@ -16,22 +17,18 @@ export default function HTMLIframeRenderer({ htmlContent }: { htmlContent: strin
         });
     };
 
-    function getNonce() {
-        throw new Error("Function not implemented.");
-    }
-
     return (
         <div style={{ overflowY: "scroll", display: "flex", justifyContent: "center", padding: "20px" }}>
             <div style={{
                 width: "95%",
                 backgroundColor: themeStyle.generalContainer,
                 borderRadius: "8px",
-                boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+                boxShadow: `0px 4px 12px ${themeStyle.alternativeContainer}`,
                 padding: "15px"
             }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px" }}>
-                    <div 
-                        onClick={() => setViewMode(viewMode === 'preview' ? 'raw' : 'preview')} 
+                    <div
+                        onClick={() => setViewMode(viewMode === 'preview' ? 'raw' : 'preview')}
                         style={{
                             backgroundColor: themeStyle.primaryContainer,
                             color: themeStyle.primaryText,
