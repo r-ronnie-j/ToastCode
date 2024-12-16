@@ -11,15 +11,23 @@ export default async function loadExampleHandler({
     document: vscode.TextDocument,
     webPanel: vscode.WebviewPanel,
 }) {
-    let examplePath = path.resolve(document.uri.fsPath, data);
-    if (((await fs.stat(examplePath)).isFile())) {
-        let example = await readJsonFromFile(examplePath);
-        webPanel.webview.postMessage({
-            type: MessageType.LoadExample,
-            data: example,
-        });
-        return;
-    } else {
+    try {
+        let examplePath = path.resolve(document.uri.fsPath, data);
+        if (((await fs.stat(examplePath)).isFile())) {
+            let example = await readJsonFromFile(examplePath);
+            webPanel.webview.postMessage({
+                type: MessageType.LoadExample,
+                data: example,
+            });
+            return;
+        } else {
+            webPanel.webview.postMessage({
+                type: MessageType.LoadExample,
+                data: null,
+            });
+            return;
+        }
+    } catch (err) {
         webPanel.webview.postMessage({
             type: MessageType.LoadExample,
             data: null,

@@ -7,7 +7,6 @@ export default async function getRawFunctionHandler({ webviewPanel, document }: 
     webviewPanel: vscode.WebviewPanel,
     document: vscode.TextDocument
 }) {
-    console.log("Are we called");
     webviewPanel.webview.postMessage({
         type: MessageType.GetRawFunction,
         data: FunctionCache.extractFuns(document.getText())

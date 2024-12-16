@@ -21,6 +21,7 @@ export default async function deleteRequestAtIndex({
     }
 }) {
     const rawDocument = RequestCache.apis;
+    console.log("The delete index is ", data.index);
     if (data.index < rawDocument.length) {
         rawDocument.splice(data.index, 1);
     }

@@ -35,6 +35,8 @@ export default async function addRequestAtIndex({
 }) {
     const documentPath = document.uri.fsPath;
 
+    console.log("The request to add the request is at", data);
+
     const dirPath = path.dirname(documentPath);
     const responseDir = path.join(dirPath, 'tos.response');
 

@@ -18,6 +18,7 @@ export default async function deleteRequestAtIndex(data: {
         let listener = (e: MessageEvent<MessageData>) => {
             if (e.data && e.data.type === MessageType.DeleteRequestAtIndex) {
                 window.removeEventListener('message', listener);
+                console.log("Data reqceived at the delete request", e.data.data);
                 resolve(e.data.data);
             }
         };
