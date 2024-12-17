@@ -38,6 +38,7 @@
             "filenamePattern": "*.toos"
           }
         ],
+         
         "priority": "default"
       }
     ]

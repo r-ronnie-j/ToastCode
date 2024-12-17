@@ -45,11 +45,12 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
         webviewPanel: vscode.WebviewPanel,
         _token: vscode.CancellationToken
     ): Promise<void> {
+        console.log("when are resolve custom text editor called");
+
         webviewPanel.webview.options = {
             enableScripts: true,
         };
         webviewPanel.webview.html = this.getHtmlForWebview(webviewPanel.webview);
-
         vscode.workspace.onDidChangeConfiguration((event) => {
             if (event.affectsConfiguration("workbench.colorTheme") || event.affectsConfiguration("editor.fontSize")) {
                 initializeHandler(document, webviewPanel);
