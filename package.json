@@ -6,10 +6,14 @@
   "engines": {
     "vscode": "^1.95.0"
   },
+  "author": {
+    "name": "r-ronnie-j",
+    "email": "ronnie.jhaa@gmail.com"
+  },
   "categories": [
     "Other"
   ],
-  "icon": "./logo.png",
+  "icon": "./icon.png",
   "activationEvents": [],
   "main": "./dist/extension/extension.js",
   "contributes": {
@@ -38,7 +42,6 @@
             "filenamePattern": "*.toos"
           }
         ],
-         
         "priority": "default"
       }
     ]
