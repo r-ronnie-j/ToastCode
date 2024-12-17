@@ -27,7 +27,11 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
 
     public static register(context: vscode.ExtensionContext): vscode.Disposable {
         const provider = new ToastRendererProvider(context);
-        const providerRegistration = vscode.window.registerCustomEditorProvider(ToastRendererProvider.viewType, provider);
+        const providerRegistration = vscode.window.registerCustomEditorProvider(ToastRendererProvider.viewType, provider, {
+            webviewOptions: {
+                retainContextWhenHidden: true
+            }
+        });
         return providerRegistration;
     }
 
@@ -45,11 +49,13 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
         webviewPanel: vscode.WebviewPanel,
         _token: vscode.CancellationToken
     ): Promise<void> {
-        console.log("when are resolve custom text editor called");
+
+
 
         webviewPanel.webview.options = {
             enableScripts: true,
         };
+
         webviewPanel.webview.html = this.getHtmlForWebview(webviewPanel.webview);
         vscode.workspace.onDidChangeConfiguration((event) => {
             if (event.affectsConfiguration("workbench.colorTheme") || event.affectsConfiguration("editor.fontSize")) {
@@ -148,6 +154,10 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
 
     }
 
+    dispose() {
+
+    }
+
     private getHtmlForWebview(webview: vscode.Webview): string {
         const scriptUri = webview.asWebviewUri(
             vscode.Uri.file(path.join(this.context.extensionPath, 'dist', 'client', 'index.js'))
@@ -158,9 +168,9 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
             <head>
               <meta charset="UTF-8">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>React Webview</title>
             </head>
             <body>
+            <div id="root"></div>
               <script src="${scriptUri}"></script>
             </body>
           </html>
