@@ -94,11 +94,16 @@ export default function RequestCookies() {
                         key={c.key}
                         value={c.value}
                         selected={false}
+                        enabled={true}
+                        index={index}
+                        onSelect={() => { }}
+                        setEnable={() => { }}
                     />
                 ))}
             </DraggableList>
 
-            {/* Add Cookie Form */}
+            <div style={{ height: "70px" }} />
+
             <div
                 style={{
                     display: 'flex',
@@ -362,7 +367,15 @@ export default function RequestCookies() {
     )
 }
 
-function CookieItem({ selected, key, value }: { selected: boolean, key: string, value: string }) {
+function CookieItem({ selected, enabled, setEnable, key, value, index, onSelect }: {
+    enabled: boolean,
+    setEnable: (value: boolean) => void,
+    selected: boolean,
+    key: string,
+    value: string,
+    index: number,
+    onSelect: (value: number) => void,
+}) {
     const config = useContext(ConfigurationContext)
     const theme = getThemeColors(config.theme)
     return <div style={{
@@ -370,20 +383,40 @@ function CookieItem({ selected, key, value }: { selected: boolean, key: string, 
         display: "flex",
         flexDirection: "row",
         color: selected ? theme.primaryContainer : theme.generalText,
+
     }}>
-        <div style={{
-            flexGrow: 1,
-            width: "10px",
-            background: "red"
+        <label style={{
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
+            userSelect: 'none',
         }}>
-            Display Key
-        </div>
+            <CustomCheckbox
+                checked={enabled}
+                onChange={setEnable}
+            />
+        </label>
         <div style={{
-            flexGrow: 1,
-            width: "10px",
-            background: "blue"
-        }}>
-            Display Value
+            display: 'flex',
+            flexDirection: 'row',
+            width: '100%',
+        }}
+            onClick={() => {
+                onSelect(index)
+            }}
+        >
+            <div style={{
+                flexGrow: 1,
+                width: "10px",
+            }}>
+                {key}
+            </div>
+            <div style={{
+                flexGrow: 1,
+                width: "10px",
+            }}>
+                {value}
+            </div>
         </div>
     </div>
 }
