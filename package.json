@@ -10,7 +10,7 @@
     "name": "r-ronnie-j",
     "email": "ronnie.jhaa@gmail.com"
   },
-  "publisher": "Rounak Jha",
+  "publisher": "r-ronnie-j",
   "categories": [
     "Other"
   ],
@@ -43,7 +43,7 @@
             "filenamePattern": "*.toos"
           }
         ],
-        "priority": "option"
+        "priority": "default"
       }
     ]
   },

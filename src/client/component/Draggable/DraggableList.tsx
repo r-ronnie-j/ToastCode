@@ -4,6 +4,7 @@ import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-
 import { CSS } from '@dnd-kit/utilities';
 import { ConfigurationContext } from '../../context/configurationProvider';
 import { getThemeColors } from '../../themes/getThemeColors';
+import { MdDragHandle } from 'react-icons/md';
 
 interface DraggableListProps {
     children: ReactElement[];
@@ -47,7 +48,9 @@ const DraggableItem = ({ id, children, border }: { id: string, children: ReactEl
                         height: "30px",
                         flexShrink: 1,
                         flexGrow: 0,
-                    }} {...listeners} {...attributes}>⋮⋮</div>
+                    }} {...listeners} {...attributes}>
+                        <MdDragHandle />
+                    </div>
                 <div style={{
                     height: "1px",
                     flexGrow: 1,
@@ -94,7 +97,7 @@ const DraggableList: React.FC<DraggableListProps> = ({ children, onDragEnd, head
                         margin: '0 4px',
                         fontWeight: 'bold',
                     }}>
-                        ⋮⋮
+                        <MdDragHandle/>
                     </div>
                     <div style={{ flex: 1 }}>{header}</div>
                 </div>

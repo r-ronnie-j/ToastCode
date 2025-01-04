@@ -42,8 +42,6 @@ const FunctionCache = {
 
         return processedSegment;
     }
-
-
 };
 
 export default FunctionCache;
