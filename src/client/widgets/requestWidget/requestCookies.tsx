@@ -5,13 +5,16 @@ import DraggableList from "../../component/Draggable/DraggableList"
 import { Cookie } from "../../../common/interfaces/apiRequests"
 import BarInputSuggestions from "../../component/Input/BarInputSuggestions"
 import CustomCheckbox from "../../component/Input/CheckBox"
-import SimpleSelectBox from "../../component/Select/SimpleSelect"
 import CustomSelect from "../../component/Select/CustomSelect"
 import AwesomeButton from "../../component/Button/AwesomButton"
+import { RequestContext } from "../../context/requestContext"
+import DateTimeInput from "../../component/Input/DateTimeInput"
+
 
 export default function RequestCookies() {
     let config = useContext(ConfigurationContext)
     let theme = getThemeColors(config.theme)
+    let request = useContext(RequestContext)
 
     let defaultCookie = {
         key: "",
@@ -32,9 +35,7 @@ export default function RequestCookies() {
     }
 
     let [cookie, setCookie] = useState<Cookie>(defaultCookie)
-
-    let [cookies, setCookies] = useState<Cookie[]>([])
-
+    let [selected, setSelected] = useState<number>(-1)
 
     return (
         <div style={{
@@ -51,27 +52,6 @@ export default function RequestCookies() {
                     boxSizing: 'border-box',
                     alignItems: "center"
                 }}>
-                    <label style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        cursor: 'pointer',
-                        userSelect: 'none',
-                    }}>
-                        <span style={{
-                            width: '15px',
-                            height: '15px',
-                            borderRadius: '3px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            fontSize: "20px",
-                            fontWeight: "900",
-                            color: theme.primaryContainer,
-                            justifyContent: 'center',
-                            transition: 'background-color 0.3s, border-color 0.3s',
-                        }}>
-                            ✓
-                        </span>
-                    </label>
                     <div style={{
                         flexGrow: 1,
                         width: "10px",
@@ -89,21 +69,27 @@ export default function RequestCookies() {
                     <div style={{ margin: "0 4px", cursor: "pointer", opacity: 0, }}>🗑️</div>
                 </div>}
             >
-                {cookies.map((c, index) => (
-                    <CookieItem
-                        key={c.key}
-                        value={c.value}
-                        selected={false}
-                        enabled={true}
-                        index={index}
-                        onSelect={() => { }}
-                        setEnable={() => { }}
-                    />
-                ))}
+                {request.data.requestCookies.length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: '20px', color: '#888' }}>
+                        <p style={{ fontSize: '18px' }}>🍪 No cookies added yet! 🍪</p>
+                        <p style={{ fontSize: '14px' }}>Please add some cookies to see them here.</p>
+                    </div>
+                ) : (
+                    request.data.requestCookies.map((c, index) => (
+                        <CookieItem
+                            key={index} // Use index as key if there's no unique identifier
+                            keyValue={c.key}
+                            value={c.value}
+                            selected={selected === index}
+                            onSelect={() => {
+                                setSelected(index);
+                                setCookie(c);
+                            }}
+                        />
+                    ))
+                )}
             </DraggableList>
-
-            <div style={{ height: "70px" }} />
-
+            <div style={{ height: "20px" }} />
             <div
                 style={{
                     display: 'flex',
@@ -117,6 +103,7 @@ export default function RequestCookies() {
                 <div style={{
                     display: 'flex',
                     width: '100%',
+                    alignItems: 'center',
                 }}>
                     <div style={{
                         width: '10px',
@@ -129,7 +116,11 @@ export default function RequestCookies() {
                         width: "10px",
                     }}>
                         <BarInputSuggestions
-                            setValue={(value) => setCookie({ ...cookie, key: value })}
+                            setValue={(value) => {
+                                cookie.key = value
+                                console.log(value, cookie)
+                                setCookie({ ...cookie })
+                            }}
                             value={cookie.key}
                             suggestions={[]}
                             placeholder="Cookie Key"
@@ -139,6 +130,8 @@ export default function RequestCookies() {
                 <div style={{
                     display: 'flex',
                     width: '100%',
+                    alignItems: 'center',
+
                 }}>
                     <div style={{
                         width: '10px',
@@ -161,6 +154,8 @@ export default function RequestCookies() {
                 <div style={{
                     display: 'flex',
                     width: '100%',
+                    alignItems: 'center',
+
                 }}>
                     <div style={{
                         width: '10px',
@@ -172,16 +167,17 @@ export default function RequestCookies() {
                         flexGrow: 2,
                         width: "10px",
                     }}>
-                        <input
-                            type="date"
-                            value={cookie.expires === "Infinity" || cookie.expires === null ? "" : cookie.expires.toISOString().split("T")[0]}
-                            onChange={(e) => setCookie({ ...cookie, expires: new Date(e.target.value) })}
+                        <DateTimeInput
+                            date={cookie.expires === "Infinity" ? null : cookie.expires}
+                            setDate={(date) => setCookie({ ...cookie, expires: date })}
                         />
                     </div>
                 </div>
                 <div style={{
                     display: 'flex',
                     width: '100%',
+                    alignItems: 'center',
+
                 }}>
                     <div style={{
                         width: '10px',
@@ -204,6 +200,8 @@ export default function RequestCookies() {
                 <div style={{
                     display: 'flex',
                     width: '100%',
+                    alignItems: 'center',
+
                 }}>
                     <div style={{
                         width: '10px',
@@ -226,6 +224,8 @@ export default function RequestCookies() {
                 <div style={{
                     display: 'flex',
                     width: '100%',
+                    alignItems: 'center',
+
                 }}>
                     <div style={{
                         width: '10px',
@@ -246,6 +246,8 @@ export default function RequestCookies() {
                 <div style={{
                     display: 'flex',
                     width: '100%',
+                    alignItems: 'center',
+
                 }}>
                     <div style={{
                         width: '10px',
@@ -266,6 +268,8 @@ export default function RequestCookies() {
                 <div style={{
                     display: 'flex',
                     width: '100%',
+                    alignItems: 'center',
+
                 }}>
                     <div style={{
                         width: '10px',
@@ -285,8 +289,8 @@ export default function RequestCookies() {
                             ]}
                             theme={theme}
                             value={["Strict", "Lax", "None"].indexOf(cookie.sameSite ?? "")}
-                            onChange={function (value: any): void {
-                                cookie.sameSite = value
+                            onChange={function (value: number): void {
+                                cookie.sameSite = ["Strict", "Lax", "None"][value]
                                 setCookie({ ...cookie })
                             }}
                         />
@@ -295,6 +299,8 @@ export default function RequestCookies() {
                 <div style={{
                     display: 'flex',
                     width: '100%',
+                    alignItems: 'center',
+
                 }}>
                     <div style={{
                         width: '10px',
@@ -306,17 +312,17 @@ export default function RequestCookies() {
                         flexGrow: 2,
                         width: "10px",
                     }}>
-                        <input
-                            type="date"
-                            value={cookie.expires === "Infinity" || cookie.expires === null ? "" : cookie.expires.toISOString().split("T")[0]}
-                            onChange={(e) => setCookie({ ...cookie, expires: new Date(e.target.value) })}
-
+                        <DateTimeInput
+                            date={cookie.creation === "Infinity" ? null : cookie.creation}
+                            setDate={(date) => setCookie({ ...cookie, creation: date })}
                         />
                     </div>
                 </div>
                 <div style={{
                     display: 'flex',
                     width: '100%',
+                    alignItems: 'center',
+
                 }}>
                     <div style={{
                         width: '10px',
@@ -337,6 +343,8 @@ export default function RequestCookies() {
                 <div style={{
                     display: 'flex',
                     width: '100%',
+                    alignItems: 'center',
+
                 }}>
                     <div style={{
                         width: '10px',
@@ -354,62 +362,69 @@ export default function RequestCookies() {
                         />
                     </div>
                 </div>
-                <AwesomeButton
-                    type="primary"
-                    onClick={function (): void {
-                        setCookies([...cookies, cookie])
-                        setCookie(defaultCookie)
-                    }}                >
-                    Add
-                </AwesomeButton>
+                <div>
+                    <AwesomeButton
+                        type="primary"
+                        onClick={function (): void {
+                            if (selected === -1) {
+                                request.data.requestCookies.push(cookie)
+                            } else {
+                                request.data.requestCookies[selected] = cookie
+                            }
+                            setCookie(defaultCookie)
+                            setSelected(-1)
+                            request.setData({ ...request.data })
+                        }}>
+                        {selected === -1 ? "Add" : "Save Edit"}
+                    </AwesomeButton>
+                    <div style={{ width: "20px" }} />
+                    {
+                        selected !== -1 && <AwesomeButton
+                            type="secondary"
+                            onClick={function (): void {
+                                setCookie(defaultCookie)
+                                request.setData({ ...request.data })
+                                setSelected(-1)
+                            }}>
+                            Ignore
+                        </AwesomeButton>
+                    }
+                </div>
             </div>
         </div>
     )
 }
 
-function CookieItem({ selected, enabled, setEnable, key, value, index, onSelect }: {
-    enabled: boolean,
-    setEnable: (value: boolean) => void,
+function CookieItem({ selected, keyValue, value, onSelect }: {
     selected: boolean,
-    key: string,
+    keyValue: string,
     value: string,
-    index: number,
-    onSelect: (value: number) => void,
+    onSelect: () => void,
 }) {
-    const config = useContext(ConfigurationContext)
-    const theme = getThemeColors(config.theme)
-    return <div style={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "row",
-        color: selected ? theme.primaryContainer : theme.generalText,
+    const config = useContext(ConfigurationContext);
+    const theme = getThemeColors(config.theme);
 
-    }}>
-        <label style={{
-            display: 'flex',
-            alignItems: 'center',
-            cursor: 'pointer',
-            userSelect: 'none',
-        }}>
-            <CustomCheckbox
-                checked={enabled}
-                onChange={setEnable}
-            />
-        </label>
-        <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            width: '100%',
-        }}
-            onClick={() => {
-                onSelect(index)
+    console.log("The value we receive is", keyValue);
+
+    return (
+        <div
+            style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "row",
+                color: selected ? theme.primaryText : theme.generalText,
+                backgroundColor: selected ? theme.primaryContainer : 'transparent',
+                borderRadius: '4px',
+                padding: '8px',
+                cursor: 'pointer',
             }}
+            onClick={onSelect}
         >
             <div style={{
                 flexGrow: 1,
                 width: "10px",
             }}>
-                {key}
+                {keyValue}
             </div>
             <div style={{
                 flexGrow: 1,
@@ -418,5 +433,5 @@ function CookieItem({ selected, enabled, setEnable, key, value, index, onSelect 
                 {value}
             </div>
         </div>
-    </div>
+    );
 }

@@ -7,7 +7,7 @@ import { getThemeColors } from '../../themes/getThemeColors';
 import { MdDragHandle } from 'react-icons/md';
 
 interface DraggableListProps {
-    children: ReactElement[];
+    children: ReactElement[] | ReactElement;
     onDragEnd: (result: any) => void;
     header: ReactElement;
 }
@@ -49,8 +49,8 @@ const DraggableItem = ({ id, children, border }: { id: string, children: ReactEl
                         flexShrink: 1,
                         flexGrow: 0,
                     }} {...listeners} {...attributes}>
-                        <MdDragHandle />
-                    </div>
+                    <MdDragHandle />
+                </div>
                 <div style={{
                     height: "1px",
                     flexGrow: 1,
@@ -97,7 +97,7 @@ const DraggableList: React.FC<DraggableListProps> = ({ children, onDragEnd, head
                         margin: '0 4px',
                         fontWeight: 'bold',
                     }}>
-                        <MdDragHandle/>
+                        <MdDragHandle />
                     </div>
                     <div style={{ flex: 1 }}>{header}</div>
                 </div>
