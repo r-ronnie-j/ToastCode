@@ -7,6 +7,7 @@ import VariableWidget from "./configurations/variableWidget"
 import FunctionWidget from "./configurations/functonWidget"
 import EnvironmentComponent from "./configurations/environmentWidget"
 import { SettingsWidget } from "./configurations/settingsWidget"
+import CookiesWidget from "./configurations/cookiesWidget"
 
 export default function ConfigWidget() {
     let config = useContext(ConfigurationContext)
@@ -93,6 +94,7 @@ export default function ConfigWidget() {
                 {conf === 1 && <EnvironmentComponent />}
                 {conf === 2 && <FunctionWidget />}
                 {conf === 3 && <SettingsWidget />}
+                {conf === 4 && <CookiesWidget />}
             </React.Fragment>
         }
     </div>

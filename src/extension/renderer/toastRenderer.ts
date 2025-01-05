@@ -24,6 +24,7 @@ import deleteRequestAtIndex from '../handler/requests/deleteRequestAtIndex';
 import { cookieJar } from '../engine/client';
 import findTosResponse from '../utilities/fileUtility/findTosResponse';
 import readJsonFromFile from '../utilities/fileUtility/readJsonFromFile';
+import cookieDataHandler from '../handler/settingsHandler/cookiesDataHandler';
 
 
 export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
@@ -161,6 +162,11 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
                         webPanel: webviewPanel
                     });
                     return;
+                case MessageType.CookiesData:
+                    cookieDataHandler({
+                        document: document,
+                        webPanel: webviewPanel
+                    });
             }
         });
 

@@ -23,6 +23,8 @@ enum MessageType {
 
     AddRequestAtIndex,
     DeleteRequestAtIndex,
+
+    CookiesData
 }
 
 export default MessageType;

@@ -4,7 +4,6 @@ import { Configuration, MessageData } from "../../../common/interfaces/messages"
 
 export default async function initializeHandler(): Promise<Configuration> {
     return new Promise((resolve) => {
-        console.log("At extension");
         let initTimer = setTimeout(() => {
             vscode.postMessage({
                 type: MessageType.Initialize,
