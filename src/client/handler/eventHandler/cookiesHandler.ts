@@ -19,3 +19,10 @@ export default function getCookieHandler(): Promise<Cookie[]> {
         window.addEventListener('message', listener);
     });
 }
+
+export function updateCookieHandler(data: Cookie[]) {
+    vscode.postMessage({
+        type: MessageType.CookiesSaver,
+        data: data
+    });
+}

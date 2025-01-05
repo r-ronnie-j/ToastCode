@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Cookie } from "../../../common/interfaces/apiRequests";
-import getCookieHandler from "../../handler/eventHandler/getCookiesHandler";
+import getCookieHandler, { updateCookieHandler } from "../../handler/eventHandler/cookiesHandler";
 import CustomSelect from "../../component/Select/CustomSelect";
 import { ConfigurationContext } from "../../context/configurationProvider";
 import { getThemeColors } from "../../themes/getThemeColors";
@@ -28,6 +28,10 @@ export default function CookiesWidget() {
             }
         });
     }, []);
+
+    useEffect(() => {
+        updateCookieHandler(cookies)
+    }, [cookies])
 
     const handleEditClick = (index: number) => {
         setEditingCookieIndex(index);
@@ -84,35 +88,39 @@ export default function CookiesWidget() {
                     </tr>
                 </thead>
                 <tbody style={{ fontSize: "14px" }}>
-                    {cookies.map((cookie, index) => (
-                        <tr key={index} style={{ backgroundColor: index % 2 === 0 ? theme.generalContainer : theme.alternativeContainer }}>
-                            <td style={{ wordWrap: 'break-word', maxWidth: '150px', borderBottom: `1px solid ${theme.simpleBorder}`, padding: "10px" }}>{cookie.key}</td>
-                            <td style={{ wordWrap: 'break-word', maxWidth: '150px', borderBottom: `1px solid ${theme.simpleBorder}`, padding: "10px" }}>{cookie.value}</td>
-                            <td style={{ borderBottom: `1px solid ${theme.simpleBorder}`, padding: "10px" }}>{String(cookie.httpOnly)}</td>
-                            <td style={{ borderBottom: `1px solid ${theme.simpleBorder}`, padding: "10px" }}>{String(cookie.secure)}</td>
-                            <td style={{ wordWrap: 'break-word', maxWidth: '150px', borderBottom: `1px solid ${theme.simpleBorder}`, padding: "10px" }}>{cookie.sameSite}</td>
-                            <td style={{ borderBottom: `1px solid ${theme.simpleBorder}`, padding: "10px", verticalAlign: "top" }}>
-                                <div style={{
-                                    display: "flex",
-                                    justifyContent: "start",
-                                    alignItems: "flex-start",
-                                    gap: "10px"
-                                }}>
-                                    {editingCookieIndex === index ? (
-                                        <>
-                                            <AwesomeButton type="primary" onClick={handleSaveEdit}>Save</AwesomeButton>
-                                            <AwesomeButton type="danger" onClick={() => setEditingCookieIndex(null)}>Cancel</AwesomeButton>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <AwesomeButton type="primary" onClick={() => handleEditClick(index)}>Edit</AwesomeButton>
-                                            <AwesomeButton type="danger" onClick={() => handleDeleteClick(index)}>Delete</AwesomeButton>
-                                        </>
-                                    )}
-                                </div>
-                            </td>
-                        </tr>
-                    ))}
+                    {cookies.map((cookie, index) => {
+                        if (cookie.domain === domains[selectedDomainIndex]) {
+                            return <tr key={index} style={{ backgroundColor: index % 2 === 0 ? theme.generalContainer : theme.alternativeContainer }}>
+                                <td style={{ wordWrap: 'break-word', maxWidth: '150px', borderBottom: `1px solid ${theme.simpleBorder}`, padding: "10px" }}>{cookie.key}</td>
+                                <td style={{ wordWrap: 'break-word', maxWidth: '150px', borderBottom: `1px solid ${theme.simpleBorder}`, padding: "10px" }}>{cookie.value}</td>
+                                <td style={{ borderBottom: `1px solid ${theme.simpleBorder}`, padding: "10px" }}>{String(cookie.httpOnly)}</td>
+                                <td style={{ borderBottom: `1px solid ${theme.simpleBorder}`, padding: "10px" }}>{String(cookie.secure)}</td>
+                                <td style={{ wordWrap: 'break-word', maxWidth: '150px', borderBottom: `1px solid ${theme.simpleBorder}`, padding: "10px" }}>{cookie.sameSite}</td>
+                                <td style={{ borderBottom: `1px solid ${theme.simpleBorder}`, padding: "10px", verticalAlign: "top" }}>
+                                    <div style={{
+                                        display: "flex",
+                                        justifyContent: "start",
+                                        alignItems: "flex-start",
+                                        gap: "10px"
+                                    }}>
+                                        {editingCookieIndex === index ? (
+                                            <>
+                                                <AwesomeButton type="primary" onClick={handleSaveEdit}>Save</AwesomeButton>
+                                                <AwesomeButton type="danger" onClick={() => setEditingCookieIndex(null)}>Cancel</AwesomeButton>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <AwesomeButton type="primary" onClick={() => handleEditClick(index)}>Edit</AwesomeButton>
+                                                <AwesomeButton type="danger" onClick={() => handleDeleteClick(index)}>Delete</AwesomeButton>
+                                            </>
+                                        )}
+                                    </div>
+                                </td>
+                            </tr>
+                        } else {
+                            return ""
+                        }
+                    })}
                 </tbody>
             </table>
 
@@ -145,8 +153,8 @@ export default function CookiesWidget() {
                             creation: "Creation",
                             hostOnly: "Host Only",
                             pathIsDefault: "Path Is Default"
-                        }).map(([fieldName, label]) => (
-                            <div key={fieldName} style={{ marginBottom: '15px', display: 'flex', flexDirection: 'column', maxWidth: '400px' }}>
+                        }).map(([fieldName, label]) => {
+                            return <div key={fieldName} style={{ marginBottom: '15px', display: 'flex', flexDirection: 'column', maxWidth: '400px' }}>
                                 <label htmlFor={fieldName} style={{ marginBottom: '5px' }}>{label}</label>
                                 {fieldName === "httpOnly" || fieldName === "secure" || fieldName === "hostOnly" || fieldName === "pathIsDefault" ? (
                                     <input
@@ -192,7 +200,7 @@ export default function CookiesWidget() {
                                     />
                                 )}
                             </div>
-                        ))}
+                        })}
                     </div>
                     {/* Buttons for Add/Edit */}
                     <div style={{

@@ -25,6 +25,7 @@ import { cookieJar } from '../engine/client';
 import findTosResponse from '../utilities/fileUtility/findTosResponse';
 import readJsonFromFile from '../utilities/fileUtility/readJsonFromFile';
 import cookieDataHandler from '../handler/settingsHandler/cookiesDataHandler';
+import cookieSaverHandler from '../handler/settingsHandler/cookieSaverHandler';
 
 
 export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
@@ -166,6 +167,11 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
                     cookieDataHandler({
                         document: document,
                         webPanel: webviewPanel
+                    });
+                case MessageType.CookiesSaver:
+                    cookieSaverHandler({
+                        document: document,
+                        data: e.data
                     });
             }
         });
