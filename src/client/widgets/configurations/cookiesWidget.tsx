@@ -4,6 +4,7 @@ import getCookieHandler from "../../handler/eventHandler/getCookiesHandler";
 import CustomSelect from "../../component/Select/CustomSelect";
 import { ConfigurationContext } from "../../context/configurationProvider";
 import { getThemeColors } from "../../themes/getThemeColors";
+import AwesomeButton from "../../component/Button/AwesomButton";
 
 export default function CookiesWidget() {
     const [cookies, setCookies] = useState<Cookie[]>([]);
@@ -70,7 +71,7 @@ export default function CookiesWidget() {
                 </div>
             </div>
 
-            <table style={{ marginTop: '20px', borderCollapse: 'collapse', width: '100%', border: '1px solid #ccc' }}>
+            <table style={{ marginTop: '20px', borderCollapse: 'collapse', width: '100%', border: `1px solid ${theme.simpleBorder}` }}>
                 <thead>
                     <tr>
                         <th>Key</th>
@@ -81,46 +82,50 @@ export default function CookiesWidget() {
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody style={{
+                    fontSize: "14px"
+                }}>
                     {cookies.map((cookie, index) => (
                         <tr key={index}>
-                            <td style={{ wordWrap: 'break-word', maxWidth: '150px', border: '1px solid #ccc' }}>
-                                {editingCookieIndex === index ?
-                                    <input type="text" value={newCookie.key || cookie.key} onChange={(e) => setNewCookie({ ...newCookie, key: e.target.value })} /> :
-                                    cookie.key}
+                            <td style={{ wordWrap: 'break-word', maxWidth: '150px', border: `1px solid ${theme.simpleBorder}`, padding: "3px" }}>
+                                {cookie.key}
                             </td>
-                            <td style={{ wordWrap: 'break-word', maxWidth: '150px', border: '1px solid #ccc' }}>
-                                {editingCookieIndex === index ?
-                                    <input type="text" value={newCookie.value || cookie.value} onChange={(e) => setNewCookie({ ...newCookie, value: e.target.value })} /> :
-                                    cookie.value}
+                            <td style={{ wordWrap: 'break-word', maxWidth: '150px', border: `1px solid ${theme.simpleBorder}`, padding: "3px" }}>
+                                {cookie.value}
                             </td>
-                            <td style={{ border: '1px solid #ccc' }}>
-                                {editingCookieIndex === index ?
-                                    <input type="checkbox" checked={newCookie.httpOnly ?? cookie.httpOnly} onChange={(e) => setNewCookie({ ...newCookie, httpOnly: e.target.checked })} /> :
-                                    String(cookie.httpOnly)}
+                            <td style={{ border: `1px solid ${theme.simpleBorder}`, padding: "3px" }}>
+                                {String(cookie.httpOnly)}
                             </td>
-                            <td style={{ border: '1px solid #ccc' }}>
-                                {editingCookieIndex === index ?
-                                    <input type="checkbox" checked={newCookie.secure ?? cookie.secure} onChange={(e) => setNewCookie({ ...newCookie, secure: e.target.checked })} /> :
-                                    String(cookie.secure)}
+                            <td style={{ border: `1px solid ${theme.simpleBorder}`, padding: "3px" }}>
+                                {String(cookie.secure)}
                             </td>
-                            <td style={{ wordWrap: 'break-word', maxWidth: '150px', border: '1px solid #ccc' }}>
-                                {editingCookieIndex === index ?
-                                    <input type="text" value={newCookie.sameSite || cookie.sameSite} onChange={(e) => setNewCookie({ ...newCookie, sameSite: e.target.value })} /> :
-                                    cookie.sameSite}
+                            <td style={{ wordWrap: 'break-word', maxWidth: '150px', border: `1px solid ${theme.simpleBorder}`, padding: "3px" }}>
+                                {cookie.sameSite}
                             </td>
-                            <td style={{ border: '1px solid #ccc' }}>
-                                {editingCookieIndex === index ? (
-                                    <>
-                                        <button onClick={handleSaveEdit}>Save</button>
-                                        <button onClick={() => setEditingCookieIndex(null)}>Cancel</button>
-                                    </>
-                                ) : (
-                                    <>
-                                        <button onClick={() => handleEditClick(index)}>Edit</button>
-                                        <button onClick={() => handleDeleteClick(index)}>Delete</button>
-                                    </>
-                                )}
+                            <td style={{
+                                border: `1px solid ${theme.simpleBorder}`,
+                                padding: "3px",
+                                verticalAlign: "top" // Align the content to the top
+                            }}>
+                                <div style={{
+                                    display: "flex",
+                                    justifyContent: "start",
+                                    alignItems: "flex-start", // Ensure buttons are aligned at the top
+                                    gap: "10px",
+                                    height: "auto"
+                                }}>
+                                    {editingCookieIndex === index ? (
+                                        <>
+                                            <AwesomeButton type="primary" onClick={handleSaveEdit}>Save</AwesomeButton>
+                                            <AwesomeButton type="danger" onClick={() => setEditingCookieIndex(null)}>Cancel</AwesomeButton>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <AwesomeButton type="primary" onClick={() => handleEditClick(index)}>Edit</AwesomeButton>
+                                            <AwesomeButton type="danger" onClick={() => handleDeleteClick(index)}>Delete</AwesomeButton>
+                                        </>
+                                    )}
+                                </div>
                             </td>
                         </tr>
                     ))}
@@ -128,11 +133,16 @@ export default function CookiesWidget() {
             </table>
 
             {/* Add Cookie Button */}
-            <button onClick={handleAddClick} style={{ marginTop: '20px' }}>Add Cookie</button>
+            <div style={{
+                width: "90%",
+                marginTop: "20px"
+            }}>
+                <AwesomeButton onClick={handleAddClick} type="primary">Add Cookie</AwesomeButton>
+            </div>
 
             {/* Add/Edit Form */}
-            {(editingCookieIndex === -1 || editingCookieIndex === null) && (
-                <div style={{ marginTop: '20px' }}>
+            {editingCookieIndex !== null && (
+                <div style={{ marginTop: '20px', color: theme.generalText, fontSize: "14px" }}>
                     <h3>{editingCookieIndex === -1 ? 'Add New Cookie' : 'Edit Cookie'}</h3>
 
                     {/* Form Fields */}
@@ -143,15 +153,18 @@ export default function CookiesWidget() {
                         secure: "Secure",
                         sameSite: "SameSite"
                     }).map(([fieldName, label]) => (
-                        <div key={fieldName} style={{ marginBottom: '10px', display: 'flex', flexDirection: 'column' }}>
+                        <div key={fieldName} style={{ marginBottom: '10px', display: 'flex', flexDirection: 'column', maxWidth: '400px' }}>
                             <label htmlFor={fieldName}>{label}</label>
                             {fieldName === "httpOnly" || fieldName === "secure" ? (
-                                <input
-                                    type="checkbox"
-                                    id={fieldName}
-                                    checked={!!newCookie[fieldName]}
-                                    onChange={(e) => setNewCookie({ ...newCookie, [fieldName]: e.target.checked })}
-                                />
+                                <div style={{ display: 'flex', alignItems: 'flex-start', marginTop: '5px' }}>
+                                    <input
+                                        type="checkbox"
+                                        id={fieldName}
+                                        style={{ marginRight: '5px' }}
+                                        checked={!!newCookie[fieldName]}
+                                        onChange={(e) => setNewCookie({ ...newCookie, [fieldName]: e.target.checked })}
+                                    />
+                                </div>
                             ) : (
                                 <input
                                     type="text"
@@ -159,21 +172,82 @@ export default function CookiesWidget() {
                                     placeholder={`Enter ${label}`}
                                     value={newCookie[fieldName as keyof Cookie] as any || ''}
                                     onChange={(e) => setNewCookie({ ...newCookie, [fieldName]: e.target.value })}
+                                    style={{
+                                        maxWidth: '400px',
+                                        background: 'transparent',
+                                        padding: '8px',
+                                        border: '1px solid #ccc',
+                                        borderRadius: '4px'
+                                    }}
                                 />
                             )}
                         </div>
                     ))}
 
                     {editingCookieIndex === -1 ? (
-                        <button onClick={handleSaveNew}>Add Cookie</button>
+                        <>
+                            <button
+                                onClick={handleSaveNew}
+                                style={{
+                                    padding: '10px 20px',
+                                    background: '#007bff',
+                                    color: '#fff',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer',
+                                    marginRight: '10px'
+                                }}
+                            >
+                                Add Cookie
+                            </button>
+                            <button
+                                onClick={() => setEditingCookieIndex(null)}
+                                style={{
+                                    padding: '10px 20px',
+                                    background: '#6c757d',
+                                    color: '#fff',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        </>
                     ) : (
                         <>
-                            <button onClick={() => handleSaveEdit()}>Update Cookie</button>
-                            <button onClick={() => setEditingCookieIndex(null)}>Cancel</button>
+                            <button
+                                onClick={() => handleSaveEdit()}
+                                style={{
+                                    padding: '10px 20px',
+                                    background: theme.primaryContainer,
+                                    color: theme.primaryText,
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer',
+                                    marginRight: '10px'
+                                }}
+                            >
+                                Update Cookie
+                            </button>
+                            <button
+                                onClick={() => setEditingCookieIndex(null)}
+                                style={{
+                                    padding: '10px 20px',
+                                    background: theme.warningContainer,
+                                    color: theme.primaryText,
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                Cancel
+                            </button>
                         </>
                     )}
                 </div>
             )}
+
         </div>
     );
 }
