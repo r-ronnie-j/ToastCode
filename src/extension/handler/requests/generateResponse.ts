@@ -9,6 +9,7 @@ import { configFile } from "../../cache/loadDocument";
 import path from "path";
 import * as fs from "fs/promises";
 import findTosResponse from "../../utilities/fileUtility/findTosResponse";
+import { cookieJar } from "../../engine/client";
 
 export default async function generateResponse({
     webviewPanel, document, data
@@ -20,26 +21,19 @@ export default async function generateResponse({
 
     let response: ApiResponse | null = null;
     try {
-        response = await axiosPostHandler(data, document.uri.fsPath);
+        response = await fetchHandler(data, document.uri.fsPath);
     } catch (err) {
         try {
-            response = await fetchHandler(data, document.uri.fsPath);
+            response = await gotHandler(data, document.uri.fsPath);
         } catch (err) {
             try {
-                response = await gotHandler(data, document.uri.fsPath);
+                response = await axiosPostHandler(data, document.uri.fsPath);
             } catch (err) {
                 console.log(err);
             }
         }
     }
 
-    // if (response !== null) {
-    //     fileSaverHandler({
-    //         webview: webviewPanel,
-    //         content: response,
-    //         document
-    //     });
-    // }
 
     webviewPanel.webview.postMessage({
         type: MessageType.GetResponse,
@@ -50,6 +44,9 @@ export default async function generateResponse({
     if (response !== null) {
         let responseDir = await findTosResponse({ document });
         let responseFile = path.join(responseDir, `${data.nonce}.json`);
+        let cookieFile = path.join(responseDir, '.cookie.json');
         await fs.writeFile(responseFile, JSON.stringify(response, null, 2));
+        let cookieData = await cookieJar.store.getAllCookies();
+        await fs.writeFile(cookieFile, JSON.stringify(cookieData, null, 2));
     }
 }

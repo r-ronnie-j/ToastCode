@@ -21,6 +21,9 @@ import loadExampleHandler from '../handler/example/loadExampleHandler';
 import fileDeleteHandler from '../handler/fileHandler/fileDeleteHandler';
 import addRequestAtIndex from '../handler/requests/addRequestAtIndex';
 import deleteRequestAtIndex from '../handler/requests/deleteRequestAtIndex';
+import { cookieJar } from '../engine/client';
+import findTosResponse from '../utilities/fileUtility/findTosResponse';
+import readJsonFromFile from '../utilities/fileUtility/readJsonFromFile';
 
 
 export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
@@ -42,16 +45,15 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
 
     constructor(
         private readonly context: vscode.ExtensionContext
-    ) { }
+    ) {
+
+    }
 
     public async resolveCustomTextEditor(
         document: vscode.TextDocument,
         webviewPanel: vscode.WebviewPanel,
         _token: vscode.CancellationToken
     ): Promise<void> {
-
-
-
         webviewPanel.webview.options = {
             enableScripts: true,
         };
@@ -60,6 +62,18 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
         vscode.workspace.onDidChangeConfiguration((event) => {
             if (event.affectsConfiguration("workbench.colorTheme") || event.affectsConfiguration("editor.fontSize")) {
                 initializeHandler(document, webviewPanel);
+            }
+        });
+
+        findTosResponse({ document }).then(async (x) => {
+            let cookieFile = path.join(x, ".cookie.json");
+            let cookieData = await readJsonFromFile(cookieFile);
+            try {
+                if (Array.isArray(cookieData)) {
+                    cookieData.map(async (c) => await cookieJar.store.putCookie(c));
+                }
+            } catch (err) {
+                console.log("There was some error while uploading cookies");
             }
         });
 
