@@ -64,7 +64,8 @@ const DateTimeInput: React.FC<DateTimeInputProps> = ({ date, setDate }) => {
         border: `1px solid ${theme.simpleBorder}`,
         transition: 'border-color 0.3s',
         backgroundColor: "transparent",
-        color: theme.generalText
+        color: theme.generalText,
+        appearance: "none"
     };
 
     const inputFocusStyle = {
@@ -82,7 +83,7 @@ const DateTimeInput: React.FC<DateTimeInputProps> = ({ date, setDate }) => {
                     value={inputs.year}
                     placeholder="YYYY"
                     onChange={(e) => handleInputChange('year', e.target.value)}
-                    style={inputStyle}
+                    style={inputStyle as any}
                     min="1900" // Set a minimum year
                     max={new Date().getFullYear() + 10} // Set a maximum year (10 years in the future)
                     onFocus={(e) => (e.currentTarget.style.borderColor = inputFocusStyle.borderColor)}
@@ -96,7 +97,7 @@ const DateTimeInput: React.FC<DateTimeInputProps> = ({ date, setDate }) => {
                     value={inputs.month}
                     placeholder="MM"
                     onChange={(e) => handleInputChange('month', e.target.value)}
-                    style={inputStyle}
+                    style={inputStyle as any}
                     min="1" // Months range from 1 to 12
                     max="12"
                     onFocus={(e) => (e.currentTarget.style.borderColor = inputFocusStyle.borderColor)}
@@ -110,7 +111,7 @@ const DateTimeInput: React.FC<DateTimeInputProps> = ({ date, setDate }) => {
                     value={inputs.day}
                     placeholder="DD"
                     onChange={(e) => handleInputChange('day', e.target.value)}
-                    style={inputStyle}
+                    style={inputStyle as any}
                     min="1" // Days range from 1 to 31 (adjust based on month)
                     max="31"
                     onFocus={(e) => (e.currentTarget.style.borderColor = inputFocusStyle.borderColor)}
@@ -124,7 +125,7 @@ const DateTimeInput: React.FC<DateTimeInputProps> = ({ date, setDate }) => {
                     value={inputs.hour}
                     placeholder="HH"
                     onChange={(e) => handleInputChange('hour', e.target.value)}
-                    style={inputStyle}
+                    style={inputStyle as any}
                     min="0" // Hours range from 0 to 23
                     max="23"
                     onFocus={(e) => (e.currentTarget.style.borderColor = inputFocusStyle.borderColor)}
@@ -138,7 +139,7 @@ const DateTimeInput: React.FC<DateTimeInputProps> = ({ date, setDate }) => {
                     value={inputs.minute}
                     placeholder="MM"
                     onChange={(e) => handleInputChange('minute', e.target.value)}
-                    style={inputStyle}
+                    style={inputStyle as any}
                     min="0" // Minutes range from 0 to 59
                     max="59"
                     onFocus={(e) => (e.currentTarget.style.borderColor = inputFocusStyle.borderColor)}
@@ -152,7 +153,7 @@ const DateTimeInput: React.FC<DateTimeInputProps> = ({ date, setDate }) => {
                     value={inputs.second}
                     placeholder="SS"
                     onChange={(e) => handleInputChange('second', e.target.value)}
-                    style={inputStyle}
+                    style={inputStyle as any}
                     min="0" // Seconds range from 0 to 59
                     max="59"
                     onFocus={(e) => (e.currentTarget.style.borderColor = inputFocusStyle.borderColor)}
