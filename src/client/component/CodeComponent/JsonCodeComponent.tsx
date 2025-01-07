@@ -102,7 +102,6 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
                     flexGrow: 1,
                     width: "10px",
                     overflow: "hidden",
-                    height: '100%',
                     background: theme.generalContainer
                 }}
             />
