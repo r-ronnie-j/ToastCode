@@ -60,6 +60,7 @@ export default function MainWidget({ raw, index, onDelete }: {
                             <div style={{
                                 flex: 1,
                                 padding: "5px",
+                                width: "10px"
                             }}>
                                 <RequestComponent isCodeView={isCodeView} index={index} />
                             </div>
@@ -72,7 +73,7 @@ export default function MainWidget({ raw, index, onDelete }: {
                                     alignSelf: "stretch",
                                 }}
                             ></div>
-                            <div style={{ flex: 1, padding: "5px" }}>
+                            <div style={{ flex: 1, padding: "5px", width: "10px" }}>
                                 <ResponseComponent requestIndex={index} />
                             </div>
                         </div>

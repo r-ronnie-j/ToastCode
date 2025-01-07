@@ -162,7 +162,7 @@ const DocumentedInput = ({
             // If the part is a `${}` pattern, style it with infoColor
             if (part.startsWith("${") && part.endsWith("}")) {
                 return (
-                    <span key={index} style={{ color: theme.infoColor }}>
+                    <span key={index} style={{ color: theme.infoColor, wordBreak: "break-word" }}>
                         {part}
                     </span>
                 );
@@ -171,7 +171,10 @@ const DocumentedInput = ({
             // If the part is a `#{}` pattern, style it with secondaryColor
             if (part.startsWith("#{") && part.endsWith("}")) {
                 return (
-                    <span key={index} style={{ color: theme.accentColor }}>
+                    <span key={index} style={{
+                        color: theme.accentColor,
+                        wordBreak: "break-word"
+                    }}>
                         {part}
                     </span>
                 );
@@ -193,7 +196,9 @@ const DocumentedInput = ({
                 padding: '8px', // Increase padding for better spacing
                 transition: 'min-height 0.2s ease',
                 backgroundColor: 'transparent',
-                color: theme.generalText
+                color: theme.generalText,
+                wordBreak: "break-all",
+                overflowWrap: "break-word"
             }}>
                 <div style={{ flexGrow: 1 }}>
                     <div style={{
@@ -203,6 +208,8 @@ const DocumentedInput = ({
                         letterSpacing: '0.5px',
                         fontSize: '16px',  // Increased font size
                         fontFamily: 'Arial, sans-serif',
+                        wordBreak: "break-all",
+                        overflowWrap: "break-word",
                     }}>
                         {renderInputValue()}
                     </div>
@@ -230,6 +237,8 @@ const DocumentedInput = ({
                             backgroundColor: "transparent",
                             resize: 'none',
                             overflowY: 'hidden',
+                            wordBreak: "break-all",
+                            overflowWrap: "break-word"
                         }}
                         placeholder={placeholder}
                     />
@@ -251,6 +260,7 @@ const DocumentedInput = ({
                     minHeight: '200px',
                     maxHeight: '300px',
                     alignItems: 'stretch',
+
                 }}>
                     <div style={{
                         flexGrow: 1,

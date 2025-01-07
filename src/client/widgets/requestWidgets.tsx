@@ -140,7 +140,8 @@ export default function RequestComponent({ isCodeView, index }: { isCodeView: bo
                 <div style={{
                     fontWeight: "bold",
                     fontSize: `${config.fontSize * 1.2}px`,
-                    color: theme.primaryContainer
+                    color: theme.primaryContainer,
+                    wordBreak:"keep-all"
                 }}>URL : </div>
                 <div style={{ flexGrow: 1 }}><DocumentedInput
                     suggestions={generatorFuncDescriptions}
