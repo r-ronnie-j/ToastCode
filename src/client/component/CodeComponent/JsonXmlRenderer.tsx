@@ -33,7 +33,6 @@ const JsonXmlRenderer = ({ value, type = "json", key }: {
                 },
                 scrollbar: {
                     verticalScrollbarSize: 5
-
                 },
                 readOnly: true,
                 wordWrap: "on",

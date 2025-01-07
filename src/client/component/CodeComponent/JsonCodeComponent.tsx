@@ -15,7 +15,7 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
     const config = useContext(ConfigurationContext)
     const theme = getThemeColors(config.theme)
     const editorRef = useRef<any>(null);
-    const [lines, setLines] = useState(8);
+    const [lines, setLines] = useState(24);
 
     useEffect(() => {
         loader.init().then((monaco) => {
@@ -31,6 +31,9 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
                 minimap: {
                     enabled: false
                 },
+                scrollbar: {
+                    verticalScrollbarSize: 8
+                },
             });
 
 
@@ -40,58 +43,55 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
                 const newValue = m.getValue();
                 console.log(typeof newValue, "Checking type of new value")
                 setValue(newValue);
-                updateEditorHeight(m);
+                // updateEditorHeight(m);
             });
 
             window.addEventListener('resize', () => {
                 editorRef.current.layout();
             });
 
-            updateEditorHeight(m);
+            // updateEditorHeight(m);
 
-            function scrollEventListener(event: WheelEvent) {
-                event.preventDefault();
-                const scrollAmountY = event.deltaY;
-                const scrollAmountX = event.deltaX;
-                window.scrollBy({
-                    top: scrollAmountY,
-                    left: scrollAmountX,
-                    behavior: "smooth"
-                });
-            }
+            // function scrollEventListener(event: WheelEvent) {
+            //     event.preventDefault();
+            //     const scrollAmountY = event.deltaY;
+            //     const scrollAmountX = event.deltaX;
+            //     window.scrollBy({
+            //         top: scrollAmountY,
+            //         left: scrollAmountX,
+            //         behavior: "smooth"
+            //     });
+            // }
 
-            x.addEventListener("wheel", scrollEventListener, {
-                capture: true,
-            })
+            // x.addEventListener("wheel", scrollEventListener, {
+            //     capture: true,
+            // })
 
-            return () => {
-                if (editorRef.current) {
-                    editorRef.current.dispose();
-                }
-                window.removeEventListener('resize', () => {
-                    editorRef.current.layout();
-                });
-                x.removeEventListener("wheel", scrollEventListener)
-            };
+            // return () => {
+            //     if (editorRef.current) {
+            //         editorRef.current.dispose();
+            //     }
+            //     window.removeEventListener('resize', () => {
+            //         editorRef.current.layout();
+            //     });
+            //     x.removeEventListener("wheel", scrollEventListener)
+            // };
         });
     }, []);
 
-    const updateEditorHeight = (editor: any) => {
-        const lineCount = editor.getModel()?.getLineCount() || 1;
-        if (lineCount > lines) {
-            setLines(lineCount)
-        }
-        editor.layout();
-    };
+  
 
     return <div style={{
         position: "relative",
         width: "10px",
         flexGrow: flex,
-        borderLeft: border ? `solid 1px ${theme.simpleBorder}` : "none"
+        borderLeft: border ? `solid 1px ${theme.simpleBorder}` : "none",
+        background: theme.alternativeContainer,
+        borderRadius: "10px",
     }}>
         <div style={{
-            height: `${lines * 20 + 20}px`,
+            minHeight: `${lines * 20}px`,
+            padding: "10px",
             overflow: "hidden",
             display: "flex",
             flexDirection: "row"
@@ -103,6 +103,7 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
                     width: "10px",
                     overflow: "hidden",
                     height: '100%',
+                    background: theme.generalContainer
                 }}
             />
         </div>
