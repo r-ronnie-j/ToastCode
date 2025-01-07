@@ -60,16 +60,17 @@ export default function RequestPath() {
                         {key}
                     </div>
                     <SimpleInputSuggestions
-                        suggestions={[...variablesContext.vars.slice(0, -1).map((a) => {
-                            return {
-                                name: `\$\{${a.key}\}`,
-                            }
-                        }),
-                        ...generatorFuncDescriptions.map((a) => {
-                            return {
-                                name: `\$\{${a.name}()\}`,
-                            }
-                        })
+                        suggestions={[
+                            ...variablesContext.vars.slice(0, -1).map((a) => {
+                                return {
+                                    name: `\$\{${a.key}\}`,
+                                }
+                            }),
+                            ...generatorFuncDescriptions.map((a) => {
+                                return {
+                                    name: `\$\{${a.name}()\}`,
+                                }
+                            })
                         ]}
                         flex={3}
                         inputValue={value}

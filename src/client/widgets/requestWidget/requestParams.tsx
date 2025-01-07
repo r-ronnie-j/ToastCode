@@ -6,6 +6,8 @@ import DraggableList from "../../component/Draggable/DraggableList"
 import SimpleInputSuggestions from "../../component/Input/SimpleInputSuggestion"
 import CustomCheckbox from "../../component/Input/CheckBox"
 import { allHttpHeaders } from "../../../common/constants/allHeaders"
+import { VariableContext } from "../../context/variableContext"
+import { generatorFuncDescriptions } from "../../../common/generators/generatorDocumentation"
 
 
 export default function RequestParams() {
@@ -93,6 +95,8 @@ export default function RequestParams() {
 function ParamsIndividual({ index }: { index: number }) {
   const requestData = useContext(RequestContext);
 
+  let variablesContext = useContext(VariableContext)
+
   const params = requestData.data.params.at(index);
 
   if (!params) {
@@ -110,7 +114,7 @@ function ParamsIndividual({ index }: { index: number }) {
       });
     }
 
-    requestData.setData({...requestData.data});
+    requestData.setData({ ...requestData.data });
   };
 
   const handleChangeValue = (value: string) => {
@@ -124,7 +128,7 @@ function ParamsIndividual({ index }: { index: number }) {
       });
     }
 
-    requestData.setData({...requestData.data});
+    requestData.setData({ ...requestData.data });
   };
 
   return (
@@ -142,25 +146,39 @@ function ParamsIndividual({ index }: { index: number }) {
         checked={params?.enabled}
         onChange={(x) => {
           params.enabled = x;
-          requestData.setData({...requestData.data});
+          requestData.setData({ ...requestData.data });
         }}
       />
       <SimpleInputSuggestions
-        suggestions={Object.keys(allHttpHeaders).map((x) => ({
-          name: x,
-        }))}
+        suggestions={[
+          ...variablesContext.vars.slice(0, -1).map((a) => {
+            return {
+              name: `\$\{${a.key}\}`,
+            }
+          }),
+          ...generatorFuncDescriptions.map((a) => {
+            return {
+              name: `\$\{${a.name}()\}`,
+            }
+          })
+        ]}
         flex={1}
         inputValue={params.key ?? ''}
         setInputValue={handleChangeKey}
       />
       <SimpleInputSuggestions
-        suggestions={
-          params.key && params.key in allHttpHeaders
-            ? (allHttpHeaders as Record<string, string[]>)[params.key].map((x: string) => ({
-              name: x,
-            }))
-            : []
-        }
+        suggestions={[
+          ...variablesContext.vars.slice(0, -1).map((a) => {
+            return {
+              name: `\$\{${a.key}\}`,
+            }
+          }),
+          ...generatorFuncDescriptions.map((a) => {
+            return {
+              name: `\$\{${a.name}()\}`,
+            }
+          })
+        ]}
         flex={3}
         inputValue={params.value ?? ''}
         setInputValue={handleChangeValue}
