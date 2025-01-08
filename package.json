@@ -40,7 +40,7 @@
         "displayName": "Toast Renderer",
         "selector": [
           {
-            "filenamePattern": "*.toos"
+            "filenamePattern": "*.tos"
           }
         ],
         "priority": "default"

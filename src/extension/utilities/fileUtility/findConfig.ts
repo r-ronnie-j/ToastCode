@@ -1,8 +1,8 @@
 import path from "path";
 import * as fs from "fs";
 
-export async function findConfigTos(startPath: string, targetFile = 'config.toos') {
-    let parsedPath = path.parse(startPath)
+export async function findConfigTos(startPath: string, targetFile = 'config.tos') {
+    let parsedPath = path.parse(startPath);
     if (parsedPath.name === "config") {
         return startPath;
     }
