@@ -33,24 +33,6 @@ export default async function addRequestAtIndex({
     webPanel: vscode.WebviewPanel,
     data: number,
 }) {
-    const documentPath = document.uri.fsPath;
-
-    console.log("The request to add the request is at", data);
-
-    const dirPath = path.dirname(documentPath);
-    const responseDir = path.join(dirPath, 'tos.response');
-
-    if (!fs.existsSync(responseDir)) {
-        fs.mkdirSync(responseDir, { recursive: true });
-    }
-
-    const baseName = path.basename(documentPath, path.extname(documentPath));
-    const logDir = path.join(responseDir, baseName);
-
-    if (!fs.existsSync(logDir)) {
-        fs.mkdirSync(logDir, { recursive: true });
-    }
-
     const rawDocument = RequestCache.apis;
     let newContent = getDefaultContent();
     rawDocument.splice(data, 0, newContent);

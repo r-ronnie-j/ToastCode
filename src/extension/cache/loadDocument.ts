@@ -67,6 +67,9 @@ export default async function loadDocument(docs: vscode.TextDocument) {
 
     if (!isConfigFile(docs.uri.path)) {
         const text = docs.getText().trim();
-        RequestCache.initialize(text.split(ToastRendererProvider.documentSeperator).map((x) => x.trim()));
+        RequestCache.initialize(text
+            .trim()
+            .split(ToastRendererProvider.documentSeperator)
+            .map((x) => x.trim()));
     }
 }
