@@ -209,6 +209,11 @@ function FormComponent({ index }: { index: number }) {
                 />
             </div>
         }
-        <div style={{ margin: "4px 4px", cursor: "pointer" }}>🗑️</div>
+        <div style={{ margin: "4px 4px", cursor: "pointer" }} onClick={() => {
+            if (index !== requestContext.data.formData.length - 1) {
+                requestContext.data.formData = requestContext.data.formData.splice(index, 1)
+                requestContext.setData({ ...requestContext.data })
+            }
+        }}>🗑️</div>
     </div>
 }

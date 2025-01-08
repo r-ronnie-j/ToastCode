@@ -136,6 +136,13 @@ function IndividualUrlEncoded({ index }: { index: number }) {
                 requestContext.setData({ ...requestContext.data })
             }}
         />
-        <div style={{ margin: "0 4px", cursor: "pointer" }}>🗑️</div>
+        <div style={{ margin: "0 4px", cursor: "pointer" }} onClick={() => {
+            if (index !== requestContext.data.urlEncoded.length - 1) {
+                requestContext.data.urlEncoded = {
+                    ...requestContext.data.urlEncoded
+                }
+                requestContext.setData({ ...requestContext.data })
+            }
+        }}>🗑️</div>
     </div>
 }

@@ -106,7 +106,6 @@ export default function RequestProvider({ children, raw, index }: {
     }, [apiData.nonce])
 
     useEffect(() => {
-        console.log("what are we doing here ? ", init)
         if (init) {
             console.log("Are we here cvvbv")
             const regex = /#\{(.*?)\}/g;
@@ -148,7 +147,28 @@ export default function RequestProvider({ children, raw, index }: {
             setApiData({ ...apiData });
         }
     }, [
-        apiData
+        apiData.binary,
+        apiData.examples,
+        apiData.formData,
+        apiData.headers,
+        apiData.html,
+        apiData.https,
+        apiData.js,
+        apiData.json,
+        apiData.method,
+        apiData.name,
+        apiData.params,
+        apiData.path,
+        apiData.rawCode,
+        apiData.requestCookies,
+        apiData.requestDataType,
+        apiData.tests,
+        apiData.text,
+        apiData.timeout,
+        apiData.timeoutType,
+        apiData.url,
+        apiData.urlEncoded,
+        apiData.xml,
     ])
 
 

@@ -3,18 +3,22 @@ import { ConfigurationContext } from "../../../context/configurationProvider";
 import { getThemeColors } from "../../../themes/getThemeColors";
 import fileHandler from "../../../handler/eventHandler/fileHandler/fileHandler";
 import AwesomeButton from "../../../component/Button/AwesomButton";
+import { RequestContext } from "../../../context/requestContext";
 
 
-const BodyBinary: React.FC = ({ path }: { path?: string }) => {
+const BodyBinary: React.FC = () => {
     const config = useContext(ConfigurationContext);
+    const requestContext = useContext(RequestContext)
     const theme = getThemeColors(config.theme);
-    const [fileName, setFileName] = useState<string>(path ?? "");
+    const [fileName, setFileName] = useState<string>(requestContext.data.binary ?? "");
 
     const handleButtonClick = async () => {
         const file = await fileHandler();
         if (file !== null) {
             setFileName(file);
         }
+        requestContext.data.binary = file ?? undefined
+        requestContext.setData({ ...requestContext.data })
     };
 
     return (
@@ -36,14 +40,12 @@ const BodyBinary: React.FC = ({ path }: { path?: string }) => {
                 color: theme.primaryText,
                 textAlign: 'center',
             }}>Upload Your File</div>
-            {
-                !path && <AwesomeButton
-                    type="primary"
-                    onClick={handleButtonClick}
-                >
-                    Select File
-                </AwesomeButton>
-            }
+            <AwesomeButton
+                type="primary"
+                onClick={handleButtonClick}
+            >
+                Select File
+            </AwesomeButton>
             {fileName && (
                 <div style={{
                     marginTop: '20px',
