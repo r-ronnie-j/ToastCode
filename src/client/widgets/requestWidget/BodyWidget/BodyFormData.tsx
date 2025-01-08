@@ -83,6 +83,7 @@ export default function BodyFormData() {
 function FormComponent({ index }: { index: number }) {
     let requestContext = useContext(RequestContext)
     let formData = requestContext.data.formData.at(index)
+    console.log("formData is ", formData)
     if (formData === null) {
         return ""
     }
@@ -150,7 +151,17 @@ function FormComponent({ index }: { index: number }) {
                 flexGrow: 3,
                 width: "10px",
                 display: "flex",
-            }}> <FileInputBox flex={3} placeholder="Select File" />
+            }}> <FileInputBox flex={3} placeholder="Select File"
+                onChange={(x) => {
+                    formData!.value = x
+                    console.log("what is the form data ", requestContext.data, x);
+                    requestContext.setData({ ...requestContext.data })
+                }}
+                onDelete={() => {
+                    formData!.value = ""
+                    requestContext.setData({ ...requestContext.data })
+                }}
+                />
             </div>
         }
         {formData!.type === FormDataItem.json &&
@@ -191,7 +202,10 @@ function FormComponent({ index }: { index: number }) {
                     suggestions={[]}
                     flex={3}
                     inputValue=""
-                    setInputValue={() => { }}
+                    setInputValue={(x) => {
+                        formData!.value = x
+                        requestContext.setData({ ...requestContext.data })
+                    }}
                 />
             </div>
         }

@@ -7,9 +7,11 @@ import fileHandler from '../../handler/eventHandler/fileHandler/fileHandler';
 interface FileInputProps {
     placeholder?: string;
     flex: number;
+    onChange: (x: string) => void,
+    onDelete: () => void,
 }
 
-const FileInputBox: React.FC<FileInputProps> = ({ placeholder, flex }) => {
+const FileInputBox: React.FC<FileInputProps> = ({ placeholder, flex, onChange, onDelete }) => {
     const [selectedFile, setSelectedFile] = useState<string | undefined | null>(null);
     const [isHovered, setIsHovered] = useState(false);
     const config = useContext(ConfigurationContext);
@@ -18,6 +20,7 @@ const FileInputBox: React.FC<FileInputProps> = ({ placeholder, flex }) => {
     const handleFileChange = async (e: React.MouseEvent) => {
         let file = await fileHandler() as string;
         setSelectedFile(file);
+        onChange(file)
     };
 
     const removeFile = () => {
@@ -63,6 +66,7 @@ const FileInputBox: React.FC<FileInputProps> = ({ placeholder, flex }) => {
                         onClick={(e) => {
                             e.stopPropagation(); // Prevent label click
                             removeFile();
+                            onDelete()
                         }}
                         style={{
                             position: 'absolute',

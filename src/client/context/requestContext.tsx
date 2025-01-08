@@ -98,7 +98,6 @@ export default function RequestProvider({ children, raw, index }: {
 
     useEffect(() => {
         if (apiData.nonce.trim() !== "") {
-            console.log("Arew we here", apiData.nonce);
             getResponseFromNonceHandler(apiData.nonce).then((x) => {
                 setResponse(x);
                 setInit(true);
@@ -107,7 +106,9 @@ export default function RequestProvider({ children, raw, index }: {
     }, [apiData.nonce])
 
     useEffect(() => {
+        console.log("what are we doing here ? ", init)
         if (init) {
+            console.log("Are we here cvvbv")
             const regex = /#\{(.*?)\}/g;
             const matches = [];
             let match;
@@ -147,25 +148,7 @@ export default function RequestProvider({ children, raw, index }: {
             setApiData({ ...apiData });
         }
     }, [
-        apiData.url,
-        apiData.name,
-        apiData.method,
-        apiData.https,
-        apiData.params,
-        apiData.headers,
-        apiData.path,
-        apiData.requestCookies,
-        apiData.timeout,
-        apiData.timeoutType,
-        apiData.requestDataType,
-        apiData.json,
-        apiData.xml,
-        apiData.js,
-        apiData.html,
-        apiData.text,
-        apiData.formData,
-        apiData.urlEncoded,
-        apiData.binary,
+        apiData
     ])
 
 
