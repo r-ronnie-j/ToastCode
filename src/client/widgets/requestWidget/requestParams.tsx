@@ -183,7 +183,12 @@ function ParamsIndividual({ index }: { index: number }) {
         inputValue={params.value ?? ''}
         setInputValue={handleChangeValue}
       />
-      <div style={{ margin: '0 4px', cursor: 'pointer' }}>🗑️</div>
+      <div style={{ margin: '0 4px', cursor: 'pointer' }} onClick={() => {
+        if (requestData.data.params.length - 1 === index) {
+          requestData.data.params = requestData.data.params.splice(index, 1)
+          requestData.setData({ ...requestData.data })
+        }
+      }}>🗑️</div>
     </div>
   );
 }

@@ -165,7 +165,12 @@ function HeaderIndividual({ index }: { index: number }) {
         inputValue={header.value ?? ''}
         setInputValue={handleChangeValue}
       />
-      <div style={{ margin: '0 4px', cursor: 'pointer' }}>🗑️</div>
+      <div style={{ margin: '0 4px', cursor: 'pointer' }} onClick={() => {
+        if (index !== requestData.data.headers.length - 1) {
+          requestData.data.headers.splice(index, 1)
+          requestData.setData({ ...requestData.data })
+        }
+      }}>🗑️</div>
     </div>
   );
 }
