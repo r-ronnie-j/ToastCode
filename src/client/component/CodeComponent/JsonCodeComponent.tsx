@@ -4,6 +4,7 @@ import { ConfigurationContext } from "../../context/configurationProvider";
 import { getThemeColors } from "../../themes/getThemeColors";
 import getVsCodeTheme from "../../themes/vsCodeThemes";
 import { editor } from "monaco-editor";
+import { createTokenizationSupport } from "../../monaco/jsonWithInterPolation";
 
 const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value }: {
     setValue: (a: string) => void,
@@ -18,10 +19,10 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
     const editorRef = useRef<any>(null);
     const [lines, setLines] = useState(24);
 
-    function updateEditorHeight(x:editor.IStandaloneCodeEditor){
+    function updateEditorHeight(x: editor.IStandaloneCodeEditor) {
         let length = x.getModel()?.getLineCount()
-        console.log("pringting scroll heingt",x.getDomNode()?.scrollHeight)
-        if(length){
+        console.log("pringting scroll heingt", x.getDomNode()?.scrollHeight)
+        if (length) {
             setLines(length)
         }
     }
@@ -30,9 +31,34 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
         loader.init().then((monaco) => {
             monaco.editor.defineTheme('myTransparentTheme', getVsCodeTheme(config.theme));
             let x = document.getElementById(`editor-container-${id}`)!
+
+            let jsonLang = monaco.languages.getLanguages().find((x) => x.id === "json")
+
+            monaco.languages.register({ id: 'jsonLang' });
+
+            monaco.languages.setLanguageConfiguration("jsonLang", {
+
+                wordPattern: /(-?\d*\.\d\w*)|([^\[\{\]\}\:\"\,\s]+)/g,
+                comments: {
+                    lineComment: '//',
+                    blockComment: ['/*', '*/']
+                },
+                brackets: [
+                    ['{', '}'],
+                    ['[', ']']
+                ],
+                autoClosingPairs: [
+                    { open: '{', close: '}', notIn: ['string'] },
+                    { open: '[', close: ']', notIn: ['string'] },
+                    { open: '"', close: '"', notIn: ['string'] }
+                ]
+            })
+
+            monaco.languages.setTokensProvider('jsonLang', createTokenizationSupport(true))
+
             const m = monaco.editor.create(x, {
                 value: value,
-                language: type,
+                language: "jsonLang",
                 automaticLayout: true,
                 lineHeight: 20,
                 scrollBeyondLastLine: false,
@@ -67,7 +93,7 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
                 // Normalize scroll amount across different input devices
                 let scrollAmountY = event.deltaY;
                 let scrollAmountX = event.deltaX;
-            
+
                 // Adjust scroll amount based on deltaMode
                 if (event.deltaMode === 1) { // deltaMode 1 indicates lines
                     scrollAmountY *= 40; // Rough approximation for line height
@@ -76,7 +102,7 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
                     scrollAmountY *= window.innerHeight; // Full page height
                     scrollAmountX *= window.innerWidth; // Full page width
                 }
-            
+
                 // Smooth scrolling for better touchpad support
                 window.scrollBy({
                     top: scrollAmountY,
@@ -87,7 +113,7 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
 
             x.addEventListener("wheel", scrollEventListener, {
                 capture: true,
-                passive:false,
+                passive: false,
             })
 
             return () => {
@@ -102,7 +128,7 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
         });
     }, []);
 
-  
+
 
     return <div style={{
         position: "relative",
@@ -111,10 +137,10 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
         borderLeft: border ? `solid 1px ${theme.simpleBorder}` : "none",
         background: theme.alternativeContainer,
         borderRadius: "10px",
-        margin:"10px"
+        margin: "10px"
     }}>
         <div style={{
-            minHeight: `${lines  * 20+ 120}px`,
+            minHeight: `${lines * 20 + 120}px`,
             padding: "10px",
             overflow: "hidden",
             display: "flex",
