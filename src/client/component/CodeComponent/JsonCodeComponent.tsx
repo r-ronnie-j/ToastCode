@@ -4,7 +4,6 @@ import { ConfigurationContext } from "../../context/configurationProvider";
 import { getThemeColors } from "../../themes/getThemeColors";
 import getVsCodeTheme from "../../themes/vsCodeThemes";
 import { editor } from "monaco-editor";
-import { createTokenizationSupport } from "../../monaco/jsonWithInterPolation";
 
 const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value }: {
     setValue: (a: string) => void,
@@ -32,33 +31,9 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
             monaco.editor.defineTheme('myTransparentTheme', getVsCodeTheme(config.theme));
             let x = document.getElementById(`editor-container-${id}`)!
 
-            let jsonLang = monaco.languages.getLanguages().find((x) => x.id === "json")
-
-            monaco.languages.register({ id: 'jsonLang' });
-
-            monaco.languages.setLanguageConfiguration("jsonLang", {
-
-                wordPattern: /(-?\d*\.\d\w*)|([^\[\{\]\}\:\"\,\s]+)/g,
-                comments: {
-                    lineComment: '//',
-                    blockComment: ['/*', '*/']
-                },
-                brackets: [
-                    ['{', '}'],
-                    ['[', ']']
-                ],
-                autoClosingPairs: [
-                    { open: '{', close: '}', notIn: ['string'] },
-                    { open: '[', close: ']', notIn: ['string'] },
-                    { open: '"', close: '"', notIn: ['string'] }
-                ]
-            })
-
-            monaco.languages.setTokensProvider('jsonLang', createTokenizationSupport(true))
-
             const m = monaco.editor.create(x, {
                 value: value,
-                language: "jsonLang",
+                language: type,
                 automaticLayout: true,
                 lineHeight: 20,
                 scrollBeyondLastLine: false,
