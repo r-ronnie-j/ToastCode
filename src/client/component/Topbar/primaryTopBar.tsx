@@ -59,10 +59,9 @@ export default function PrimaryTopBar({
                     onClick={() => setIsVerticalView(!isVerticalView)}
                     style={{
                         fontSize: "20px",
-                        background: theme.alternativeContainer,
-                        border: `2px solid ${theme.primaryBorder}`,
+                        border: `2px solid ${theme.simpleBorder}`,
                         cursor: "pointer",
-                        color: theme.primaryContainer,
+                        color: theme.generalText,
                         transition: "color 0.3s ease",
                         display: "flex",
                         alignItems: "center",
@@ -70,15 +69,16 @@ export default function PrimaryTopBar({
                         borderRadius: "7px",
                         height: "35px",
                         justifyContent: "center",
+                        background:"none"
                     }}
                     title={isVerticalView ? "Switch to Horizontal View" : "Switch to Vertical View"}
                     onMouseEnter={(e) => {
-                        e.currentTarget.style.color = theme.accentColor
-                        e.currentTarget.style.borderColor = theme.accentColor
+                        e.currentTarget.style.color = theme.primaryBorder
+                        e.currentTarget.style.borderColor = theme.primaryBorder
                     }}
                     onMouseLeave={(e) => {
-                        e.currentTarget.style.color = theme.successText
-                        e.currentTarget.style.borderColor = theme.primaryBorder
+                        e.currentTarget.style.color = theme.generalText
+                        e.currentTarget.style.borderColor = theme.simpleBorder
                     }}
                 >
                     <span
@@ -98,9 +98,9 @@ export default function PrimaryTopBar({
                     style={{
                         fontSize: "16px",
                         background: "none",
-                        border: `2px solid ${theme.primaryBorder}`,
+                        border: `2px solid ${theme.simpleBorder}`,
                         cursor: "pointer",
-                        color: theme.primaryContainer,
+                        color: theme.generalText,
                         transition: "color 0.3s ease",
                         gap: "8px",
                         display: "flex",
@@ -111,8 +111,14 @@ export default function PrimaryTopBar({
                         height: "35px",
                     }}
                     title={isCodeView ? "Switch to GUI View" : "Switch to Code View"}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = theme.primaryText)}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = theme.primaryContainer)}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.color = theme.primaryBorder
+                        e.currentTarget.style.borderColor = theme.primaryText
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.borderColor = theme.simpleBorder
+                        e.currentTarget.style.color = theme.generalText
+                    }}
                 >
                     {isCodeView
                         ? <FaCode />

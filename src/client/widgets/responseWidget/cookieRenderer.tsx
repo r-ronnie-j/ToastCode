@@ -16,44 +16,32 @@ export default function CookieRenderer({ data }: { data: Cookie[] }) {
                 <table style={{ width: "100%", borderCollapse: "collapse" }}>
                     <thead style={{ borderBottom: `1px solid ${themeStyle.simpleBorder}`, fontWeight: "bold" }}>
                         <tr>
-                            <th style={{ padding: "8px", borderRight: `1px solid ${themeStyle.simpleBorder}`, textAlign: "left" }}>Name</th>
+                            <th style={{ padding: "8px", borderRight: `1px solid ${themeStyle.simpleBorder}`, textAlign: "left" }}>Key</th>
                             <th style={{ padding: "8px", borderRight: `1px solid ${themeStyle.simpleBorder}`, textAlign: "left", width: "50%" }}>Value</th>
-                            <th style={{ padding: "8px", borderRight: `1px solid ${themeStyle.simpleBorder}`, textAlign: "left" }}>HttpOnly</th>
-                            <th style={{ padding: "8px", borderRight: `1px solid ${themeStyle.simpleBorder}`, textAlign: "left" }}>SameSite</th>
                             <th style={{ padding: "8px", textAlign: "left" }}>Other Attributes</th>
                         </tr>
                     </thead>
                     <tbody>
                         {data.map((cookie, i) => {
-                            const { key, value, httpOnly, sameSite, ...otherAttributes } = cookie;
+                            const { key, value, ...otherAttributes } = cookie;
                             return (
                                 <tr
                                     key={i}
                                     style={{ borderBottom: `1px solid ${themeStyle.simpleBorder}`, padding: "4px 0" }}
                                 >
                                     {/* Name Column */}
-                                    <td style={{ padding: "8px", borderRight: `1px solid ${themeStyle.simpleBorder}`, verticalAlign: "top" }}>
+                                    <td style={{ padding: "8px", borderRight: `1px solid ${themeStyle.simpleBorder}`, verticalAlign: "top",minWidth:"80px" }}>
                                         <CopyableText text={key}>{key}</CopyableText>
                                     </td>
 
                                     {/* Value Column - This will occupy the maximum space */}
-                                    <td style={{ padding: "8px", borderRight: `1px solid ${themeStyle.simpleBorder}`, width: "50%", verticalAlign: "top" }}>
+                                    <td style={{ padding: "8px", borderRight: `1px solid ${themeStyle.simpleBorder}`, width: "40%", verticalAlign: "top" }}>
                                         <CopyableText text={value}>{value}</CopyableText>
                                     </td>
 
-                                    {/* HttpOnly Column */}
-                                    <td style={{ padding: "8px", borderRight: `1px solid ${themeStyle.simpleBorder}`, verticalAlign: "top" }}>
-                                        {httpOnly ? "Yes" : "No"}
-                                    </td>
-
-                                    {/* SameSite Column */}
-                                    <td style={{ padding: "8px", borderRight: `1px solid ${themeStyle.simpleBorder}`, verticalAlign: "top" }}>
-                                        {sameSite || "None"}
-                                    </td>
-
                                     {/* Other Attributes Column */}
-                                    <td style={{ padding: "8px", verticalAlign: "top" }}>
-                                        <JsonXmlRenderer type="json" value={JSON.stringify(otherAttributes,null,2)} key={`cookie-${data.at(0)}-${i}`} />
+                                    <td style={{ padding: "8px", verticalAlign: "top",minWidth:"240px",width:"50%" }}>
+                                        <JsonXmlRenderer type="json" value={JSON.stringify(otherAttributes, null, 2)} key={`cookie-${data.at(0)}-${i}`} />
                                     </td>
                                 </tr>
                             );
