@@ -180,7 +180,7 @@ function tokenize(
         if (interpolationMatch) {
             const interpolationLength = interpolationMatch[0].length;
             scanner.setPosition(scanner.getPosition() + interpolationLength);
-            type = 'interpolation.json';
+            type = 'number.json';
             ret.tokens.push({
                 startIndex: offset,
                 scopes: type

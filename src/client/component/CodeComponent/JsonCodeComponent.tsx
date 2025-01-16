@@ -4,6 +4,9 @@ import { ConfigurationContext } from "../../context/configurationProvider";
 import { getThemeColors } from "../../themes/getThemeColors";
 import getVsCodeTheme from "../../themes/vsCodeThemes";
 import { editor } from "monaco-editor";
+import { createTokenizationSupport } from "../../monaco/jsonWithInterPolation";
+import { getLanguageService } from 'vscode-json-languageservice';
+import { Range, Position } from "vscode-languageserver-textdocument";
 
 const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value }: {
     setValue: (a: string) => void,
@@ -20,7 +23,6 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
 
     function updateEditorHeight(x: editor.IStandaloneCodeEditor) {
         let length = x.getModel()?.getLineCount()
-        console.log("pringting scroll heingt", x.getDomNode()?.scrollHeight)
         if (length) {
             setLines(length)
         }
@@ -28,12 +30,20 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
 
     useEffect(() => {
         loader.init().then((monaco) => {
+            monaco.languages.register({
+                id: "jsonCode"
+            })
+
+            monaco.languages.setTokensProvider("jsonCode", createTokenizationSupport(false))
+
             monaco.editor.defineTheme('myTransparentTheme', getVsCodeTheme(config.theme));
+
             let x = document.getElementById(`editor-container-${id}`)!
 
             const m = monaco.editor.create(x, {
                 value: value,
-                language: type,
+                language: type == "json" ? "jsonCode" : type,
+                // language: type,
                 automaticLayout: true,
                 lineHeight: 20,
                 scrollBeyondLastLine: false,
@@ -46,10 +56,63 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
                 },
             });
 
+            const jsonService = getLanguageService({
+                schemaRequestService: async (uri) => {
+                    return '{}';
+                }
+            });
+
+
+            monaco.editor.onDidCreateModel(function (model) {
+                async function validate() {
+                    const document = {
+                        uri: model.uri.toString(),
+                        languageId: 'json',
+                        version: model.getVersionId(),
+                        getText: () => model.getValue().replace("{{", '"{{').replace("}}", '}}"'),
+                        positionAt: (offset: any) => {
+                            const pos = model.getPositionAt(offset);
+                            return { line: pos.lineNumber - 1, character: pos.column - 1 };
+                        },
+                        offsetAt: (position: any) => model.getOffsetAt({
+                            lineNumber: position.line + 1,
+                            column: position.character + 1
+                        }),
+                        lineCount: model.getLineCount()
+                    };
+
+                    const jsonDocument = jsonService.parseJSONDocument(document);
+                    const diagnostics = await jsonService.doValidation(document, jsonDocument);
+
+                    const markers = diagnostics.map(diagnostic => ({
+                        severity: monaco.MarkerSeverity.Error,
+                        message: diagnostic.message,
+                        startLineNumber: diagnostic.range.start.line + 1,
+                        startColumn: diagnostic.range.start.character + 1,
+                        endLineNumber: diagnostic.range.end.line + 1,
+                        endColumn: diagnostic.range.end.character + 1
+                    }));
+
+                    console.log("THe error markers are ", markers)
+
+                    monaco.editor.setModelMarkers(model, 'json', markers);
+                }
+
+                let handle: any = null;
+                model.onDidChangeContent(() => {
+                    clearTimeout(handle);
+                    handle = setTimeout(() => validate(), 500);
+                });
+
+                // Initial validation
+                validate();
+            });
+
+
 
             editorRef.current = m;
 
-            m.onDidChangeModelContent(() => {
+            m.onDidChangeModelContent((mod) => {
                 const newValue = m.getValue();
                 console.log(typeof newValue, "Checking type of new value")
                 setValue(newValue);
@@ -68,18 +131,18 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
                 let scrollAmountY = event.deltaY;
                 let scrollAmountX = event.deltaX;
 
-                if (event.deltaMode === 1) { 
-                    scrollAmountY *= 40; 
+                if (event.deltaMode === 1) {
+                    scrollAmountY *= 40;
                     scrollAmountX *= 40;
-                } else if (event.deltaMode === 2) { 
-                    scrollAmountY *= window.innerHeight; 
-                    scrollAmountX *= window.innerWidth; 
+                } else if (event.deltaMode === 2) {
+                    scrollAmountY *= window.innerHeight;
+                    scrollAmountX *= window.innerWidth;
                 }
 
                 window.scrollBy({
                     top: scrollAmountY,
                     left: scrollAmountX,
-                    behavior: "auto" 
+                    behavior: "auto"
                 });
             }
 
