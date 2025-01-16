@@ -65,24 +65,21 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
             function scrollEventListener(event: WheelEvent) {
                 event.preventDefault();
 
-                // Normalize scroll amount across different input devices
                 let scrollAmountY = event.deltaY;
                 let scrollAmountX = event.deltaX;
 
-                // Adjust scroll amount based on deltaMode
-                if (event.deltaMode === 1) { // deltaMode 1 indicates lines
-                    scrollAmountY *= 40; // Rough approximation for line height
+                if (event.deltaMode === 1) { 
+                    scrollAmountY *= 40; 
                     scrollAmountX *= 40;
-                } else if (event.deltaMode === 2) { // deltaMode 2 indicates pages
-                    scrollAmountY *= window.innerHeight; // Full page height
-                    scrollAmountX *= window.innerWidth; // Full page width
+                } else if (event.deltaMode === 2) { 
+                    scrollAmountY *= window.innerHeight; 
+                    scrollAmountX *= window.innerWidth; 
                 }
 
-                // Smooth scrolling for better touchpad support
                 window.scrollBy({
                     top: scrollAmountY,
                     left: scrollAmountX,
-                    behavior: "auto" // Use smooth scrolling for better UX
+                    behavior: "auto" 
                 });
             }
 

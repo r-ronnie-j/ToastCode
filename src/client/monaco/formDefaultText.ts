@@ -21,7 +21,7 @@ export default function formDefaultText(x: ApiData): string {
             x.html ? `html = \`${x.html}\`` : '',
             x.text ? `text = "${x.text}"` : '',
             x.formData.length > 0 ? `formData = ${formFormData(x.formData)}` : '',
-            x.binary ? `binary = ${x.binary}` : '',
+            x.binary ? `binary = "${x.binary}"` : '',
             x.urlEncoded ? `urlEncoded = ${formHeaderParamsEncoded(x.urlEncoded)}` : '',
             x.json ? `json = \`${x.json}\`` : '',
             x.xml ? `xml = \`${x.xml}\`` : '',
@@ -30,7 +30,6 @@ export default function formDefaultText(x: ApiData): string {
             .filter(Boolean)
             .join('\n');
     } catch (err) {
-        return "error:true";
         console.log("err", err);
     }
 }
