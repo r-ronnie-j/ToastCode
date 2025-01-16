@@ -107,7 +107,6 @@ export default function RequestProvider({ children, raw, index }: {
 
     useEffect(() => {
         if (init) {
-            console.log("Are we here cvvbv")
             const regex = /#\{(.*?)\}/g;
             const matches = [];
             let match;
@@ -143,7 +142,9 @@ export default function RequestProvider({ children, raw, index }: {
             } catch (err) {
             }
             let rawCode = formDefaultText(apiData)
-            apiData.rawCode = rawCode
+            if (rawCode !== null) {
+                apiData.rawCode = rawCode
+            }
             setApiData({ ...apiData });
         }
     }, [

@@ -4,7 +4,7 @@ import { HttpMethod, Https } from '../../common/constants/enums/methodsEnums';
 import { FormDataItem, RequestDataType, TimeOutType } from '../../common/constants/enums/variableEnums';
 import { FormDataType, KeyValueCheckRecord } from '../../common/interfaces/variables';
 
-export default function formDefaultText(x: ApiData): string {
+export default function formDefaultText(x: ApiData): string | null {
     try {
         return [
             x.name.trim() !== "" ? `name='${x.name.trim()}'` : '',
@@ -31,6 +31,7 @@ export default function formDefaultText(x: ApiData): string {
             .join('\n');
     } catch (err) {
         console.log("err", err);
+        return null
     }
 }
 
