@@ -1,6 +1,4 @@
-import path from "path";
 import * as vscode from "vscode";
-import * as fs from "fs";
 import { ToastRendererProvider } from "../../renderer/toastRenderer";
 import MessageType from "../../../common/constants/enums/MessageEnums";
 import { RequestCache } from "../../cache/requestCache";

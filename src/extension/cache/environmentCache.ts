@@ -1,4 +1,4 @@
-import { EnvironmentInfo, VariableInfo } from "../../common/interfaces/variables";
+import { EnvironmentInfo } from "../../common/interfaces/variables";
 import { resolvePath } from "../utilities/fileUtility/resolvePath";
 import * as fs from "fs/promises";
 

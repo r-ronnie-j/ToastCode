@@ -1,6 +1,5 @@
 import React, { createContext, ReactElement, useEffect, useState } from "react"
 import { Configuration } from "../../common/interfaces/messages";
-import MessageType from "../../common/constants/enums/MessageEnums";
 import initializeMessage from "../handler/messageHandler/initializeMessage";
 import initializeHandler from "../handler/eventHandler/initializeHandler";
 import ConfigWidget from "../widgets/configWidgets";

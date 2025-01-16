@@ -2,7 +2,6 @@ import * as vscode from "vscode";
 import path from "path";
 import { configFile } from "../../cache/loadDocument";
 import * as fs from "fs/promises";
-import { ApiData, ApiResponse } from "../../../common/interfaces/apiRequests";
 import { findConfigTos } from "./findConfig";
 
 export default async function findTosResponse({ document }: {

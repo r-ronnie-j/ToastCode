@@ -1,6 +1,6 @@
 import MessageType from "../../../common/constants/enums/MessageEnums";
 import { MessageData } from "../../../common/interfaces/messages";
-import { EnvironmentInfo, VariableInfo } from "../../../common/interfaces/variables";
+import { EnvironmentInfo } from "../../../common/interfaces/variables";
 import vscode from "../vscode";
 
 export default function getEnvironmentHandler(): Promise<{

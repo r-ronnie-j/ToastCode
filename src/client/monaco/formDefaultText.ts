@@ -31,7 +31,7 @@ export default function formDefaultText(x: ApiData): string | null {
             .join('\n');
     } catch (err) {
         console.log("err", err);
-        return null
+        return null;
     }
 }
 

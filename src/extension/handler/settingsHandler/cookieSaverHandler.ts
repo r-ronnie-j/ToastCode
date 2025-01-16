@@ -10,5 +10,5 @@ export default async function cookieSaverHandler({ document, data }: {
 }) {
     let responseDir = await findTosResponse({ document });
     let responseFile = path.join(responseDir, `.cookie.json`);
-    await fs.writeFile(responseDir, JSON.stringify(data));
+    await fs.writeFile(responseFile, JSON.stringify(data));
 }

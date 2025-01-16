@@ -5,7 +5,6 @@ import { RequestContext } from "../../context/requestContext"
 import DraggableList from "../../component/Draggable/DraggableList"
 import SimpleInputSuggestions from "../../component/Input/SimpleInputSuggestion"
 import CustomCheckbox from "../../component/Input/CheckBox"
-import { allHttpHeaders } from "../../../common/constants/allHeaders"
 import { VariableContext } from "../../context/variableContext"
 import { generatorFuncDescriptions } from "../../../common/generators/generatorDocumentation"
 

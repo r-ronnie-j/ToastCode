@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import findTosResponse from "../../utilities/fileUtility/findTosResponse";
 import path from "path";
-import fs from "fs/promises"
+import fs from "fs/promises";
 import readJsonFromFile from "../../utilities/fileUtility/readJsonFromFile";
 import MessageType from "../../../common/constants/enums/MessageEnums";
 

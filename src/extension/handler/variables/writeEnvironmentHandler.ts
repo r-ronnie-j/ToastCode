@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { EnvironmentInfo, VariableInfo } from "../../../common/interfaces/variables";
+import { EnvironmentInfo } from "../../../common/interfaces/variables";
 import VariableCache from "../../cache/variableCache";
 import { inspect } from "util-ex";
 import EnvironmentCache from "../../cache/environmentCache";

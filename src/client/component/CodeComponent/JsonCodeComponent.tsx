@@ -6,7 +6,6 @@ import getVsCodeTheme from "../../themes/vsCodeThemes";
 import { editor } from "monaco-editor";
 import { createTokenizationSupport } from "../../monaco/jsonWithInterPolation";
 import { getLanguageService } from 'vscode-json-languageservice';
-import { Range, Position } from "vscode-languageserver-textdocument";
 
 const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value }: {
     setValue: (a: string) => void,

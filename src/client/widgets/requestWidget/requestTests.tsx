@@ -2,8 +2,6 @@ import React, { useContext, useState } from "react";
 import { FunctionCodeContext } from "../../context/functionContext";
 import { ConfigurationContext } from "../../context/configurationProvider";
 import { getThemeColors } from "../../themes/getThemeColors";
-import SimpleInputSuggestions from "../../component/Input/SimpleInputSuggestion";
-import SimpleSelectBox from "../../component/Select/SimpleSelect";
 import CustomCheckbox from "../../component/Input/CheckBox";
 
 export default function RequestTests() {

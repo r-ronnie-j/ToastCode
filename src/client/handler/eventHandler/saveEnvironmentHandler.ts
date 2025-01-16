@@ -1,5 +1,5 @@
 import MessageType from "../../../common/constants/enums/MessageEnums";
-import { EnvironmentInfo, VariableInfo } from "../../../common/interfaces/variables";
+import { EnvironmentInfo } from "../../../common/interfaces/variables";
 import vscode from "../vscode";
 
 export default function saveEnvironmentHandler(data: EnvironmentInfo[]) {

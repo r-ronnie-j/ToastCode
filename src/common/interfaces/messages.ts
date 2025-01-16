@@ -1,4 +1,4 @@
-import MessageType from "../constants/enums/MessageEnums"
+import MessageType from "../constants/enums/MessageEnums";
 
 export interface MessageData {
     type: MessageType,

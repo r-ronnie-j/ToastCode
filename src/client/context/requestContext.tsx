@@ -1,7 +1,6 @@
 import React, { createContext, ReactElement, useContext, useEffect, useState } from "react";
 import { ApiData, ApiResponse } from "../../common/interfaces/apiRequests"
 import { FormDataItem, RequestDataType, TimeOutType } from "../../common/constants/enums/variableEnums";
-import getNonce from "../../common/utilities/getNonce"
 import { HttpMethod, Https } from "../../common/constants/enums/methodsEnums";
 import populateInputFormData from "../monaco/populateInputFromText";
 import formDefaultText from "../monaco/formDefaultText";

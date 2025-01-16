@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { createRoot } from "react-dom/client";
-import ConfigProvider, { ConfigurationContext } from "./context/configurationProvider";
+import ConfigProvider from "./context/configurationProvider";
 
 const root = createRoot(document.getElementById('root') || document.body);
 
