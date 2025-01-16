@@ -6,7 +6,7 @@ import { loader } from "@monaco-editor/react";
 import { helperLib } from "../../monaco/helperLib";
 import { getVsCodeTheme } from "../../themes/vsCodeThemes";
 
-const TestCodeComponent = ({ value, setValue }: { value: string, setValue: (a: string) => void }) => {
+const TestCodeComponent = ({ value = "", setValue }: { value: string, setValue: (a: string) => void }) => {
     const config = useContext(ConfigurationContext)
     const theme = getThemeColors(config.theme)
     const editorRef = useRef<any>(null);
@@ -18,7 +18,7 @@ const TestCodeComponent = ({ value, setValue }: { value: string, setValue: (a: s
             monaco.editor.defineTheme('myTransparentTheme', getVsCodeTheme(config.theme));
             let x = document.getElementById('editor-container')!
             const m = monaco.editor.create(x, {
-                value: value.trim() === "" ? `TestFunction((req, res) => {
+                value: value.trim() == "" ? `TestFunction((req, res) => {
   //Perform any  check on the request and response
   return {
     error: true | false,

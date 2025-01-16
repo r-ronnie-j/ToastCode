@@ -16,6 +16,7 @@ import RequestParams from "./requestWidget/requestParams";
 import RequestBody from "./requestWidget/requestBody";
 import RequestCookies from "./requestWidget/requestCookies";
 import { generatorFuncDescriptions } from "../../common/generators/generatorDocumentation"
+import RequestTests from "./requestWidget/requestTests";
 
 export default function RequestComponent({ isCodeView, index }: { isCodeView: boolean, index: number }) {
     let config = useContext(ConfigurationContext);
@@ -141,7 +142,7 @@ export default function RequestComponent({ isCodeView, index }: { isCodeView: bo
                     fontWeight: "bold",
                     fontSize: `${config.fontSize * 1.2}px`,
                     color: theme.primaryContainer,
-                    wordBreak:"keep-all"
+                    wordBreak: "keep-all"
                 }}>URL : </div>
                 <div style={{ flexGrow: 1 }}><DocumentedInput
                     suggestions={generatorFuncDescriptions}
@@ -175,6 +176,10 @@ export default function RequestComponent({ isCodeView, index }: { isCodeView: bo
                     {
                         name: "Cookie",
                         msg: Object.keys(requestData.data.requestCookies ?? {}).length
+                    },
+                    {
+                        name: "Tests",
+                        msg: 0
                     }
                 ]}
                 selectedIndex={secondary}
@@ -185,6 +190,7 @@ export default function RequestComponent({ isCodeView, index }: { isCodeView: bo
             {secondary === 2 && <RequestParams />}
             {secondary === 3 && <RequestBody />}
             {secondary === 4 && <RequestCookies />}
+            {secondary === 5 && <RequestTests />}
         </div>
     }
 }

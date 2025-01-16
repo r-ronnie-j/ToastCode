@@ -7,8 +7,9 @@ export default async function getRawFunctionHandler({ webviewPanel, document }: 
     webviewPanel: vscode.WebviewPanel,
     document: vscode.TextDocument
 }) {
+    console.log("function", FunctionCache);
     webviewPanel.webview.postMessage({
         type: MessageType.GetRawFunction,
-        data: FunctionCache.extractFuns(document.getText())
+        data: FunctionCache.functionText
     });
 }

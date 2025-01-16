@@ -13,21 +13,29 @@ let configFile: string | null = null;
 export { configFile };
 
 function TestFunction(fn: TF, props: FunctionProps) {
-    FunctionCache.tests[props.name] = {
-        example: props.example,
-        description: props.description,
-        params: props.params,
-        fn: fn,
-    };
+    try {
+        FunctionCache.tests[props.name] = {
+            example: props.example,
+            description: props.description,
+            params: props.params,
+            fn: fn,
+        };
+    } catch (err) {
+        console.log("Error in test function", err);
+    }
 }
 
 function GeneratorFunction(fn: Function, props: FunctionProps) {
-    FunctionCache.generators[fn.name] = {
-        example: props.example,
-        description: props.description,
-        params: props.params,
-        fn: fn,
-    };
+    try {
+        FunctionCache.generators[fn.name] = {
+            example: props.example,
+            description: props.description,
+            params: props.params,
+            fn: fn,
+        };
+    } catch (err) {
+        console.log("Error in generator function", err);
+    }
 }
 
 export default async function loadDocument(docs: vscode.TextDocument) {
@@ -35,6 +43,7 @@ export default async function loadDocument(docs: vscode.TextDocument) {
     if (configFile) {
         let docs = await vscode.workspace.openTextDocument(configFile);
         let text = docs.getText();
+        console.log("raw function text", text);
         FunctionCache.extractFuns(text);
         try {
             let vars;

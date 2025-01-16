@@ -33,7 +33,7 @@ export default function EnvironmentProvider({
     useEffect(() => {
         if (shouldSave) {
             saveEnvironmentHandler(paths);
-            setShouldSave(false); // Reset save flag
+            setShouldSave(false); 
         }
     }, [paths, shouldSave]);
 

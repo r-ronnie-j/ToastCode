@@ -39,6 +39,7 @@ const FunctionCache = {
         } else {
             console.warn("The processed segment does not start and end with curly braces.");
         }
+        this.functionText = processedSegment;
 
         return processedSegment;
     }
