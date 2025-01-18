@@ -22,16 +22,15 @@ export default function RequestTests() {
                 width: '100%',
                 gap: '5px',
                 boxSizing: 'border-box',
-                padding: "3px", // Reduced padding
+                padding: "3px 0",
                 alignItems: 'center',
                 background: theme.secondaryContainer,
-                borderRadius: "4px 4px 0 0",
             }}>
                 <div style={{
                     flexGrow: 1,
-                    textAlign: "left", // Align text to the right
+                    textAlign: "left",
                     fontWeight: 'bold',
-                    fontSize: config.fontSize + 3, // Increased font size
+                    paddingLeft: "10px",
                 }}>
                     Tests
                 </div>

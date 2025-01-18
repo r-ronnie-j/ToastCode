@@ -95,7 +95,9 @@ export default function ResponseComponent({ requestIndex }: { requestIndex: numb
                         borderRadius: '4px',
                         cursor: 'pointer',
                         fontWeight: 'bold'
-                    }} onClick={() => { /* Trigger the API call here */ }}>Invoke Request</button>
+                    }} onClick={() => {
+
+                    }}>Invoke Request</button>
                 </div>
             );
         }
@@ -120,12 +122,15 @@ export default function ResponseComponent({ requestIndex }: { requestIndex: numb
                     fontWeight: "bold",
                     paddingLeft: "10px",
                     paddingRight: "10px",
-                }}>{Methods[HttpMethod[api.data.method] as keyof typeof Methods].label}</div>
+                    minWidth: "fit-content",
+                    wordBreak: "keep-all"
+                }}>{Methods[HttpMethod[api.data.method] as keyof typeof Methods].label}:</div>
                 <div style={{
                     flexGrow: 1,
                     color: theme.generalText,
                     fontSize: config.fontSize,
                     fontWeight: "bold",
+                    wordBreak: "break-all"
                 }}>
                     <CopyableText text={api.response?.parsedUrl ?? ""}>
                         {renderInputValue()}
@@ -138,6 +143,8 @@ export default function ResponseComponent({ requestIndex }: { requestIndex: numb
                     color: theme.accentColor,
                     fontSize: "14px",
                     fontWeight: "500",
+                    minWidth: "fit-content",
+                    wordBreak: "keep-all"
                 }}>
                     ⏱️ <span>:</span>
                     <span style={{ fontWeight: "bold" }}>{api.response.timeTaken} ms</span>
