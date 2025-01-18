@@ -83,6 +83,7 @@ export default function RequestProvider({ children, raw, index }: {
 
     async function invoke() {
         setProcessing(true)
+        setResponse(null)
         generateResponseHandler({ data: apiData }).then((a) => {
             setResponse(a)
             setProcessing(false)
