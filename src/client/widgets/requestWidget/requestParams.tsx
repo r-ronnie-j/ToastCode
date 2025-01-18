@@ -92,11 +92,29 @@ export default function RequestParams() {
 
 
 function ParamsIndividual({ index }: { index: number }) {
+
   const requestData = useContext(RequestContext);
 
   let variablesContext = useContext(VariableContext)
 
   const params = requestData.data.params.at(index);
+
+  function formUrl() {
+    try {
+      let url = new URL(requestData.data.url)
+      url.searchParams.forEach((key, value) => {
+        let paramIndex = requestData.data.params.findIndex((a) => {
+          a.key === key
+        })
+        if (paramIndex !== -1) {
+          let para = requestData.data.params[paramIndex]
+          if (para.enabled) url.searchParams.set(key, para.value)
+          else url.searchParams.delete(key)
+        }
+      })
+      requestData.data.url = url.toString()
+    } catch (_) { }
+  }
 
   if (!params) {
     return null;
@@ -112,7 +130,7 @@ function ParamsIndividual({ index }: { index: number }) {
         value: '',
       });
     }
-
+    formUrl()
     requestData.setData({ ...requestData.data });
   };
 
@@ -126,7 +144,7 @@ function ParamsIndividual({ index }: { index: number }) {
         value: '',
       });
     }
-
+    formUrl()
     requestData.setData({ ...requestData.data });
   };
 
@@ -145,6 +163,7 @@ function ParamsIndividual({ index }: { index: number }) {
         checked={params?.enabled}
         onChange={(x) => {
           params.enabled = x;
+          formUrl()
           requestData.setData({ ...requestData.data });
         }}
       />
@@ -183,7 +202,7 @@ function ParamsIndividual({ index }: { index: number }) {
         setInputValue={handleChangeValue}
       />
       <div style={{ margin: '0 4px', cursor: 'pointer' }} onClick={() => {
-        if (requestData.data.params.length - 1 === index) {
+        if (requestData.data.params.length - 1 !== index) {
           requestData.data.params = requestData.data.params.splice(index, 1)
           requestData.setData({ ...requestData.data })
         }

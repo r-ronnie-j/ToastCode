@@ -132,14 +132,6 @@ export default function RequestProvider({ children, raw, index }: {
             }
             try {
                 const parsedUrl = new URL(u);
-                parsedUrl.searchParams.forEach((value, key) => {
-                    const index = apiData.params.findIndex(param => param.key === key);
-                    if (index !== -1) {
-                        apiData.params[index].value = value;
-                    } else {
-                        apiData.params.splice(apiData.params.length - 1, 0, { key: key, value: value, enabled: true });
-                    }
-                });
                 apiData.params.forEach((v) => {
                     if (v.enabled && v.key.trim() !== "" && v.value.trim() !== "") {
                         parsedUrl.searchParams.append(v.key, v.value);
