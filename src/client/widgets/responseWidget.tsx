@@ -12,6 +12,7 @@ import CookieRenderer from "./responseWidget/cookieRenderer"
 import ResponseViewer from "./responseWidget/responseViewer"
 import saveContentHandler from "../handler/eventHandler/fileHandler/saveContentHandler"
 import saveRequestHandler from "../handler/eventHandler/apis/saveRequestHandler"
+import ErrorComponent from "./responseWidget/errorRenderer"
 
 
 export default function ResponseComponent({ requestIndex }: { requestIndex: number }) {
@@ -225,8 +226,8 @@ export default function ResponseComponent({ requestIndex }: { requestIndex: numb
                             msg: 1,
                         },
                         {
-                            name: "Cookie",
-                            msg: 0
+                            name: "Error",
+                            msg: api.response.errorMessage.length
                         }
                     ]}
                     selectedIndex={secondary}
@@ -236,7 +237,7 @@ export default function ResponseComponent({ requestIndex }: { requestIndex: numb
             {secondary === 0 && <KeyValueRenderer data={api.response.headers} title={["Key", "Value"]} />}
             {secondary === 1 && <CookieRenderer data={api.response.cookie} />}
             {secondary === 2 && <ResponseViewer res={null} />}
-            {secondary === 3 && <CookieRenderer data={api.response.cookie} />}
+            {secondary === 3 && <ErrorComponent value={api.response.errorMessage} isWarning={false} />}
         </div>
     }
 }
