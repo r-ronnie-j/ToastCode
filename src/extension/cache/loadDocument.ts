@@ -43,7 +43,6 @@ export default async function loadDocument(docs: vscode.TextDocument) {
     if (configFile) {
         let docs = await vscode.workspace.openTextDocument(configFile);
         let text = docs.getText();
-        console.log("raw function text", text);
         FunctionCache.extractFuns(text);
         try {
             let vars;

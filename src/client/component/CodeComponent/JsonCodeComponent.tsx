@@ -66,8 +66,6 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
                     endColumn: diagnostic.range.end.character + 1
                 }));
 
-                console.log("THe error markers are ", markers)
-
                 monaco.editor.setModelMarkers(model, 'json', markers);
             }
 
@@ -102,7 +100,6 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
 
             disposables.push(m.onDidChangeModelContent((mod) => {
                 const newValue = m.getValue();
-                console.log(typeof newValue, "Checking type of new value")
                 setValue(newValue);
                 updateEditorHeight(m);
                 if (type === "json") {

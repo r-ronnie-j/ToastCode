@@ -82,8 +82,10 @@ export default function RequestProvider({ children, raw, index }: {
     let [response, setResponse] = useState<ApiResponse | null>(null)
 
     async function invoke() {
+        console.log("Are we called 0");
         setProcessing(true)
         generateResponseHandler({ data: apiData }).then((a) => {
+            console.log("At end xx")
             setResponse(a)
             setProcessing(false)
         })

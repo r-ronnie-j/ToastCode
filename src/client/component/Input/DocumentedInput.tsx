@@ -73,17 +73,6 @@ const DocumentedInput = ({
             const caretPosition = textareaRef.current.selectionStart;
             const placeholderIndex = currentValue.substring(0, caretPosition).lastIndexOf("${");
 
-            console.log("sub string here",
-                currentValue,
-                caretPosition,
-                placeholderIndex,
-                currentValue.slice(0, placeholderIndex + 2),
-                currentValue.slice(caretPosition),
-                suggestion.name,
-                currentValue.slice(0, placeholderIndex + 2) + suggestion.name + "}" + currentValue.slice(caretPosition)
-            )
-
-
             let newValue;
 
             if (placeholderIndex !== -1) {

@@ -9,7 +9,6 @@ export default async function getFormData(form: FormDataType[], docPath: string)
         if (f.enabled && f.key.trim() !== "" && f.value.trim() !== "") {
             if (f.type === FormDataItem.file) {
                 let filePath = await resolvePath(f.value, docPath);
-                console.log("The doc path we are getting is ", f.value, filePath, docPath);
                 if (filePath.exists && filePath.isFile) {
                     let x = await openAsBlob(filePath.path);
                     formdata.append(f.key, x);

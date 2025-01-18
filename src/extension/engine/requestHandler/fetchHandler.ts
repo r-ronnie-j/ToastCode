@@ -9,6 +9,7 @@ import handlePath from "../utils/handlePath";
 import handleData from "./handleData";
 
 export async function fetchHandler(info: ApiData, path: string): Promise<ApiResponse> {
+    console.log("We are here 5");
     let errorMessage = [] as string[];
     let warningMessage = [] as string[];
     try {
@@ -41,10 +42,10 @@ export async function fetchHandler(info: ApiData, path: string): Promise<ApiResp
         });
         let contentType = headers["content-type"] ?? mimeType ?? "";
         let size: number = 0;
-
+        let text = await response.text();
         try {
             if (contentType.includes("application/json")) {
-                data = await response.json();
+                data = await JSON.parse(text);
                 const jsonString = JSON.stringify(data);
                 size = new Blob([jsonString]).size;
             } else if (contentType.includes("text/")) {
@@ -57,10 +58,11 @@ export async function fetchHandler(info: ApiData, path: string): Promise<ApiResp
 
             }
         } catch (parseError) {
+            console.log("The error is", parseError);
             errorMessage.push("⚠️ Failed to parse the response.");
-            data = null;
+            data = text;
         }
-
+        console.log("We are here 6");
         return {
             size: size,
             error: false,

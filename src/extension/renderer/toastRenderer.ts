@@ -115,6 +115,7 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
                     saveRequest(webviewPanel, document, e.data);
                     return;
                 case MessageType.GetResponse:
+                    console.log("We are here 3");
                     generateResponse({
                         webviewPanel,
                         document,

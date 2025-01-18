@@ -130,19 +130,21 @@ export default function RequestComponent({ isCodeView, index }: { isCodeView: bo
                     >
                         Send
                     </AwesomeButton>
+                    <div style={{ minWidth: "10px" }} />
                 </div>
             </div>
             <div style={{
                 display: "flex",
                 flexDirection: "row",
-                alignItems: "center",
+                alignItems: "flex-start",
                 gap: "10px",
             }}>
                 <div style={{
                     fontWeight: "bold",
                     fontSize: `${config.fontSize * 1.2}px`,
                     color: theme.primaryContainer,
-                    wordBreak: "keep-all"
+                    wordBreak: "keep-all",
+                    minWidth: "50px"
                 }}>URL : </div>
                 <div style={{ flexGrow: 1 }}><DocumentedInput
                     suggestions={generatorFuncDescriptions}
@@ -154,6 +156,7 @@ export default function RequestComponent({ isCodeView, index }: { isCodeView: bo
                     }}
                 />
                 </div>
+                <div style={{ minWidth: "10px" }} />
             </div>
             <SecondaryTopBar
                 items={[

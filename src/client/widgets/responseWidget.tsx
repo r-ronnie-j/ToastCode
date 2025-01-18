@@ -117,8 +117,10 @@ export default function ResponseComponent({ requestIndex }: { requestIndex: numb
             }}>
                 <div style={{
                     color: Methods[HttpMethod[api.data.method] as keyof typeof Methods].colors[config.theme],
-                    fontWeight: "bold"
-                }}>{Methods[HttpMethod[api.data.method] as keyof typeof Methods].label} : </div>
+                    fontWeight: "bold",
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
+                }}>{Methods[HttpMethod[api.data.method] as keyof typeof Methods].label}</div>
                 <div style={{
                     flexGrow: 1,
                     color: theme.generalText,

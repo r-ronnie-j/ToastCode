@@ -16,7 +16,7 @@ export default async function generateResponse({
     document: vscode.TextDocument,
     data: ApiData
 }) {
-
+    console.log("We are here 4");
     let response: ApiResponse | null = null;
     try {
         response = await fetchHandler(data, document.uri.fsPath);

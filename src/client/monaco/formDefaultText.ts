@@ -78,7 +78,6 @@ export function formFormData(x: FormDataType[]) {
             };
         }
     }
-    console.log("we are checking", fData);
     return inspect(fData);
 }
 
