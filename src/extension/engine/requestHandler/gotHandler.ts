@@ -40,12 +40,11 @@ export async function gotHandler(info: ApiData, path: string): Promise<ApiRespon
         let headers = response.headers;
         let contentType = headers["content-type"] ?? mimeType ?? "";
         let size: number = 0;
-
+        let text = response.body;
         try {
             if (contentType.includes("application/json")) {
-                data = JSON.parse(response.body);
-                const jsonString = JSON.stringify(data);
-                size = Buffer.byteLength(jsonString);
+                data = JSON.parse(text);
+                size = Buffer.byteLength(text);
             } else if (contentType.includes("text/")) {
                 data = response.body;
                 size = Buffer.byteLength(data);
@@ -55,7 +54,7 @@ export async function gotHandler(info: ApiData, path: string): Promise<ApiRespon
             }
         } catch (parseError) {
             errorMessage.push("⚠️ Failed to parse the response.");
-            data = null;
+            data = text;
         }
 
         return {
