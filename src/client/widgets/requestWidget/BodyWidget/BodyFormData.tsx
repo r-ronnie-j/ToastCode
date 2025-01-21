@@ -83,7 +83,6 @@ export default function BodyFormData() {
 function FormComponent({ index }: { index: number }) {
     let requestContext = useContext(RequestContext)
     let formData = requestContext.data.formData.at(index)
-    console.log("formData is ", formData)
     if (formData === null) {
         return ""
     }

@@ -9,7 +9,6 @@ import handlePath from "../utils/handlePath";
 import handleData from "./handleData";
 
 export async function fetchHandler(info: ApiData, path: string): Promise<ApiResponse> {
-    console.log("We are here 5");
     let errorMessage = [] as string[];
     let warningMessage = [] as string[];
     try {
@@ -62,7 +61,6 @@ export async function fetchHandler(info: ApiData, path: string): Promise<ApiResp
             errorMessage.push("⚠️ Failed to parse the response.");
             data = text;
         }
-        console.log("We are here 6");
         return {
             size: size,
             error: false,

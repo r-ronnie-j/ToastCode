@@ -84,19 +84,6 @@ export default function RequestComponent({ isCodeView, index }: { isCodeView: bo
                         onSuggestionSelect={() => { }}
                         inputValue={requestData.data.timeout}
                         setInputValue={(x) => {
-                            if (Math.abs(x.length - requestData.data.url.length) > 1) {
-                                try {
-                                    let u = new URL(x)
-                                    u.searchParams.forEach((value, key) => {
-                                        const index = requestData.data.params.findIndex(param => param.key === key);
-                                        if (index !== -1) {
-                                            requestData.data.params[index].value = value;
-                                        } else {
-                                            requestData.data.params.splice(requestData.data.params.length - 1, 0, { key: key, value: value, enabled: true });
-                                        }
-                                    });
-                                } catch (_) { }
-                            }
                             requestData.data.timeout = x;
                             requestData.setData({ ...requestData.data });
                         }}
@@ -160,10 +147,24 @@ export default function RequestComponent({ isCodeView, index }: { isCodeView: bo
                     minWidth: "50px"
                 }}>URL : </div>
                 <div style={{ flexGrow: 1 }}><DocumentedInput
+
                     suggestions={generatorFuncDescriptions}
                     placeholder={" Enter URL"}
                     inputValue={requestData.data.url}
                     setInputValue={(x) => {
+                        if (Math.abs(x.length - requestData.data.url.length) > 1) {
+                            try {
+                                let u = new URL(x)
+                                u.searchParams.forEach((value, key) => {
+                                    const index = requestData.data.params.findIndex(param => param.key === key);
+                                    if (index !== -1) {
+                                        requestData.data.params[index].value = value;
+                                    } else {
+                                        requestData.data.params.splice(requestData.data.params.length - 1, 0, { key: key, value: value, enabled: true });
+                                    }
+                                });
+                            } catch (_) { }
+                        }
                         requestData.data.url = x;
                         requestData.setData({ ...requestData.data });
                     }}

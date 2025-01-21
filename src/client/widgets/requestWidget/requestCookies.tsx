@@ -118,7 +118,6 @@ export default function RequestCookies() {
                         <BarInputSuggestions
                             setValue={(value) => {
                                 cookie.key = value
-                                console.log(value, cookie)
                                 setCookie({ ...cookie })
                             }}
                             value={cookie.key}

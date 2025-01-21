@@ -102,10 +102,12 @@ function ParamsIndividual({ index }: { index: number }) {
   function formUrl() {
     try {
       let url = new URL(requestData.data.url)
-      url.searchParams.forEach((key, value) => {
+      url.searchParams.forEach((value, key) => {
         let paramIndex = requestData.data.params.findIndex((a) => {
-          a.key === key
+          console.log("key", a.key, key, a.key === key, a.key == key, a)
+          return a.key === key
         })
+        console.log("paramIndex", paramIndex, key, value, requestData.data.params)
         if (paramIndex !== -1) {
           let para = requestData.data.params[paramIndex]
           if (para.enabled) url.searchParams.set(key, para.value)

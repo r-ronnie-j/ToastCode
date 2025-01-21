@@ -52,14 +52,14 @@ export default function ErrorComponent({ value, isWarning = false }: {
                 }}>
                     <div style={{
                         display: "flex",
-                        alignItems: "center",
                         gap: "10px",
                     }}>
                         <strong style={{
                             minWidth: "30px"
                         }}>{index + 1})</strong>
                         <div style={{
-                            flexGrow: 1
+                            flexGrow: 1,
+                            wordBreak:"break-word"
                         }}>{error}</div>
                     </div>
                 </div>
