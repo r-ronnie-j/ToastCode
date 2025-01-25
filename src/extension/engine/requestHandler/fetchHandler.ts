@@ -48,12 +48,10 @@ export async function fetchHandler(info: ApiData, path: string): Promise<ApiResp
                 const jsonString = JSON.stringify(data);
                 size = new Blob([jsonString]).size;
             } else if (contentType.includes("text/")) {
-                data = await response.text();
-                size = new Blob([data]).size;
+                size = new Blob([text]).size;
 
             } else {
-                data = await response.blob();
-                size = new Blob([data]).size;
+                size = new Blob([text]).size;
 
             }
         } catch (parseError) {

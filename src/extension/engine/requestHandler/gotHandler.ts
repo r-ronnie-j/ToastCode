@@ -46,11 +46,9 @@ export async function gotHandler(info: ApiData, path: string): Promise<ApiRespon
                 data = JSON.parse(text);
                 size = Buffer.byteLength(text);
             } else if (contentType.includes("text/")) {
-                data = response.body;
-                size = Buffer.byteLength(data);
-            } else {
-                data = response.body; // Response body for other types like blob or stream
-                size = Buffer.byteLength(data);
+                size = Buffer.byteLength(text);
+            } else { 
+                size = Buffer.byteLength(text);
             }
         } catch (parseError) {
             errorMessage.push("⚠️ Failed to parse the response.");
