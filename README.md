@@ -15,31 +15,29 @@ ToastCode is a powerful Visual Studio Code extension that simplifies the creatio
 ## Requirements
 This extension requires no special dependencies. Ensure you have Visual Studio Code installed and optionally Git for version control.
 
-## Extension Settings
-This extension contributes the following settings:
-- `toastCode.enable`: Enable/disable the extension.
-- `toastCode.defaultFormat`: Choose the default format for saving APIs (JSON or YAML).
-- `toastCode.filePath`: Define the default path for storing your API files.
-
-## Known Issues
-- API validation for certain edge cases may require improvements.
-- File path configuration might need to be manually adjusted in some workspaces.
-
 ## Release Notes
 ### 1.0.0
 - Initial release of ToastCode.
 - Create, save, and share REST API requests effortlessly.
-- Supports JSON and YAML file formats.
 
-## Extension Guidelines
-Ensure that you've read through the extension guidelines and follow the best practices for creating your extension.
+# Extension Guidelines for API Requests
 
-### Working with Markdown
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-- Split the editor (Cmd+\ on macOS or Ctrl+\ on Windows and Linux).
-- Toggle preview (Shift+Cmd+V on macOS or Shift+Ctrl+V on Windows and Linux).
-- Press Ctrl+Space (Windows, Linux, macOS) to see a list of Markdown snippets.
+## Creating an API Request
+1. **File Naming**: To create an API request, save your file with the `.tos` extension.
+2. **Opening the File**: `.tos` files can be opened in the testing window, allowing you to interact with your API requests.
 
-For more information:
-- [Visual Studio Code's Markdown Support](https://code.visualstudio.com/docs/editor/markdown)
-- [Markdown Syntax Reference](https://www.markdownguide.org/basic-syntax/)
+   ![Open Testing Window](https://github.com/Aayam-technology/ToastBook/blob/main/images/image.png?raw=true)
+
+## Adding Requests
+- Within the testing window, you can easily add your API requests and perform various operations.
+
+   ![Add Request](https://github.com/Aayam-technology/ToastBook/blob/main/images/image-2.png?raw=true)
+
+## Saving Your Request as an Example
+- To save your request for future reference, utilize the option to save it as an example.
+
+   ![Save Example](https://github.com/Aayam-technology/ToastBook/blob/main/images/image-1.png?raw=true)
+
+## Sharing Your Extension
+- To share your extension, simply distribute the `.tos` files along with any example files you have created.
+- Alternatively, you can push these files to GitHub for broader access and collaboration.

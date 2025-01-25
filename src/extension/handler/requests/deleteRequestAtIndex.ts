@@ -4,6 +4,7 @@ import * as fs from "fs/promises";
 import { ToastRendererProvider } from "../../renderer/toastRenderer";
 import MessageType from "../../../common/constants/enums/MessageEnums";
 import { RequestCache } from "../../cache/requestCache";
+import findTosResponse from "../../utilities/fileUtility/findTosResponse";
 
 export default async function deleteRequestAtIndex({
     document,
@@ -17,13 +18,19 @@ export default async function deleteRequestAtIndex({
         examples: {
             name: string,
             path: string
-        }[]
+        }[],
+        nonce: string
     }
 }) {
     const rawDocument = RequestCache.apis;
-    console.log("The delete index is ", data.index);
     if (data.index < rawDocument.length) {
         rawDocument.splice(data.index, 1);
+    }
+    const configFolder = await findTosResponse({document});
+    if (configFolder) {
+        const file = path.resolve(configFolder, data.nonce + ".json");
+        console.log("What the response file is", file);
+        await fs.unlink(file);
     }
     await Promise.all(data.examples.map(async (a) => {
         await fs.unlink(path.resolve(document.uri.fsPath, a.path));

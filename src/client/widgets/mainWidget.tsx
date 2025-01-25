@@ -10,7 +10,7 @@ import ResponseComponent from "./responseWidget";
 import ExampleWidget from "./exampleWidget";
 
 export default function MainWidget({ raw, index, onDelete }: {
-    raw: string, index: number, onDelete: (a: number, b: { name: string, path: string }[]) => void
+    raw: string, index: number, onDelete: (a: number, b: { name: string, path: string }[],nonce:string) => void
 }) {
 
     const [isVerticalView, setIsVerticalView] = useState(false);
@@ -93,13 +93,13 @@ export default function MainWidget({ raw, index, onDelete }: {
 
 
 function DeleteRequest({ onDelete, index }: {
-    onDelete: (a: number, b: { name: string, path: string }[]) => void,
+    onDelete: (a: number, b: { name: string, path: string }[],nonce:string) => void,
     index: number
 }) {
     let api = useContext(RequestContext)
     return <DeleteButton
         onDelete={() => {
-            onDelete(index, api.data.examples);
+            onDelete(index, api.data.examples,api.data.nonce);
         }}
         timeoutSeconds={5}
         title="Delete"

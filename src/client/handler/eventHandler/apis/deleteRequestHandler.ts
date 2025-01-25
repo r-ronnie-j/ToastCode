@@ -7,7 +7,8 @@ export default async function deleteRequestAtIndex(data: {
     examples: {
         name: string,
         path: string
-    }[]
+    }[],
+    nonce:string
 }) {
     return new Promise((resolve, reject) => {
         vscode.postMessage({

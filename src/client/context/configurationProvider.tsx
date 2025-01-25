@@ -27,10 +27,11 @@ export default function ConfigProvider() {
     function onDelete(index: number, examples: {
         name: string,
         path: string
-    }[]) {
+    }[],nonce:string) {
         deleteRequestAtIndex({
             index,
-            examples
+            examples,
+            nonce
         }).then((x) => {
             rawData.splice(index, 1);
             setRawData([...rawData])

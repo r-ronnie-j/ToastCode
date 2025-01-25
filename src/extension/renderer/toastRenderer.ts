@@ -26,6 +26,7 @@ import findTosResponse from '../utilities/fileUtility/findTosResponse';
 import readJsonFromFile from '../utilities/fileUtility/readJsonFromFile';
 import cookieDataHandler from '../handler/settingsHandler/cookiesDataHandler';
 import cookieSaverHandler from '../handler/settingsHandler/cookieSaverHandler';
+import { Cookie } from 'tough-cookie';
 
 
 export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
@@ -72,7 +73,23 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
             let cookieData = await readJsonFromFile(cookieFile);
             try {
                 if (Array.isArray(cookieData)) {
-                    cookieData.map(async (c) => await cookieJar.store.putCookie(c));
+                    cookieData.map(async (c) => {
+                        let cook = new Cookie();
+                        cook.key = c.key;
+                        cook.value = c.value;
+                        cook.domain = c.domain;
+                        cook.path = c.path;
+                        if (c.expires) { cook.expires = new Date(c.expires); }
+                        cook.httpOnly = c.httpOnly;
+                        cook.secure = c.secure;
+                        cook.sameSite = c.sameSite;
+                        if (c.creation) { cook.creation = new Date(c.creation); }
+                        if (c.lastAccessed) { cook.lastAccessed = new Date(c.lastAccessed); }
+                        cook.hostOnly = c.hostOnly;
+                        cook.maxAge = c.maxAge;
+                        cook.extensions = c.extensions;
+                        await cookieJar.store.putCookie(cook);
+                    });
                 }
             } catch (err) {
                 console.log("There was some error while uploading cookies");

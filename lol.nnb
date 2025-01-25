@@ -1,0 +1,36 @@
+{
+    "cells": [
+        {
+            "language": "typescript",
+            "source": [
+                "let x = \"2025-07-27T15:05:43.000Z\""
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "new Date(x)"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "text/plain",
+                            "value": [
+                                "\u001b[35m2025-07-27T15:05:43.000Z\u001b[39m"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "typescript",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        }
+    ]
+}
