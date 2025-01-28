@@ -178,7 +178,6 @@ export default function RequestProvider({ children, raw, index }: {
     useEffect(() => {
         if (init) {
             saveRequestHandler(apiData, index)
-            console.log("Save request has been called")
             populateInputFormData(apiData, setApiData)
         }
     }, [apiData.rawCode])

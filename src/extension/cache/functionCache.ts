@@ -25,7 +25,6 @@ const FunctionCache = {
         const lastSegment = text.split(ToastRendererProvider.documentSeperator).at(-1)?.trim();
 
         if (!lastSegment) {
-            console.warn("No valid segment found in the provided text.");
             return null;
         }
 

@@ -403,8 +403,6 @@ function CookieItem({ selected, keyValue, value, onSelect }: {
     const config = useContext(ConfigurationContext);
     const theme = getThemeColors(config.theme);
 
-    console.log("The value we receive is", keyValue);
-
     return (
         <div
             style={{

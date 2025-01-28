@@ -29,7 +29,6 @@ export default async function deleteRequestAtIndex({
     const configFolder = await findTosResponse({document});
     if (configFolder) {
         const file = path.resolve(configFolder, data.nonce + ".json");
-        console.log("What the response file is", file);
         await fs.unlink(file);
     }
     await Promise.all(data.examples.map(async (a) => {

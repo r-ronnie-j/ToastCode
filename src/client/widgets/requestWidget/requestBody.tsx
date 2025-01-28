@@ -12,7 +12,6 @@ import SimpleSelectBox from "../../component/Select/SimpleSelect"
 export default function RequestBody() {
     let requestData = useContext(RequestContext)
     let [bodyType, setBodyType] = useState(() => {
-        console.log("what is request data", requestData.data.requestDataType);
         if (requestData.data.requestDataType === RequestDataType.none) return 0
         else if (requestData.data.requestDataType === RequestDataType.formData) return 1
         else if (requestData.data.requestDataType === RequestDataType.urlEncoded) return 2

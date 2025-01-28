@@ -153,7 +153,6 @@ function FormComponent({ index }: { index: number }) {
             }}> <FileInputBox flex={3} placeholder="Select File"
                 onChange={(x) => {
                     formData!.value = x
-                    console.log("what is the form data ", requestContext.data, x);
                     requestContext.setData({ ...requestContext.data })
                 }}
                 onDelete={() => {
