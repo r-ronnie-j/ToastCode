@@ -5,6 +5,7 @@ import MessageType from '../../common/constants/enums/MessageEnums';
 let initializeHandler = (
     document: vscode.TextDocument,
     webviewPanel: vscode.WebviewPanel,
+    data: { nonce: string }
 ) => {
     let fontSize = vscode.workspace.getConfiguration().get("editor.fontSize");
     webviewPanel.webview.postMessage({

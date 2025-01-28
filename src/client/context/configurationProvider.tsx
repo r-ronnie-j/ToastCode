@@ -15,7 +15,7 @@ let defaultConfiguration: Configuration = {
     theme: 0,
     fontSize: 14,
     isConfig: false,
-    file:""
+    file: ""
 }
 
 export const ConfigurationContext = createContext<Configuration>(defaultConfiguration);
@@ -28,12 +28,12 @@ export default function ConfigProvider() {
     function onDelete(index: number, examples: {
         name: string,
         path: string
-    }[],nonce:string) {
+    }[], nonce: string) {
         deleteRequestAtIndex({
             index,
             examples,
             nonce,
-            file:config.file
+            file: config.file
         }).then((x) => {
             rawData.splice(index, 1);
             setRawData([...rawData])
@@ -41,21 +41,27 @@ export default function ConfigProvider() {
     }
 
     async function addAtIndex(index: number) {
-        addRequestAtIndex(index,config.file).then((x) => {
+        addRequestAtIndex(index, config.file).then((x) => {
             rawData.splice(index, 0, x);
             setRawData([...rawData])
         })
     }
 
     useEffect(() => {
-        initializeHandler(config.file).then((x) => {
+        initializeHandler().then((x) => {
             setLoading(false);
             setConfig(x)
             getRawRequestsHandler(config.file).then((a) => {
                 setRawData(a)
             })
         })
-        return initializeMessage(setConfig)
+        return initializeMessage((a) => {
+            setConfig({
+                ...config,
+                fontSize: a.fontSize,
+                theme: a.theme
+            })
+        })
     }, [])
     return <ConfigurationContext.Provider value={config}>
         <EnvironmentProvider>

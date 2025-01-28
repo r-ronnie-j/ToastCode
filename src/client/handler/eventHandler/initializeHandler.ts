@@ -1,17 +1,19 @@
 import MessageType from "../../../common/constants/enums/MessageEnums";
 import vscode from "../vscode";
 import { Configuration, MessageData } from "../../../common/interfaces/messages";
+import getNonce from "../../../common/utilities/getNonce";
 
-export default async function initializeHandler(file:string): Promise<Configuration> {
+export default async function initializeHandler(): Promise<Configuration> {
     return new Promise((resolve) => {
+        let nonce = getNonce();
         let initTimer = setTimeout(() => {
             vscode.postMessage({
                 type: MessageType.Initialize,
-                data: null
+                data: { nonce }
             });
         }, 1000);
         const listener = (e: MessageEvent<MessageData>) => {
-            if (e.data && e.data.type === MessageType.Initialize && file === e.data.file) {
+            if (e.data && e.data.type === MessageType.Initialize && e.data.data.nonce === nonce) {
                 window.removeEventListener('message', listener);
                 clearTimeout(initTimer);
                 resolve(e.data.data);

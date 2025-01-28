@@ -64,7 +64,7 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
         webviewPanel.webview.html = this.getHtmlForWebview(webviewPanel.webview);
         vscode.workspace.onDidChangeConfiguration((event) => {
             if (event.affectsConfiguration("workbench.colorTheme") || event.affectsConfiguration("editor.fontSize")) {
-                initializeHandler(document, webviewPanel);
+                initializeHandler(document, webviewPanel, { nonce: "" });
             }
         });
 
@@ -99,7 +99,7 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
         webviewPanel.webview.onDidReceiveMessage((e: MessageData) => {
             switch (e.type) {
                 case MessageType.Initialize:
-                    initializeHandler(document, webviewPanel);
+                    initializeHandler(document, webviewPanel, e.data);
                     return;
                 case MessageType.FilePicker:
                     filePickerHandler({ webview: webviewPanel, document });
@@ -117,7 +117,7 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
                     getVariableHandler({ webviewPanel, document });
                     return;
                 case MessageType.GetEnvironment:
-                    getEnvironmentHandler({ webviewPanel,document });
+                    getEnvironmentHandler({ webviewPanel, document });
                     return;
                 case MessageType.GetFunction:
                     getFunctionHandler({ webviewPanel, document });
@@ -126,7 +126,7 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
                     getRawFunctionHandler({ webviewPanel, document });
                     return;
                 case MessageType.GetRawRequests:
-                    getRawRequestsHandler({ webviewPanel,document });
+                    getRawRequestsHandler({ webviewPanel, document });
                     return;
                 case MessageType.SaveRequest:
                     saveRequest(webviewPanel, document, e.data);
