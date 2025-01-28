@@ -10,6 +10,7 @@ export default async function getRawFunctionHandler({ webviewPanel, document }: 
     console.log("function", FunctionCache);
     webviewPanel.webview.postMessage({
         type: MessageType.GetRawFunction,
-        data: FunctionCache.functionText
+        data: FunctionCache.functionText,
+        file:document.uri.fsPath,
     });
 }

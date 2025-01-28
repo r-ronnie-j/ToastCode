@@ -14,7 +14,8 @@ let filePickerHandler = async ({ webview, document }: {
     const relativePath = absolutePath ? path.relative(basePath, absolutePath) : null;
     webview.webview.postMessage({
         type: MessageType.FilePicker,
-        data: relativePath
+        data: relativePath,
+        file:document.uri.fsPath,
     });
 };
 

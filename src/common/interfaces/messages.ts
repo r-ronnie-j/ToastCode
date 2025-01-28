@@ -2,11 +2,13 @@ import MessageType from "../constants/enums/MessageEnums";
 
 export interface MessageData {
     type: MessageType,
-    data: any
+    file:string,
+    data: any,
 }
 
 export interface Configuration {
     theme: number,
     fontSize: number,
-    isConfig: boolean
+    isConfig: boolean,
+    file:string,
 }

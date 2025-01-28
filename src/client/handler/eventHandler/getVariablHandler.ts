@@ -3,7 +3,7 @@ import { MessageData } from "../../../common/interfaces/messages";
 import { VariableInfo } from "../../../common/interfaces/variables";
 import vscode from "../vscode";
 
-export default function getVariableHandler(): Promise<VariableInfo[]> {
+export default function getVariableHandler(file:string): Promise<VariableInfo[]> {
     return new Promise((resolve) => {
         let initTimer = setTimeout(() => {
             vscode.postMessage({
@@ -11,7 +11,7 @@ export default function getVariableHandler(): Promise<VariableInfo[]> {
             });
         }, 1000);
         const listener = (e: MessageEvent<MessageData>) => {
-            if (e.data && e.data.type === MessageType.GetVariable) {
+            if (e.data && e.data.type === MessageType.GetVariable && file === e.data.file) {
                 window.removeEventListener('message', listener);
                 clearTimeout(initTimer);
                 resolve(e.data.data);

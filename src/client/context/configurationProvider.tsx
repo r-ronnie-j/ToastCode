@@ -14,7 +14,8 @@ import addRequestAtIndex from "../handler/eventHandler/apis/addRequestHandler";
 let defaultConfiguration: Configuration = {
     theme: 0,
     fontSize: 14,
-    isConfig: false
+    isConfig: false,
+    file:""
 }
 
 export const ConfigurationContext = createContext<Configuration>(defaultConfiguration);
@@ -31,7 +32,8 @@ export default function ConfigProvider() {
         deleteRequestAtIndex({
             index,
             examples,
-            nonce
+            nonce,
+            file:config.file
         }).then((x) => {
             rawData.splice(index, 1);
             setRawData([...rawData])
@@ -39,17 +41,17 @@ export default function ConfigProvider() {
     }
 
     async function addAtIndex(index: number) {
-        addRequestAtIndex(index).then((x) => {
+        addRequestAtIndex(index,config.file).then((x) => {
             rawData.splice(index, 0, x);
             setRawData([...rawData])
         })
     }
 
     useEffect(() => {
-        initializeHandler().then((x) => {
+        initializeHandler(config.file).then((x) => {
             setLoading(false);
             setConfig(x)
-            getRawRequestsHandler().then((a) => {
+            getRawRequestsHandler(config.file).then((a) => {
                 setRawData(a)
             })
         })

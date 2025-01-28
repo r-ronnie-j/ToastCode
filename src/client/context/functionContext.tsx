@@ -1,8 +1,9 @@
-import React, { createContext, ReactElement, useEffect, useState } from "react"
+import React, { createContext, ReactElement, useContext, useEffect, useState } from "react"
 import getRawFunctionHandler from "../handler/eventHandler/getRawFunctionHandler";
 import saveFunctions from "../handler/eventHandler/saveFunctions";
 import { FunctionProps } from "../../common/interfaces/variables";
 import { TestFunction as TF } from "../../common/interfaces/variables";
+import { ConfigurationContext } from "./configurationProvider";
 
 export type Funcs = {
     name: string;
@@ -79,8 +80,10 @@ export default function FunctionCodeProvider({ children }: {
         }
     }
 
+    const config = useContext(ConfigurationContext)
+
     useEffect(() => {
-        getRawFunctionHandler().then((x) => {
+        getRawFunctionHandler(config.file).then((x) => {
             extractFunctions(x)
             setFuns(x)
             setInit(true);

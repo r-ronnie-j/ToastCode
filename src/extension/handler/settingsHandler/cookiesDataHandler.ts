@@ -19,12 +19,14 @@ export default async function cookieDataHandler({
             webPanel.webview.postMessage({
                 type: MessageType.CookiesData,
                 data: res,
+                file:document.uri.fsPath,
             });
             return;
         } else {
             webPanel.webview.postMessage({
                 type: MessageType.CookiesData,
                 data: [],
+                file:document.uri.fsPath,
             });
             return;
         }
@@ -32,6 +34,7 @@ export default async function cookieDataHandler({
         webPanel.webview.postMessage({
             type: MessageType.CookiesData,
             data: [],
+            file:document.uri.fsPath,
         });
         return;
     }

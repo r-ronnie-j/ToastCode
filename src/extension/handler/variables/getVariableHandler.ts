@@ -7,6 +7,7 @@ export default async function getVariableHandler({ webviewPanel, document }: {
 }) {
     webviewPanel.webview.postMessage({
         type: MessageType.GetVariable,
-        data: VariableCache.vars
+        data: VariableCache.vars,
+        file:document.uri.fsPath,
     });
 }

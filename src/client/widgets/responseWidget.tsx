@@ -27,7 +27,8 @@ export default function ResponseComponent({ requestIndex }: { requestIndex: numb
             name: name,
             req: api.data,
             res: api.response,
-        })
+            
+        },config.file)
         if (typeof file === 'string') {
             if (api.data.examples.findIndex((a) => a.path === file) === -1) {
                 api.data.examples.push({

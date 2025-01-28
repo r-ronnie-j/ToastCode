@@ -13,7 +13,7 @@ const BodyBinary: React.FC = () => {
     const [fileName, setFileName] = useState<string>(requestContext.data.binary ?? "");
 
     const handleButtonClick = async () => {
-        const file = await fileHandler();
+        const file = await fileHandler(config.file);
         if (file !== null) {
             setFileName(file);
         }

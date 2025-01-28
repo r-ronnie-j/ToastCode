@@ -18,12 +18,14 @@ export default async function loadExampleHandler({
             webPanel.webview.postMessage({
                 type: MessageType.LoadExample,
                 data: example,
+                file:document.uri.fsPath,
             });
             return;
         } else {
             webPanel.webview.postMessage({
                 type: MessageType.LoadExample,
                 data: null,
+                file:document.uri.fsPath,
             });
             return;
         }
@@ -31,6 +33,7 @@ export default async function loadExampleHandler({
         webPanel.webview.postMessage({
             type: MessageType.LoadExample,
             data: null,
+            file:document.uri.fsPath,
         });
         return;
     }

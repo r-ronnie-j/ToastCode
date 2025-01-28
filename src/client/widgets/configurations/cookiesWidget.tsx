@@ -18,7 +18,7 @@ export default function CookiesWidget() {
     const theme = getThemeColors(config.theme);
 
     useEffect(() => {
-        getCookieHandler().then((cooks) => {
+        getCookieHandler(config.file).then((cooks) => {
             setCookies(cooks);
             const domainSet = new Set(cooks.map(x => x.domain).filter(x => x !== null));
             const domainsArray = Array.from(domainSet);

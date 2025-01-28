@@ -1,8 +1,9 @@
-import React, { createContext, ReactElement, useEffect, useState } from "react";
+import React, { createContext, ReactElement, useContext, useEffect, useState } from "react";
 import { EnvironmentInfo } from "../../common/interfaces/variables";
 import getEnvironmentHandler from "../handler/eventHandler/getEnvironmentHandler";
 import saveEnvironmentHandler from "../handler/eventHandler/saveEnvironmentHandler";
 import getEnvironmentMessage from "../handler/messageHandler/getEnvironmentMessage";
+import { ConfigurationContext } from "./configurationProvider";
 
 export const EnvironmentContext = createContext<{
     paths: EnvironmentInfo[];
@@ -17,11 +18,12 @@ export default function EnvironmentProvider({
 }: {
     children: ReactElement;
 }) {
+    const config = useContext(ConfigurationContext)
     const [paths, setPaths] = useState<EnvironmentInfo[]>([]);
     const [shouldSave, setShouldSave] = useState(false);
 
     useEffect(() => {
-        getEnvironmentHandler().then((data) => {
+        getEnvironmentHandler(config.file).then((data) => {
             setPaths(data.paths);
         });
       

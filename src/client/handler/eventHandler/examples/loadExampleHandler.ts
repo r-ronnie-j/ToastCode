@@ -3,7 +3,7 @@ import { ApiData, ApiResponse } from "../../../../common/interfaces/apiRequests"
 import { MessageData } from "../../../../common/interfaces/messages";
 import vscode from "../../vscode";
 
-export default async function loadExampleHandler(data: string): Promise<{
+export default async function loadExampleHandler(data: string,file:string): Promise<{
     name: string, req: ApiData, res: ApiResponse
 } | null> {
     return new Promise((resolve, _) => {
@@ -12,7 +12,7 @@ export default async function loadExampleHandler(data: string): Promise<{
             data: data
         });
         let listener = (e: MessageEvent<MessageData>) => {
-            if (e.data && e.data.type === MessageType.LoadExample) {
+            if (e.data && e.data.type === MessageType.LoadExample && e.data.file === file) {
                 window.removeEventListener("message", listener);
                 resolve(e.data.data);
             }

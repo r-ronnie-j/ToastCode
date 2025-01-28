@@ -3,7 +3,7 @@ import { MessageData } from "../../../common/interfaces/messages";
 import { EnvironmentInfo } from "../../../common/interfaces/variables";
 import vscode from "../vscode";
 
-export default function getEnvironmentHandler(): Promise<{
+export default function getEnvironmentHandler(file:string): Promise<{
     paths: EnvironmentInfo[]
     envs: Record<string, string>
 }> {
@@ -14,7 +14,7 @@ export default function getEnvironmentHandler(): Promise<{
             });
         }, 1000);
         const listener = (e: MessageEvent<MessageData>) => {
-            if (e.data && e.data.type === MessageType.GetEnvironment) {
+            if (e.data && e.data.type === MessageType.GetEnvironment && file === e.data.file) {
                 window.removeEventListener('message', listener);
                 clearTimeout(initTimer);
                 resolve(e.data.data);

@@ -117,7 +117,7 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
                     getVariableHandler({ webviewPanel, document });
                     return;
                 case MessageType.GetEnvironment:
-                    getEnvironmentHandler({ webviewPanel });
+                    getEnvironmentHandler({ webviewPanel,document });
                     return;
                 case MessageType.GetFunction:
                     getFunctionHandler({ webviewPanel, document });
@@ -126,7 +126,7 @@ export class ToastRendererProvider implements vscode.CustomTextEditorProvider {
                     getRawFunctionHandler({ webviewPanel, document });
                     return;
                 case MessageType.GetRawRequests:
-                    getRawRequestsHandler({ webviewPanel });
+                    getRawRequestsHandler({ webviewPanel,document });
                     return;
                 case MessageType.SaveRequest:
                     saveRequest(webviewPanel, document, e.data);

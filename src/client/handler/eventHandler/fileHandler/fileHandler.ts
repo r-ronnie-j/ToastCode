@@ -1,7 +1,7 @@
 import MessageType from "../../../../common/constants/enums/MessageEnums";
 import vscode from "../../vscode";
 
-export default function fileHandler(): Promise<string | null> {
+export default function fileHandler(file:string): Promise<string | null> {
     return new Promise((resolve, reject) => {
         vscode.postMessage({
             type: MessageType.FilePicker,
@@ -9,8 +9,9 @@ export default function fileHandler(): Promise<string | null> {
         const listener = (e: MessageEvent<{
             type: MessageType,
             data: string | null,
+            file:string
         }>) => {
-            if (e.data && e.data.type === MessageType.FilePicker) {
+            if (e.data && e.data.type === MessageType.FilePicker && file === e.data.file) {
                 window.removeEventListener('message', listener);
                 resolve(e.data.data ?? null);
             }

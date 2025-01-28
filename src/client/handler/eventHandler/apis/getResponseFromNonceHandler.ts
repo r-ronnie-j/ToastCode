@@ -3,7 +3,7 @@ import { ApiResponse } from "../../../../common/interfaces/apiRequests";
 import { MessageData } from "../../../../common/interfaces/messages";
 import vscode from "../../vscode";
 
-export default function getResponseFromNonceHandler(nonce: string): Promise<ApiResponse | null> {
+export default function getResponseFromNonceHandler(nonce: string,file:string): Promise<ApiResponse | null> {
     return new Promise((resolve, reject) => {
         let initTimer = setTimeout(() => {
             vscode.postMessage({
@@ -12,7 +12,7 @@ export default function getResponseFromNonceHandler(nonce: string): Promise<ApiR
             });
         }, 1000);
         const listener = (e: MessageEvent<MessageData>) => {
-            if (e.data && e.data.type === MessageType.GetResponseFromNonce) {
+            if (e.data && e.data.type === MessageType.GetResponseFromNonce && file === e.data.file) {
                 if (e.data.data.nonce === nonce) {
                     window.removeEventListener('message', listener);
                     clearTimeout(initTimer);

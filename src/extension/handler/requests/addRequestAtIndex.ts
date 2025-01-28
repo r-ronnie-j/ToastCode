@@ -44,7 +44,8 @@ export default async function addRequestAtIndex({
     vscode.workspace.applyEdit(edit);
     webPanel.webview.postMessage({
         type: MessageType.AddRequestAtIndex,
-        data: newContent
+        data: newContent,
+        file:document.uri.fsPath,
     });
 }
 

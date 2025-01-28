@@ -35,6 +35,7 @@ export default async function generateResponse({
     webviewPanel.webview.postMessage({
         type: MessageType.GetResponse,
         data: response,
+        file:document.uri.fsPath,
     });
 
 

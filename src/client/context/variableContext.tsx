@@ -1,8 +1,9 @@
-import React, { createContext, ReactElement, useEffect, useState } from "react"
+import React, { createContext, ReactElement, useContext, useEffect, useState } from "react"
 import { VariableInfo } from "../../common/interfaces/variables";
 import getVariableHandler from "../handler/eventHandler/getVariablHandler";
 import saveVariableHandler from "../handler/eventHandler/saveVariableHandler";
 import { VariableDataType } from "../../common/constants/enums/variableEnums";
+import { ConfigurationContext } from "./configurationProvider";
 
 
 export const VariableContext = createContext<{
@@ -19,13 +20,14 @@ export default function VariableProvider({ children }: {
     children: ReactElement
 }) {
     const [init, setInit] = useState(false)
+    const config = useContext(ConfigurationContext)
 
     const [vars, setVars] = useState<VariableInfo[]>([
         { enabled: true, key: '', value: '', type: VariableDataType.string }
     ])
 
     useEffect(() => {
-        getVariableHandler().then((x) => {
+        getVariableHandler(config.file).then((x) => {
             let lastVar = x.at(-1)
             if (lastVar && lastVar.key.trim() === "" && lastVar.value.trim() === "") {
                 setVars(x)

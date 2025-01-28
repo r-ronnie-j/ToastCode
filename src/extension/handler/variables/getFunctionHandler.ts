@@ -8,6 +8,7 @@ export default async function getFunctionHandler({ webviewPanel, document }: {
 }) {
     webviewPanel.webview.postMessage({
         type: MessageType.GetEnvironment,
+        file:document.uri.fsPath,
         data: {
             tests: Object.entries(FunctionCache.tests).map((a) => {
                 return {

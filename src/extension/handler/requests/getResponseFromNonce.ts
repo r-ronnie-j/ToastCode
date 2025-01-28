@@ -23,6 +23,7 @@ export default async function getResponseFromNonceHandler({
                     nonce: data,
                     res
                 },
+                file:document.uri.fsPath
             });
             return;
         } else {
@@ -32,6 +33,7 @@ export default async function getResponseFromNonceHandler({
                     nonce: data,
                     res: null,
                 },
+                file:document.uri.fsPath,
             });
             return;
         }
@@ -42,6 +44,7 @@ export default async function getResponseFromNonceHandler({
                 nonce: data,
                 res: null
             },
+            file:document.uri.fsPath,
         });
         return;
     }

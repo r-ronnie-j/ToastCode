@@ -33,7 +33,7 @@ funs = {${FunctionCache.extractFuns(document.getText()) ?? ""}}`;
         vscode.workspace.applyEdit(edit);
         document.save();
         a.then((y) => {
-            getEnvironmentHandler({ webviewPanel });
+            getEnvironmentHandler({ webviewPanel,document });
         });
     }
 }

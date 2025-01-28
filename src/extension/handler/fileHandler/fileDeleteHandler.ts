@@ -16,20 +16,23 @@ export default async function fileDeleteHandler({
             await fs.unlink(examplePath);
             webpanel.webview.postMessage({
                 type: MessageType.FileDelete,
-                data: true
+                data: true,
+                file : document.uri.fsPath
             });
             return;
         } else {
             webpanel.webview.postMessage({
                 type: MessageType.FileDelete,
-                data: true
+                data: true,
+                file : document.uri.fsPath
             });
             return;
         }
     } catch (err) {
         webpanel.webview.postMessage({
             type: MessageType.FileDelete,
-            data: false
+            data: false,
+            file:document.uri.fsPath
         });
     }
 }

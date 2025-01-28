@@ -92,7 +92,7 @@ export default function EnvironmentWidget() {
                             alignItems: 'center', // Vertically center content
                         }}
                         onClick={async () => {
-                            let f = await fileHandler();
+                            let f = await fileHandler(config.file);
                             if (f && env.paths.findIndex((x) => x.path === f) === -1) {
                                 env.paths.push({
                                     path: f,

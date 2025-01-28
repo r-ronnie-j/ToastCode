@@ -7,6 +7,7 @@ import formDefaultText from "../monaco/formDefaultText";
 import saveRequestHandler from "../handler/eventHandler/apis/saveRequestHandler";
 import generateResponseHandler from "../handler/eventHandler/apis/generateResponseHandler";
 import getResponseFromNonceHandler from "../handler/eventHandler/apis/getResponseFromNonceHandler";
+import { ConfigurationContext } from "./configurationProvider";
 
 
 function getDefaultReqValue(rawCode: string): ApiData {
@@ -76,6 +77,7 @@ export default function RequestProvider({ children, raw, index }: {
     index: number
 }) {
     let [init, setInit] = useState(false);
+    let config = useContext(ConfigurationContext)
 
     let [processing, setProcessing] = useState(false);
     let [apiData, setApiData] = useState<ApiData>(getDefaultReqValue(raw))
@@ -84,7 +86,7 @@ export default function RequestProvider({ children, raw, index }: {
     async function invoke() {
         setProcessing(true)
         setResponse(null)
-        generateResponseHandler({ data: apiData }).then((a) => {
+        generateResponseHandler({ data: apiData,file:config.file }).then((a) => {
             setResponse(a)
             setProcessing(false)
         })
@@ -98,7 +100,7 @@ export default function RequestProvider({ children, raw, index }: {
 
     useEffect(() => {
         if (apiData.nonce.trim() !== "") {
-            getResponseFromNonceHandler(apiData.nonce).then((x) => {
+            getResponseFromNonceHandler(apiData.nonce,config.file).then((x) => {
                 setResponse(x);
                 setInit(true);
             })

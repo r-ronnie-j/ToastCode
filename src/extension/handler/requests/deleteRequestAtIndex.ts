@@ -45,6 +45,7 @@ export default async function deleteRequestAtIndex({
     vscode.workspace.applyEdit(edit);
     webPanel.webview.postMessage({
         type: MessageType.DeleteRequestAtIndex,
-        data: true
+        data: true,
+        file:document.uri.fsPath,
     });
 }

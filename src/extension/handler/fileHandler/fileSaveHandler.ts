@@ -21,7 +21,8 @@ let fileSaverHandler = async ({ webview, document, content }: {
             await vscode.workspace.fs.writeFile(saveFileUri, Buffer.from(jsonString, 'utf8'));
             webview.webview.postMessage({
                 type: MessageType.FileSaver,
-                data: path.relative(document.uri.fsPath, saveFileUri.fsPath)
+                data: path.relative(document.uri.fsPath, saveFileUri.fsPath),
+                file:document.uri.fsPath,
             });
             return;
         } catch (error) {
@@ -29,12 +30,14 @@ let fileSaverHandler = async ({ webview, document, content }: {
             webview.webview.postMessage({
                 type: MessageType.FileSaver,
                 data: null,
+                file:document.uri.fsPath,
             });
         }
     } else {
         webview.webview.postMessage({
             type: MessageType.FileSaver,
             data: null,
+            file:document.uri.fsPath,
         });
     }
 };

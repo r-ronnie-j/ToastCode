@@ -34,7 +34,7 @@ export default function ExampleWidget() {
     const api = useContext(RequestContext)
 
     async function deleteExample() {
-        await fileDeleteHandler(api.data.examples[exampleIndex].path)
+        await fileDeleteHandler(api.data.examples[exampleIndex].path,config.file)
         api.data.examples.splice(exampleIndex, 1);
         api.setData({ ...api.data });
         if (exampleIndex !== 0) {
@@ -44,7 +44,7 @@ export default function ExampleWidget() {
 
     useEffect(() => {
         if (exampleIndex < api.data.examples.length) {
-            loadExampleHandler(api.data.examples[exampleIndex].path).then((x) => {
+            loadExampleHandler(api.data.examples[exampleIndex].path,config.file).then((x) => {
                 if (x !== null) {
                     setName(x.name)
                     setReq(x.req)
