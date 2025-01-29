@@ -18,7 +18,7 @@ const FileInputBox: React.FC<FileInputProps> = ({ placeholder, flex, onChange, o
     const theme = getThemeColors(config.theme);
 
     const handleFileChange = async (e: React.MouseEvent) => {
-        let file = await fileHandler() as string;
+        let file = await fileHandler(config.file) as string;
         setSelectedFile(file);
         onChange(file)
     };

@@ -51,7 +51,7 @@ export default function ConfigProvider() {
         initializeHandler().then((x) => {
             setLoading(false);
             setConfig(x)
-            getRawRequestsHandler(config.file).then((a) => {
+            getRawRequestsHandler(x.file).then((a) => {
                 setRawData(a)
             })
         })

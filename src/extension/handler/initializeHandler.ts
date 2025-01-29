@@ -16,6 +16,7 @@ let initializeHandler = (
             fontSize,
             isConfig: "config" === path.parse(document.uri.path).name,
             file: document.uri.fsPath,
+            nonce:data.nonce
         }
     });
 };

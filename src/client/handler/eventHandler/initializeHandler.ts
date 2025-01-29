@@ -13,6 +13,7 @@ export default async function initializeHandler(): Promise<Configuration> {
             });
         }, 1000);
         const listener = (e: MessageEvent<MessageData>) => {
+            console.log("lets check what the data is",e.data);
             if (e.data && e.data.type === MessageType.Initialize && e.data.data.nonce === nonce) {
                 window.removeEventListener('message', listener);
                 clearTimeout(initTimer);
