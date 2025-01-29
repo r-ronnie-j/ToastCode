@@ -26,10 +26,14 @@ export default async function deleteRequestAtIndex({
     if (data.index < rawDocument.length) {
         rawDocument.splice(data.index, 1);
     }
-    const configFolder = await findTosResponse({document});
-    if (configFolder) {
-        const file = path.resolve(configFolder, data.nonce + ".json");
-        await fs.unlink(file);
+    const tosResponse = await findTosResponse({ document });
+    if (tosResponse) {
+        const file = path.resolve(tosResponse, data.nonce + ".json");
+        try {
+            if ((await fs.stat(file)).isFile()) {
+                await fs.unlink(file);
+            }
+        } catch (_) { }
     }
     await Promise.all(data.examples.map(async (a) => {
         await fs.unlink(path.resolve(document.uri.fsPath, a.path));
@@ -45,6 +49,6 @@ export default async function deleteRequestAtIndex({
     webPanel.webview.postMessage({
         type: MessageType.DeleteRequestAtIndex,
         data: true,
-        file:document.uri.fsPath,
+        file: document.uri.fsPath,
     });
 }
