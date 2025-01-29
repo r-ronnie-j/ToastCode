@@ -48,8 +48,10 @@ export default function ConfigProvider() {
     }
 
     useEffect(() => {
+        let localConfig = defaultConfiguration
         initializeHandler().then((x) => {
             setLoading(false);
+            localConfig = x
             setConfig(x)
             getRawRequestsHandler(x.file).then((a) => {
                 setRawData(a)
@@ -57,7 +59,7 @@ export default function ConfigProvider() {
         })
         return initializeMessage((a) => {
             setConfig({
-                ...config,
+                ...localConfig,
                 fontSize: a.fontSize,
                 theme: a.theme
             })

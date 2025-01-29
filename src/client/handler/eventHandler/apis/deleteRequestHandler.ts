@@ -11,6 +11,7 @@ export default async function deleteRequestAtIndex(data: {
     nonce: string,
     file: string,
 }) {
+    console.log("item at delte request at index", data);
     return new Promise((resolve, reject) => {
         vscode.postMessage({
             type: MessageType.DeleteRequestAtIndex,
@@ -18,7 +19,7 @@ export default async function deleteRequestAtIndex(data: {
         });
 
         let listener = (e: MessageEvent<MessageData>) => {
-            if (e.data.type === MessageType.DeleteRequestAtIndex) { console.log("delete request at index", e.data),data.file; }
+            if (e.data.type === MessageType.DeleteRequestAtIndex) { console.log("delete request at index", e.data), data.file; }
             if (e.data && e.data.type === MessageType.DeleteRequestAtIndex && e.data.file === data.file) {
                 window.removeEventListener('message', listener);
                 resolve(e.data.data);
