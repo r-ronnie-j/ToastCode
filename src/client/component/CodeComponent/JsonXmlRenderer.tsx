@@ -46,10 +46,38 @@ const JsonXmlRenderer = ({ value, type = "json", key }: {
 
             window.addEventListener('resize', handleResize);
             formatDocument(m);
+
+            function scrollEventListener(event: WheelEvent) {
+                event.preventDefault();
+
+                let scrollAmountY = event.deltaY;
+                let scrollAmountX = event.deltaX;
+
+                if (event.deltaMode === 1) {
+                    scrollAmountY *= 40;
+                    scrollAmountX *= 40;
+                } else if (event.deltaMode === 2) {
+                    scrollAmountY *= window.innerHeight;
+                    scrollAmountX *= window.innerWidth;
+                }
+
+                window.scrollBy({
+                    top: scrollAmountY,
+                    left: scrollAmountX,
+                    behavior: "auto"
+                });
+            }
+
+            containerRef.current.addEventListener("wheel", scrollEventListener, {
+                capture: true,
+                passive: false,
+            })
+
             return () => {
                 if (editorRef.current) {
                     editorRef.current.dispose();
                 }
+                containerRef.current?.removeEventListener("wheel", scrollEventListener)
                 window.removeEventListener('resize', handleResize);
             };
         });
