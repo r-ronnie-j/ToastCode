@@ -42,6 +42,7 @@ export async function fetchHandler(info: ApiData, path: string): Promise<ApiResp
         let contentType = headers["content-type"] ?? mimeType ?? "";
         let size: number = 0;
         let text = await response.text();
+        data = text;
         try {
             if (contentType.includes("application/json")) {
                 data = await JSON.parse(text);
