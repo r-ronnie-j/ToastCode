@@ -26,6 +26,13 @@ export default function ResponseViewer({ res }: { res: ApiResponse | null }) {
             htmlContent={response.data}
         />
     }
+    if (response.mime.includes("javascript")) {
+        return <JsonXmlRenderer
+            type="javascript"
+            value={response.data}
+            key={`js-${response.name}-js`}
+        />
+    }
     if (response.mime.includes("json")) {
         return <JsonXmlRenderer
             type="json"
@@ -48,6 +55,7 @@ export default function ResponseViewer({ res }: { res: ApiResponse | null }) {
         margin: '10px 0',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
         color: themeStyle.generalText,
+
     }}>
         {!response.data ? (
             <div style={{
@@ -55,6 +63,7 @@ export default function ResponseViewer({ res }: { res: ApiResponse | null }) {
                 fontWeight: 'bold',
                 margin: '0 auto',
                 maxWidth: '400px',
+                wordBreak:"break-all"
             }}>
                 <span style={{ fontSize: '30px' }}>❌</span>
                 <div style={{ marginTop: '10px' }}>Oops! No response found.</div>

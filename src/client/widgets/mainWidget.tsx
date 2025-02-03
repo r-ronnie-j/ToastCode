@@ -18,6 +18,8 @@ export default function MainWidget({ raw, index, onDelete }: {
     const configuration = useContext(ConfigurationContext)
     const theme = getThemeColors(configuration.theme)
     const [isExample, setIsExample] = useState(false);
+
+
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth <= 1200) {
@@ -30,6 +32,8 @@ export default function MainWidget({ raw, index, onDelete }: {
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
+
+
 
     return (
         <RequestProvider raw={raw} index={index}>

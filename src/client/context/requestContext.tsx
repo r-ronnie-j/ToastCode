@@ -1,4 +1,4 @@
-import React, { createContext, ReactElement, useContext, useEffect, useState } from "react";
+import React, { createContext, ReactElement, useCallback, useContext, useEffect, useState } from "react";
 import { ApiData, ApiResponse } from "../../common/interfaces/apiRequests"
 import { FormDataItem, RequestDataType, TimeOutType } from "../../common/constants/enums/variableEnums";
 import { HttpMethod, Https } from "../../common/constants/enums/methodsEnums";
@@ -86,7 +86,7 @@ export default function RequestProvider({ children, raw, index }: {
     async function invoke() {
         setProcessing(true)
         setResponse(null)
-        generateResponseHandler({ data: apiData,file:config.file }).then((a) => {
+        generateResponseHandler({ data: apiData, file: config.file }).then((a) => {
             setResponse(a)
             setProcessing(false)
         })
@@ -100,7 +100,7 @@ export default function RequestProvider({ children, raw, index }: {
 
     useEffect(() => {
         if (apiData.nonce.trim() !== "") {
-            getResponseFromNonceHandler(apiData.nonce,config.file).then((x) => {
+            getResponseFromNonceHandler(apiData.nonce, config.file).then((x) => {
                 setResponse(x);
                 setInit(true);
             })
@@ -182,6 +182,24 @@ export default function RequestProvider({ children, raw, index }: {
         }
     }, [apiData.rawCode])
 
+    const [isFocused, setIsFocused] = useState(false);
+
+    const handleKeyDown = useCallback(
+        (event: KeyboardEvent) => {
+            if (event.shiftKey && event.key === "Enter" && isFocused) {
+                event.preventDefault();
+                console.log(`Shift+Enter pressed `);
+                invoke()
+            }
+        },
+        [isFocused]
+    );
+
+    useEffect(() => {
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [handleKeyDown]);
+
     return <RequestContext.Provider value={{
         data: apiData,
         setData: setApiData,
@@ -190,7 +208,12 @@ export default function RequestProvider({ children, raw, index }: {
         invoke,
         processing,
     }}>
-        {children}
+        <div
+            onMouseOver = {() => setIsFocused(true)}
+            onMouseOut = {() => setIsFocused(false)}
+        >
+            {children}
+        </div>
     </RequestContext.Provider>
 }
 

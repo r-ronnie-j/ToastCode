@@ -83,13 +83,7 @@ const RequestCodeComponent = ({ index }: { index: number }) => {
 
     return <div style={{ position: "relative", width: "100%" }}>
         <button
-            // onClick={() => requestSender({
-            //     data: requestData.data,
-            //     response: responseData.response,
-            //     setResponse: responseData.setResponse,
-            //     index: index,
-            //     exampleIndex: 0
-            // })}
+            onClick={() => requestData.invoke()}
             style={{
                 position: "absolute",
                 top: "5px",

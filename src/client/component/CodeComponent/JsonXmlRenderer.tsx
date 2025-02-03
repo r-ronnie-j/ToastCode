@@ -67,17 +67,20 @@ const JsonXmlRenderer = ({ value, type = "json", key }: {
                     behavior: "auto"
                 });
             }
-
-            containerRef.current.addEventListener("wheel", scrollEventListener, {
-                capture: true,
-                passive: false,
-            })
+            if (type !== "html") {
+                containerRef.current.addEventListener("wheel", scrollEventListener, {
+                    capture: true,
+                    passive: false,
+                })
+            }
 
             return () => {
                 if (editorRef.current) {
                     editorRef.current.dispose();
                 }
-                containerRef.current?.removeEventListener("wheel", scrollEventListener)
+                if (type !== "html") {
+                    containerRef.current?.removeEventListener("wheel", scrollEventListener)
+                }
                 window.removeEventListener('resize', handleResize);
             };
         });
