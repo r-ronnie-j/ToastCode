@@ -67,6 +67,14 @@ export default function VariableWidget() {
 }
 
 function VariableGui({ vars, setVars, theme }: { vars: VariableInfo[], setVars: React.Dispatch<VariableInfo[]>, theme: ThemeColors }) {
+    if(vars.length === 0){
+        setVars([{
+            enabled:true,
+            key:"",
+            value:"",
+            type:VariableDataType.string
+        }])
+    }
     return (
         <div style={{
             borderRadius: "4px",
@@ -123,6 +131,7 @@ function VariableGui({ vars, setVars, theme }: { vars: VariableInfo[], setVars: 
                     <div style={{ marginLeft: '10px', opacity: '0' }}>🗑️</div>
                 </div>}
             >
+                
                 {vars.map((_, i) => (
                     <VarIndividual key={i} index={i} vars={vars} setVars={setVars} />
                 ))}

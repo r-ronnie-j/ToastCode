@@ -41,7 +41,7 @@ export default function VariableProvider({ children }: {
             }
             setInit(true);
         })
-    }, [])
+    }, [config.file])
 
     useEffect(() => {
         if (init) {

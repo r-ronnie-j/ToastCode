@@ -88,7 +88,7 @@ export default function FunctionCodeProvider({ children }: {
             setFuns(x)
             setInit(true);
         })
-    }, [])
+    }, [config.file])
 
     useEffect(() => {
         if (init) {
