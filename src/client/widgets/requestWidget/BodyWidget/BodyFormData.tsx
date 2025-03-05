@@ -150,7 +150,7 @@ function FormComponent({ index }: { index: number }) {
                 flexGrow: 3,
                 width: "10px",
                 display: "flex",
-            }}> <FileInputBox flex={3} placeholder="Select File"
+            }}> <FileInputBox flex={3} placeholder= { formData?.value.split("/").at(-1) ?? "Select File"}
                 onChange={(x) => {
                     formData!.value = x
                     requestContext.setData({ ...requestContext.data })
