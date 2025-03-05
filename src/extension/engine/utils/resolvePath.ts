@@ -11,7 +11,8 @@ export async function resolvePath(absolutePath: string, relativePath: string) {
             path: absPath,
             exists: true,
             isFile: stats.isFile,
-            size: stats.size
+            size: stats.size,
+            name:path.basename(relativePath),
         };
     }
     catch (err) {
@@ -20,6 +21,7 @@ export async function resolvePath(absolutePath: string, relativePath: string) {
             exists: false,
             isFile: false,
             size: 0,
+            name:""
         };
     }
 

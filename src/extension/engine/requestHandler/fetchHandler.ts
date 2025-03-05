@@ -1,4 +1,5 @@
 import { HttpMethod } from "../../../common/constants/enums/methodsEnums";
+import { RequestDataType } from "../../../common/constants/enums/variableEnums";
 import { ApiData, ApiResponse } from "../../../common/interfaces/apiRequests";
 import { fetchClient } from "../client";
 import { getMimeType } from "../utils/getMimeType";
@@ -12,7 +13,7 @@ export async function fetchHandler(info: ApiData, path: string): Promise<ApiResp
     let errorMessage = [] as string[];
     let warningMessage = [] as string[];
     try {
-        let requestHeaders = handleHeaders(info.headers);
+        let requestHeaders = handleHeaders(info.headers,info.requestDataType);
         let parsedUrl = handlePath(info.url, info.path);
         parsedUrl = handleParams(parsedUrl, info.params);
         let mimeType = await getMimeType(parsedUrl);

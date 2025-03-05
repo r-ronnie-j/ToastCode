@@ -11,7 +11,6 @@ export default function getVariableHandler(file: string): Promise<VariableInfo[]
             });
         }, 1000);
         const listener = (e: MessageEvent<MessageData>) => {
-            console.log("The data in variable is ", e.data,file);
             if (e.data && e.data.type === MessageType.GetVariable && file === e.data.file) {
                 window.removeEventListener('message', listener);
                 clearTimeout(initTimer);

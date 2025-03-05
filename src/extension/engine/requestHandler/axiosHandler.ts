@@ -15,7 +15,7 @@ export async function axiosPostHandler(info: ApiData, path: string): Promise<Api
     let warningMessage = [] as string[];
 
     try {
-        let requestHeaders = handleHeaders(info.headers);
+        let requestHeaders = handleHeaders(info.headers,info.requestDataType);
         let parsedUrl = handlePath(info.url, info.path);
         parsedUrl = handleParams(parsedUrl, info.params);
         let mimeType = await getMimeType(parsedUrl);

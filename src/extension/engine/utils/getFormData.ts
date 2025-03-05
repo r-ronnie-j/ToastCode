@@ -11,7 +11,11 @@ export default async function getFormData(form: FormDataType[], docPath: string)
                 let filePath = await resolvePath(f.value, docPath);
                 if (filePath.exists && filePath.isFile) {
                     let x = await openAsBlob(filePath.path);
-                    formdata.append(f.key, x);
+                    let file = new File([x],filePath.name,{
+                        type:x.type
+                    });
+                    formdata.append(f.key, file);
+
                 }
             } else {
                 formdata.append(f.key, String(f.value));

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { loader } from "@monaco-editor/react";
+import { loader, Monaco } from "@monaco-editor/react";
 import { ConfigurationContext } from "../../context/configurationProvider";
 import { getThemeColors } from "../../themes/getThemeColors";
 import getVsCodeTheme from "../../themes/vsCodeThemes";
@@ -42,7 +42,7 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
                     uri: model.uri.toString(),
                     languageId: 'json',
                     version: model.getVersionId(),
-                    getText: () => model.getValue().replace("{{", '"{{').replace("}}", '}}"'),
+                    getText: () => model.getValue().replace(/{{/g, `"'`).replace(/}}/g, `'"`),
                     positionAt: (offset: any) => {
                         const pos = model.getPositionAt(offset);
                         return { line: pos.lineNumber - 1, character: pos.column - 1 };
@@ -56,7 +56,30 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
 
                 const jsonDocument = jsonService.parseJSONDocument(document);
                 const diagnostics = await jsonService.doValidation(document, jsonDocument);
+                const allowedVariables = ["name", "date", "orderId"];
+                const text = model.getValue();
+                const variableRegex = /\{\{(.*?)\}\}/g;
+                let match;
 
+                console.log("The value us", text)
+
+                while ((match = variableRegex.exec(text)) !== null) {
+                    const variable = match[1].trim(); 
+
+                    if (!allowedVariables.includes(variable)) {
+                        diagnostics.push({
+                            severity: 1, 
+                            range: {
+                                start: document.positionAt(match.index),
+                                end: document.positionAt(match.index + match[0].length),
+                            },
+                            message: `Invalid variable: "${variable}`,
+                            source: "Custom Validator",
+                            code:'invalid-variable',
+                        });
+                    }
+                }
+            
                 const markers = diagnostics.map(diagnostic => ({
                     severity: monaco.MarkerSeverity.Error,
                     message: diagnostic.message,
@@ -73,10 +96,66 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
                 monaco.languages.register({
                     id: "jsonCode"
                 })
-                disposables.push(monaco.languages.setTokensProvider("jsonCode", createTokenizationSupport(false)))
+                disposables.push(monaco.languages.setTokensProvider("jsonCode", createTokenizationSupport(true)))
                 disposables.push(monaco.editor.onDidCreateModel(function (model) {
                     validate(model);
                 }));
+                disposables.push(monaco.languages.registerCompletionItemProvider('jsonCode', {
+                    triggerCharacters: ['{'],
+                    provideCompletionItems: (model, position) => {
+                        const textBeforeCursor = model.getValueInRange({
+                            startLineNumber: position.lineNumber,
+                            startColumn: Math.max(1, position.column - 2),
+                            endLineNumber: position.lineNumber,
+                            endColumn: position.column
+                        });
+                
+                        console.log("Text before cursor:", textBeforeCursor);
+                
+                        if (textBeforeCursor !== '{{') {
+                            return { suggestions: [] }; // No suggestions unless '{{' is present
+                        }
+                
+                        const suggestions = [
+                            {
+                                label: 'username',
+                                kind: monaco.languages.CompletionItemKind.Variable,
+                                insertText: 'username}}',
+                                range: {
+                                    startLineNumber: position.lineNumber,
+                                    startColumn: position.column,
+                                    endLineNumber: position.lineNumber,
+                                    endColumn: position.column
+                                }
+                            },
+                            {
+                                label: 'email',
+                                kind: monaco.languages.CompletionItemKind.Variable,
+                                insertText: 'email}}',
+                                range: {
+                                    startLineNumber: position.lineNumber,
+                                    startColumn: position.column,
+                                    endLineNumber: position.lineNumber,
+                                    endColumn: position.column
+                                },
+                            },
+                            {
+                                label: 'date',
+                                kind: monaco.languages.CompletionItemKind.Variable,
+                                insertText: 'date}}',
+                                range: {
+                                    startLineNumber: position.lineNumber,
+                                    startColumn: position.column,
+                                    endLineNumber: position.lineNumber,
+                                    endColumn: position.column
+                                }
+                            }
+                        ];
+                        return {
+                            suggestions: suggestions
+                        };
+                    }
+                }))
             }
             monaco.editor.defineTheme('myTransparentTheme', getVsCodeTheme(config.theme));
             let x = document.getElementById(`editor-container-${id}`)!
@@ -94,12 +173,14 @@ const JsonXmlCodeComponent = ({ setValue, type = "json", flex, id, border, value
                 scrollbar: {
                     verticalScrollbarSize: 8
                 },
+                autoClosingQuotes:'always'
             });
 
             editorRef.current = m;
 
             disposables.push(m.onDidChangeModelContent((mod) => {
                 const newValue = m.getValue();
+                console.log("Are we called at check value",newValue)
                 setValue(newValue);
                 updateEditorHeight(m);
                 if (type === "json") {

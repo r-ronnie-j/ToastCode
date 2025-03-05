@@ -12,7 +12,7 @@ export async function gotHandler(info: ApiData, path: string): Promise<ApiRespon
     let warningMessage = [] as string[];
     let parsedUrl = info.url;
     try {
-        let requestHeaders = handleHeaders(info.headers);
+        let requestHeaders = handleHeaders(info.headers,info.requestDataType);
         parsedUrl = handlePath(info.url, info.path);
         parsedUrl = handleParams(parsedUrl, info.params);
         let mimeType = await getMimeType(parsedUrl);
